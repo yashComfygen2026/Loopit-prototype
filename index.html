@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LoopIt prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#080C18;--card:#0F1628;--card2:#141E35;--line:#1C2845;--tx:#E8EDF8;--mu:#7D8BAA;--or:#FF5500;--gr:#00C896;--rd:#FF4D5E}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#EEF1F7;--card:#fff;--card2:#F3F5FA;--line:#DCE1EC;--tx:#101830;--mu:#5B6785}}
+:root[data-theme="light"]{--bg:#EEF1F7;--card:#fff;--card2:#F3F5FA;--line:#DCE1EC;--tx:#101830;--mu:#5B6785}
+:root[data-theme="dark"]{--bg:#080C18;--card:#0F1628;--card2:#141E35;--line:#1C2845;--tx:#E8EDF8;--mu:#7D8BAA}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--tx);font:14px/1.45 'DM Sans',system-ui,sans-serif;padding:14px}
+h1,h2,h3,.d{font-family:'Outfit',system-ui,sans-serif}
+header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
+header h1{font-size:22px}header h1 b{color:var(--or)}
+.demo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--mu);font-size:12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.tabs button{flex:1}
+button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:9px 12px;font-weight:600}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+button.on,button.p{background:var(--or);border-color:var(--or);color:#fff}
+button.g{background:var(--gr);border-color:var(--gr);color:#04140F}
+button.r{color:var(--rd)}
+button:disabled{opacity:.45;cursor:not-allowed}
+.wrap{display:grid;gap:14px;grid-template-columns:1fr}
+.pane{display:none}.pane.show{display:block}
+@media(min-width:1100px){.tabs{display:none}.wrap{grid-template-columns:390px 390px 1fr;align-items:start}.pane{display:block}}
+.phone{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;min-height:640px;max-width:420px;margin:auto;width:100%}
+.admin{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
+.ttl{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.ttl h2{font-size:18px}
+.tag{font-size:11px;padding:2px 8px;border-radius:8px;background:color-mix(in srgb,var(--or) 16%,transparent);color:var(--or);font-weight:600}
+.tag.g{background:color-mix(in srgb,var(--gr) 16%,transparent);color:var(--gr)}
+.tag.r{background:color-mix(in srgb,var(--rd) 16%,transparent);color:var(--rd)}
+label{display:block;font-size:12px;color:var(--mu);margin:10px 0 4px}
+input,select,textarea{width:100%;background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.tier{border:1px solid var(--line);background:var(--card2);border-radius:14px;padding:10px 12px;margin-top:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left}
+.tier.sel{border-color:var(--or);box-shadow:0 0 0 1px var(--or)}
+.tier s{color:var(--mu);font-size:12px}
+.err{color:var(--rd);background:color-mix(in srgb,var(--rd) 12%,transparent);border-radius:10px;padding:9px 11px;margin-top:10px;font-size:13px}
+.box{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
+.big{font:800 26px 'Outfit'}
+.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;width:40%;background:var(--or);border-radius:6px;animation:mv 1.8s ease-in-out infinite}
+@keyframes mv{0%{margin-left:-40%}100%{margin-left:100%}}
+@media(prefers-reduced-motion:reduce){.bar i{animation:none;width:70%}}
+.steps{display:flex;gap:4px;margin-top:10px}.steps i{flex:1;height:4px;border-radius:4px;background:var(--line)}.steps i.d{background:var(--gr)}
+.k{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.k div{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px}
+.k b{display:block;font:800 20px 'Outfit'}.k span{font-size:11px;color:var(--mu)}
+table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}th{color:var(--mu);font-weight:500}
+.tw{overflow-x:auto}
+.log{max-height:170px;overflow:auto;font-size:12px;color:var(--mu)}.log div{padding:3px 0;border-bottom:1px dashed var(--line)}
+.two{display:grid;gap:12px;grid-template-columns:1fr}
+@media(min-width:700px) and (max-width:1099px){.two{grid-template-columns:1fr 1fr}}
+.map{height:120px;border-radius:12px;background:var(--card2);border:1px solid var(--line);position:relative;overflow:hidden}
+.map span{position:absolute;font-size:11px;padding:2px 7px;border-radius:8px;background:var(--card);border:1px solid var(--line)}
+.small{font-size:12px;color:var(--mu)}h2 b{color:var(--or)}.dots{display:flex;gap:6px;justify-content:center}.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.dots i.d{background:var(--or)}.ring{width:96px;height:96px;margin:0 auto;border-radius:50%;border:8px solid var(--or);border-right-color:transparent;animation:sp 2.2s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.ring{animation:none}}
+</style></head><body>
+<header><h1 class="d">Loop<b>It</b> <span class="small">prototype · Final Release flow</span></h1>
+<div class="demo">Demo controls:
+<button id="skip">Skip 20-min window</button><button id="rej">All agents reject</button><button id="rst">Reset</button></div></header>
+<div class="tabs"><button data-t="c" class="on">Customer</button><button data-t="a">Agent</button><button data-t="s">Super Admin</button></div>
+<div class="wrap"><section class="pane show" id="c"></section><section class="pane" id="a"></section><section class="pane" id="s"></section></div>
+<script>
+const CFG={offer:30,tiers:{sched:{n:'Scheduled',b:20,k:1.2,m:30,eta:'Fixed slot'},shared:{n:'Shared Standard',b:28,k:2,m:40,eta:'30–45 min'},express:{n:'Express',b:60,k:3,m:75,eta:'15–25 min'}},
+hubs:{sp:'SP Road',kl:'Kalasipalya',out:'Whitefield (outside service area)'},drops:{6:'Indiranagar · 6 km',9:'Jayanagar · 9 km',14:'Koramangala · 14 km'}};
+const OUT='Sorry, Loopit currently delivers from SP Road and Kalasipalya areas only. We are expanding soon.';
+const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'book',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'home',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null});
+let S=fresh(),tm=null;
+const $=id=>document.getElementById(id);
+const L=m=>S.log.unshift({t:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}),m});
+const fare=(t,d,q,v)=>{const c=CFG.tiers[t],km=Math.max(3,d);return Math.round(Math.max(c.m,c.b+c.k*km)*q*(v==='3W'?1.4:1))};
+const agentPay=(d)=>Math.max(28+6*d,d*10);
+const DIR={6:'East',9:'South',14:'South-East'};
+const bq=()=>S.bt?S.bt.orders.reduce((a,x)=>a+x.q,0):(S.o?S.o.qty:0);
+function openBatch(){const f=S.f;S.bt={id:'B-'+Math.floor(100+Math.random()*900),hub:f.pick,dir:DIR[f.drop],orders:[{id:S.o.id,who:'You',q:f.qty}]};L(`Batch ${S.bt.id} opened · hub ${CFG.hubs[f.pick]} · direction ${S.bt.dir} · 20-min window started`);if(bq()>=5)lockBatch()}
+function lockBatch(){L(`Batch ${S.bt.id} reached 5 parcels · locked immediately · offering to agents`);offer()}
+function addShared(same){if(!S.bt||S.o.st!=='MATCHING')return;
+ if(!same){L('Order heading West is a different direction · not grouped, starts its own batch');return draw()}
+ const q=Math.min(5-bq(),1+Math.floor(Math.random()*2));S.bt.orders.push({id:'LP'+Math.floor(1000+Math.random()*9000),who:'Sender '+String.fromCharCode(65+S.bt.orders.length),q});
+ L(`Same hub and direction order added · ${bq()}/5 parcels`);if(bq()>=5)lockBatch();draw()}
+const SPL={c:[['Loop<b>It</b>','Share the route. Split the cost.'],['Book in a minute','Enter pickup, drop and parcel details. See the price and your savings before you pay.'],['Ride along, pay less','Parcels heading the same way share one agent, so delivery costs less.'],['Track every step','Live tracking, pickup and delivery OTPs, and a proof photo at the door.']],a:[['Loop<b>It</b> Agent','Deliver more parcels on every trip.'],['Take shared batches','Accept batches of up to 5 parcels on your route, with no daily limit.'],['Earn more per trip','₹30 bonus on every batch of 3+ parcels.'],['Cash out from ₹100','Request a payout to your UPI. Admin approves it.']]};
+function splash(w){const i=w==='c'?S.sc:S.sa,x=SPL[w][i],last=i===3;
+ return `<div class="phone" style="display:flex;flex-direction:column;justify-content:center;gap:16px;text-align:center">${i?'':'<div class="ring"></div>'}<h2 style="font-size:${i?24:34}px">${x[0]}</h2><p style="color:var(--mu)">${x[1]}</p><div class="dots">${[0,1,2,3].map(n=>`<i class="${n===i?'d':''}"></i>`).join('')}</div><button class="p" data-sp="${w}">${i===0?'Get started':last?(w==='c'?'Log in or register':'Start as agent'):'Next'}</button>${i&&!last?`<button data-ss="${w}">Skip</button>`:''}</div>`}
+const stepIdx={MATCHING:0,OFFERED:0,UNASSIGNED:0,AGENT_ASSIGNED:1,COLLECTED:2,AT_DELIVERY:2,PROOF_UPLOADED:3,DELIVERED:4};
+function pay(){const f=S.f;S.msg='';
+ if(f.pick==='out'){S.msg=OUT;return draw()}
+ if(!f.desc.trim())S.msg='Add a parcel description.';
+ else if(f.qty<1||f.qty>5)S.msg='Quantity must be between 1 and 5 parcels.';
+ else if(!f.decl)S.msg='Accept the prohibited-items declaration to continue.';
+ if(S.msg)return draw();
+ const amt=fare(f.tier,f.drop,f.qty,f.veh);S.rev+=amt;
+ S.o={id:'LP'+Math.floor(1000+Math.random()*9000),...f,d:+f.drop,amt,st:'MATCHING',pOtp:String(Math.floor(1000+Math.random()*9000)),dOtp:String(Math.floor(1000+Math.random()*9000))};
+ S.bt=null;S.dyn=null;L(`Razorpay payment SUCCESS ₹${amt} · declaration stored · order ${S.o.id} created`);
+ if(f.tier==='express'){L('Express: shared batching bypassed');offer()}
+ else if(f.tier==='sched'){L('Scheduled: advance-paid, assigned at slot');offer()}
+ else openBatch();
+ draw()}
+function offer(){S.o.st='OFFERED';S.t=CFG.offer;S.otp='';S.photo=false;S.otpErr='';L('Offer sent to agent · timer '+CFG.offer+'s');clearInterval(tm);
+ tm=setInterval(()=>{S.t--;const e=$('tm');if(e)e.textContent=S.t+'s';if(S.t<=0){clearInterval(tm);reject('timeout')}},1000)}
+function reject(w){clearInterval(tm);if(!S.o||!['OFFERED','MATCHING'].includes(S.o.st))return;S.o.st='UNASSIGNED';L(w==='timeout'?'Offer timed out · no agents left in zone':'All zone agents rejected · order UNASSIGNED · admin alert fired');draw()}
+function setSt(st,m){S.o.st=st;if(m)L(m);draw()}
+function done(){const o=S.o;const e=Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1);const b=(o.tier==='shared'&&bq()>=3)?30:0;S.earn+=e+b;S.bonus+=b;S.n++;S.tx.unshift({t:'Today',m:'Delivery '+o.id+(b?' + batch bonus':''),a:e+b});L(`Delivered · receiver OTP verified · agent +₹${e}${b?' +₹30 batch bonus':''}`);setSt('DELIVERED')}
+function cancel(by){const o=S.o,p=['MATCHING','OFFERED','UNASSIGNED'].includes(o.st)||by==='admin'?100:o.st==='AGENT_ASSIGNED'?50:0;
+ clearInterval(tm);S.refund={p,amt:Math.round(o.amt*p/100)};S.rev-=S.refund.amt;setSt('CANCELLED',`${by==='admin'?'Admin':'Customer'} cancelled · refund ${p}% (₹${S.refund.amt})`)}
+function cust(){
+ const W=(t,b)=>`<div class="phone"><div class="ttl"><h2>${t}</h2><span class="tag g">Customer app</span></div>${b}</div>`;
+ const E=S.ce?`<div class="err">${S.ce}</div>`:'';
+ if(S.sc<4)return splash('c');
+ if(!S.cu)return W('Log in or register',S.cs==='phone'?`<p class="small">New numbers are registered automatically.</p><label>Mobile number</label><input id="cph" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${S.cph}">${E}<button class="p" id="cgo" style="width:100%;margin-top:14px">Send OTP</button>`:`<p class="small">OTP sent to +91 ${S.cph}. Demo OTP: 1234</p><label>Enter OTP</label><input id="cotp" inputmode="numeric" maxlength="4" placeholder="4 digits">${E}<button class="p" id="cver" style="width:100%;margin-top:14px">Verify and continue</button><button id="cchg" style="width:100%;margin-top:8px">Change number</button>`);
+ const nav=`<div class="row" style="margin-top:14px">${[['book','Book'],['addr','Addresses'],['prof','Profile']].map(([k,n])=>`<button data-ct="${k}" class="${S.ct===k?'on':''}">${n}</button>`).join('')}</div>`;
+ if(S.ct==='book')return book().replace(/<\/div>$/,nav+'</div>');
+ if(S.ct==='addr')return W('Saved addresses',S.ad.map((x,i)=>`<div class="box row" style="align-items:center"><span><b>${x.l}</b><br><span class="small">${x.a} · ${CFG.hubs[x.z]}</span></span><button class="r" data-del="${i}" style="flex:none">Remove</button></div>`).join('')+`<label>Label</label><input id="al" placeholder="Home, Office, Shop"><label>Address</label><input id="aa" placeholder="Street, area"><label>Area</label><select id="az">${Object.entries(CFG.hubs).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>${E}<button class="p" id="aadd" style="width:100%;margin-top:10px">Save address</button><p class="small" style="margin-top:8px">Saved addresses show up as quick-select buttons when you book.</p>`+nav);
+ return W('Profile',`<div class="box"><b>Priya Traders</b><br><span class="small">+91 ${S.cph}</span></div><div class="box small">${S.ad.length} saved addresses. Order history and invoices appear here after delivery.</div><button class="r" id="lo" style="width:100%;margin-top:12px">Log out</button>`+nav)}
+function book(){const o=S.o,f=S.f;let h=`<div class="phone"><div class="ttl"><h2>${o?'Booking '+o.id:'New booking'}</h2><span class="tag g">Customer app</span></div>`;
+ if(!o){const tiers=Object.entries(CFG.tiers).map(([k,t])=>{const p=fare(k,f.drop,f.qty,f.veh);return `<button class="tier ${f.tier===k?'sel':''}" data-tier="${k}"><span><b>${t.n}</b><br><span class="small">ETA ${t.eta}</span></span><span style="text-align:right"><s>₹${Math.round(p*1.8)}</s><br><b>₹${p}</b></span></button>`}).join('');
+ h+=`<label>Pickup</label><div class="row" style="flex-wrap:wrap;margin-bottom:6px">${S.ad.map((x,i)=>`<button data-qa="${i}" style="flex:none;font-size:12px;padding:5px 9px">${x.l}</button>`).join('')}</div><select data-k="pick">${Object.entries(CFG.hubs).map(([k,v])=>`<option value="${k}" ${f.pick===k?'selected':''}>${v}</option>`).join('')}</select>
+ <label>Drop</label><select data-k="drop">${Object.entries(CFG.drops).map(([k,v])=>`<option value="${k}" ${f.drop==k?'selected':''}>${v}</option>`).join('')}</select>
+ <div class="row"><div><label>Parcels</label><input type="number" min="1" max="5" value="${f.qty}" data-k="qty"></div><div><label>Vehicle</label><select data-k="veh"><option value="2W" ${f.veh==='2W'?'selected':''}>2-wheeler</option><option value="3W" ${f.veh==='3W'?'selected':''}>3-wheeler</option></select></div></div>
+ <label>Parcel description</label><input value="${f.desc.replace(/"/g,'&quot;')}" placeholder="e.g. 2 boxes of handmade candles" data-k="desc">
+ <label style="display:flex;gap:8px;align-items:flex-start;color:var(--tx)"><input type="checkbox" style="width:auto;margin-top:3px" ${f.decl?'checked':''} data-k="decl">I confirm this parcel has no prohibited items.</label>
+ <label>Delivery type</label>${tiers}
+ ${S.msg?`<div class="err">${S.msg}</div>`:''}
+ <button class="p" id="pay" style="width:100%;margin-top:14px">Pay ₹${fare(f.tier,f.drop,f.qty,f.veh)} with Razorpay</button><p class="small" style="margin-top:8px">UPI, credit and debit cards. Prices come from admin configuration.</p>`}
+ else{const i=stepIdx[o.st]??0;const lab=['Confirmed','Agent assigned','On the way','Proof uploaded','Delivered'];
+ h+=`<div class="steps">${lab.map((_,j)=>`<i class="${o.st==='CANCELLED'?'':j<=i?'d':''}"></i>`).join('')}</div>`;
+ if(['MATCHING','OFFERED','UNASSIGNED'].includes(o.st))h+=`<div class="box"><div class="big">Order confirmed</div><p>Estimated pickup in 30–45 min</p><div class="bar"><i></i></div></div>`;
+ if(o.st==='AGENT_ASSIGNED')h+=`<div class="box"><b>Ravi K. · ${o.veh==='2W'?'Honda Activa':'Piaggio Ape'} · ★4.8</b><p class="small">Agent accepted. Live tracking on.</p><div class="map"><span style="left:14%;top:60%">Pickup</span><span style="left:70%;top:18%">Drop</span><span style="left:38%;top:38%;background:var(--or);color:#fff;border-color:var(--or)">Ravi</span></div><p style="margin-top:8px">Share pickup OTP with agent: <b class="big">${o.pOtp}</b></p></div>`;
+ if(['COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=`<div class="box"><b>Parcel is in transit</b><div class="map"><span style="left:55%;top:35%;background:var(--or);color:#fff;border-color:var(--or)">Ravi</span><span style="left:74%;top:16%">Drop</span></div>${o.st==='PROOF_UPLOADED'?`<p style="margin-top:8px">Receiver OTP: <b class="big">${o.dOtp}</b></p>`:''}</div>`;
+ if(o.st==='DELIVERED')h+=`<div class="box"><div class="big" style="color:var(--gr)">Delivered</div><p>You saved ₹${Math.round(o.amt*.8)} vs standard courier. Shared routes also cut carbon emissions.</p><p class="small">Proof photo and OTP time saved to history.</p></div>`;
+ if(o.st==='CANCELLED')h+=`<div class="box"><div class="big" style="color:var(--rd)">Cancelled</div><p>Refund ${S.refund.p}% · ₹${S.refund.amt} to original payment method.</p></div>`;
+ h+=`<div class="box small">${o.amt?`Paid ₹${o.amt} · ${CFG.tiers[o.tier].n} · ${o.qty} parcel${o.qty>1?'s':''} · ${CFG.hubs[o.pick]}`:''}</div>`;
+ if(!['DELIVERED','CANCELLED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=`<button class="r" id="cx" style="width:100%;margin-top:10px">Cancel · ${o.st==='AGENT_ASSIGNED'?'50%':'100%'} refund</button>`;
+ else if(!['DELIVERED','CANCELLED'].includes(o.st))h+=`<p class="small" style="margin-top:10px">Cancellation after pickup is non-refundable.</p>`;
+ if(['DELIVERED','CANCELLED'].includes(o.st))h+=`<button class="p" id="nw" style="width:100%;margin-top:10px">Book another</button>`}
+ return h+'</div>'}
+function credit(w){S.sus={st:'APPROVED',b:'CREDITED'};S.earn+=500;S.bonus+=500;S.tx.unshift({t:'Today',m:'Suspicious report bonus',a:500});L(w?'48h passed with no admin action · ₹500 auto-credited once':'Admin approved report · ₹500 credited');draw()}
+function agent(){const g=S.ag,E=S.ae?`<div class="err">${S.ae}</div>`:'';
+ const W=(t,b)=>`<div class="phone"><div class="ttl"><h2>${t}</h2><span class="tag g">Agent app</span></div>${b}</div>`;
+ if(S.sa<4)return splash('a');
+ if(g.st==='login')return W('Agent login',`<label>Mobile number</label><input id="aph" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${g.ph}">${E}<button class="p" id="ago" style="width:100%;margin-top:14px">Send OTP</button>`);
+ if(g.st==='otp')return W('Verify OTP',`<p class="small">OTP sent to +91 ${g.ph}. Demo OTP: 1234</p><label>OTP</label><input id="aotp" inputmode="numeric" maxlength="4" placeholder="4 digits">${E}<button class="p" id="aver" style="width:100%;margin-top:14px">Verify and continue</button>`);
+ if(g.st==='kyc')return W('Register and KYC',`<p class="small">All three documents are required. Cashfree checks them automatically.</p>${[['a','Aadhaar card'],['d','Driving licence'],['r','Vehicle RC']].map(([k,n])=>`<button data-dk="${k}" class="${g.dk[k]?'g':''}" style="width:100%;margin-top:8px;text-align:left">${g.dk[k]?'✓ '+n+' uploaded':n+' · tap to upload'}</button>`).join('')}<label>Vehicle number (2-wheeler)</label><input id="avn" value="${g.vn}" placeholder="KA 01 AB 1234">${E}<button class="p" id="aks" style="width:100%;margin-top:14px">Submit for verification</button>`);
+ if(g.st==='pending')return W('Under review',`<div class="box"><b>Documents submitted</b><p class="small">Cashfree result: PASS. Super Admin reviews next, and you can't receive offers until approved. Open the Super Admin panel to approve.</p></div>`);
+ if(g.st==='rejected')return W('KYC rejected',`<div class="err">Super Admin rejected your documents. Upload clear copies and resubmit.</div><button class="p" id="ars" style="width:100%;margin-top:12px">Resubmit documents</button>`);
+ const nav=`<div class="row" style="margin-top:14px">${[['home','Tasks'],['earn','Earnings']].map(([k,n])=>`<button data-at="${k}" class="${S.at===k?'on':''}">${n}</button>`).join('')}</div>`;
+ return (S.at==='home'?agentHome():earn()).replace(/<\/div>$/,nav+'</div>')}
+function earn(){const b=S.opening+S.earn-S.paid,wk=[420,380,510,460,390,S.earn],dy=['Mon','Tue','Wed','Thu','Fri','Today'];
+ return `<div class="phone"><div class="ttl"><h2>Earnings</h2><span class="tag g">Agent app</span></div>
+ <div class="box"><span class="small">Available to cash out</span><div class="big">₹${b}</div><span class="small">Today ₹${S.earn} from ${S.n} deliveries · batch bonuses ₹${S.bonus}</span></div>
+ <div class="box"><div class="small">This week</div><div style="display:flex;gap:6px;align-items:flex-end;height:84px;margin-top:6px">${wk.map((x,i)=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(3,Math.round(Math.min(x,550)/550*60))}px;background:${i===5?'var(--or)':'var(--line)'};border-radius:4px"></div><span class="small">${dy[i]}</span></div>`).join('')}</div></div>
+ <div class="box"><b>Incentives</b><p class="small">₹30 batch bonus for every shared batch with 3+ parcels, no daily cap. It also applies when a third parcel is added mid-trip. Solo Express trips don't qualify.<br>Suspicious report bonus ₹500: ${S.sus?S.sus.st+' · '+S.sus.b:'no report sent'}</p></div>
+ <div class="box"><b>Cash out to UPI</b><p class="small">ravi@upi · minimum ₹100</p><input id="pamt" type="number" value="100">${S.pe?`<div class="err">${S.pe}</div>`:''}<button class="p" id="pgo" style="width:100%;margin-top:8px">Request payout</button>${S.py?`<p class="small" style="margin-top:8px">Payout ₹${S.py.a} · <span class="tag ${S.py.st==='SUCCESS'?'g':''}">${S.py.st}</span>${S.py.st==='REQUESTED'?' · waiting for admin approval':''}</p>`:''}${S.wa?`<p class="small">${S.wa}</p>`:''}</div>
+ <div class="box"><b>Transactions</b>${S.tx.map(x=>`<div class="row small" style="margin-top:4px"><span>${x.t} · ${x.m}</span><span style="flex:none;text-align:right">${x.a>0?'+':'−'}₹${Math.abs(x.a)}</span></div>`).join('')}</div></div>`}
+function agentHome(){const o=S.o;let h=`<div class="phone"><div class="ttl"><h2>Ravi K.</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div><div class="small">Morning shift · SP Road zone · KYC approved</div>
+<div class="k" style="grid-template-columns:repeat(3,1fr);margin-top:10px"><div><b>${S.n}</b><span>Deliveries</span></div><div><b>₹${S.earn}</b><span>Earned</span></div><div><b>₹${S.bonus}</b><span>Batch bonus</span></div></div>`;
+ if(!o||['MATCHING','DELIVERED','CANCELLED','UNASSIGNED'].includes(o.st))h+=`<div class="box"><b>${o&&o.st==='MATCHING'?'Waiting for a batch':'No active task'}</b><p class="small">Offers appear here when a batch is finalized.</p></div>`;
+ if(o&&o.st==='OFFERED')h+=`<div class="box"><div class="ttl" style="margin:0"><b>New ${o.tier==='shared'?'batch':'order'} offer</b><span class="tag r" id="tm">${S.t}s</span></div><p>${CFG.hubs[o.pick]} → ${CFG.drops[o.drop].split(' · ')[0]}<br>${bq()} parcel${bq()>1?'s':''}${S.bt?' from '+S.bt.orders.length+' senders':''} · est. ₹${Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1)}${o.tier==='shared'&&bq()>=3?' + ₹30 bonus':''}</p><div class="row" style="margin-top:8px"><button class="g" id="acc" ${S.agent?'':'disabled'}>Accept</button><button class="r" id="rj">Reject</button></div></div>`;
+ if(o&&['AGENT_ASSIGNED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)){const pick=o.st==='AGENT_ASSIGNED',gate=o.st==='PROOF_UPLOADED';
+ h+=`<div class="box"><b>${pick?'Pickup · enter sender OTP':'Delivery at '+CFG.drops[o.drop].split(' · ')[0]}</b>
+ ${o.st==='AT_DELIVERY'?`<button class="p" id="ph" style="width:100%;margin-top:8px">Take proof photo</button><p class="small" style="margin-top:6px">OTP entry stays locked until the photo uploads.</p>`:''}
+ <label>${pick?'Pickup OTP':'Receiver OTP'}</label><input id="otp" inputmode="numeric" maxlength="4" ${pick||gate?'':'disabled'} placeholder="4 digits" value="${S.otp}">
+ ${S.otpErr?`<div class="err">${S.otpErr}</div>`:''}<button class="p" id="vo" style="width:100%;margin-top:8px" ${pick||gate?'':'disabled'}>${pick?'Verify and collect':'Verify and complete'}</button></div>`}
+ if(o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=S.sus?`<p class="small" style="margin-top:8px">Suspicious report ${S.sus.st} · ₹500 bonus ${S.sus.b}</p>`:`<button class="r" id="sr" style="width:100%;margin-top:8px">Report suspicious parcel</button>`;
+if(o&&o.st==='COLLECTED')h+=`<div class="box"><b>Parcel collected · route started</b><p class="small">${S.bt?S.bt.orders.length+' stops · '+bq()+' parcels':''}</p><button class="p" id="ar" style="width:100%;margin-top:8px">Arrived at drop</button></div>`;
+ if(o&&o.st==='COLLECTED'&&o.tier==='shared'&&S.bt&&bq()<5&&!S.dyn)h+=`<div class="box"><b>Nearby order offer</b><p class="small">Same hub and direction · +1 parcel. Accepting adds a stop and recalculates the route.${bq()===2?' Batch bonus ₹30 unlocks at 3 parcels.':''}</p><div class="row" style="margin-top:8px"><button class="g" id="da">Accept</button><button class="r" id="dd">Decline</button></div></div>`;
+ return h+'</div>'}
+function admin(){const o=S.o,un=o&&o.st==='UNASSIGNED';
+ let h=`<div class="admin"><div class="ttl"><h2>Super Admin</h2><span class="tag">Live operations</span></div>
+ <div class="k"><div><b>${o?1:0}</b><span>Active orders</span></div><div><b>${S.n}</b><span>Delivered</span></div><div><b>₹${S.rev}</b><span>Revenue</span></div><div><b>${S.agent&&S.ag.st==='ok'?1:0}</b><span>Agents online</span></div></div>`;
+ if(S.bt)h+=`<div class="box" style="margin:0 0 12px"><b>Shared batch ${S.bt.id}</b> <span class="tag">${CFG.hubs[S.bt.hub]} · ${S.bt.dir}</span><div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div><p class="small">${bq()}/5 parcels · ${S.bt.orders.map(x=>x.who+' ('+x.q+')').join(', ')}<br>${o&&o.st==='MATCHING'?'20-min window open. Finalizes at 5 parcels or when the window ends.':'Batch finalized.'}</p>${o&&o.st==='MATCHING'?`<div class="row" style="margin-top:8px"><button id="bs">Add same-direction order</button><button id="bo">Add other-direction order</button></div>`:''}</div>`;
+ if(S.ag.st==='pending')h+=`<div class="box" style="margin:0 0 12px"><b>Agent KYC review · Ravi K.</b><p class="small">Aadhaar, licence and RC uploaded · vehicle ${S.ag.vn}<br>Cashfree result <span class="tag g">PASS</span> · you can approve, reject or override, and it is logged.</p><div class="row" style="margin-top:8px"><button class="g" id="kap">Approve</button><button class="r" id="krj">Reject</button></div></div>`;
+ if(S.sus&&S.sus.b==='PENDING')h+=`<div class="box" style="margin:0 0 12px"><b>Suspicious parcel report</b><p class="small">Order ${o?o.id:''} · Ravi K. · GPS 12.97, 77.57. ₹500 auto-credits if there is no action within 48h.</p><div class="row" style="margin-top:8px"><button class="g" id="sap">Approve ₹500</button><button class="r" id="srj">Reject</button><button id="s48">Skip 48h</button></div></div>`;
+ if(S.py)h+=`<div class="box" style="margin:0 0 12px"><b>Agent payout</b> · ₹${S.py.a} to ravi@upi · RazorpayX <span class="tag ${S.py.st==='SUCCESS'?'g':''}">${S.py.st}</span>${S.py.st==='SUCCESS'?' · MSG91 WhatsApp sent':''}${S.py.st==='REQUESTED'?`<div class="row" style="margin-top:8px"><button class="g" id="pap">Approve payout</button><button class="r" id="prj">Reject</button></div>`:''}</div>`;
+ if(un)h+=`<div class="err" style="margin:0 0 12px"><b>Unassigned alert</b> · order ${o.id} has no agent. Review the map, then force-assign (zone override) or cancel with full refund.<div class="row" style="margin-top:8px"><button class="p" id="fa" ${S.ag.st==='ok'?'':'disabled'}>Force-assign Ravi K.</button><button class="r" id="ac">Cancel + full refund</button></div></div>`;
+ h+=`<div class="two"><div><h3 style="margin-bottom:6px">Bookings</h3><div class="tw"><table><tr><th>ID</th><th>Type</th><th>Parcels</th><th>Status</th></tr>${o?`<tr><td>${o.id}</td><td>${CFG.tiers[o.tier].n}</td><td>${o.qty}</td><td><span class="tag ${o.st==='DELIVERED'?'g':un?'r':''}">${o.st}</span></td></tr>`:`<tr><td colspan="4" class="small">No bookings yet. Create one in the customer app.</td></tr>`}</table></div>
+ <h3 style="margin:14px 0 6px">Hubs</h3><div class="small">SP Road · Kalasipalya · both active · max 5 parcels per batch · 20-min window</div>
+ <h3 style="margin:14px 0 6px">Configuration</h3><div class="small">Offer timeout ${CFG.offer}s · min distance 3 km · batch bonus ₹30 at 3+ parcels · suspicious report ₹500 (auto-credit after 48h)</div></div>
+ <div><h3 style="margin-bottom:6px">Live agent board</h3><div class="map"><span style="left:20%;top:55%">SP Road hub</span><span style="left:62%;top:22%">Kalasipalya hub</span>${S.agent&&S.ag.st==='ok'?`<span style="left:40%;top:36%;background:var(--gr);color:#04140F;border-color:var(--gr)">Ravi K. · ${o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)?'on trip':'available'}</span>`:''}</div>
+ <h3 style="margin:14px 0 6px">Audit trail</h3><div class="log">${S.log.length?S.log.map(x=>`<div>${x.t} · ${x.m}</div>`).join(''):'<div>No events yet.</div>'}</div></div></div></div>`;return h}
+function draw(){$('c').innerHTML=cust();$('a').innerHTML=agent();$('s').innerHTML=admin();bind()}
+function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if(e)e.onclick=fn};
+ document.querySelectorAll('[data-k]').forEach(e=>e.onchange=()=>{const k=e.dataset.k;S.f[k]=e.type==='checkbox'?e.checked:e.type==='number'?+e.value:e.value;S.msg='';draw()});
+ document.querySelectorAll('[data-tier]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.tier;draw()});
+ on('#pay',pay);on('#cx',()=>cancel('customer'));on('#nw',()=>{const k=S.f;S.o=null;S.refund=null;S.f={...k,desc:'',decl:false};draw()});
+ on('#on',()=>{S.agent=!S.agent;draw()});
+ on('#acc',()=>{clearInterval(tm);L('Atomic lock: batch locked to Ravi K. · customer push sent');setSt('AGENT_ASSIGNED')});
+ on('#rj',()=>reject('reject'));
+ on('#ph',()=>{S.photo=true;L('Proof photo uploaded');setSt('PROOF_UPLOADED')});
+ on('#ar',()=>setSt('AT_DELIVERY','Agent at delivery address'));
+ on('#vo',()=>{const v=(q('#otp')||{}).value||'';S.otp=v;const o=S.o;
+  if(o.st==='AGENT_ASSIGNED'){if(v!==o.pOtp){S.otpErr='Wrong OTP. Ask the sender for the 4-digit code.';return draw()}S.otpErr='';L('Pickup OTP verified · parcels collected');setSt('COLLECTED')}
+  else{if(v!==o.dOtp){S.otpErr='Wrong OTP. The order stays undelivered.';return draw()}S.otpErr='';done()}});
+ on('#fa',()=>{L('Admin force-assigned Ravi K. (zone override)');setSt('AGENT_ASSIGNED')});
+ on('#ac',()=>cancel('admin'));
+ const v=s=>(q(s)||{}).value||'';
+ on('#cgo',()=>{const p=v('#cph');if(!/^\d{10}$/.test(p)){S.ce='Enter a valid 10-digit mobile number.';return draw()}S.cph=p;S.cs='otp';S.ce='';draw()});
+ on('#cver',()=>{if(v('#cotp')!=='1234'){S.ce='Wrong or expired OTP. Check the code or change the number.';return draw()}S.cu=1;S.ce='';L('Customer logged in with OTP · +91 '+S.cph);draw()});
+ on('#cchg',()=>{S.cs='phone';S.ce='';draw()});on('#lo',()=>{S.cu=null;S.cs='phone';S.ct='book';draw()});
+ document.querySelectorAll('[data-ct]').forEach(e=>e.onclick=()=>{S.ct=e.dataset.ct;S.ce='';draw()});
+ document.querySelectorAll('[data-qa]').forEach(e=>e.onclick=()=>{S.f.pick=S.ad[+e.dataset.qa].z;S.msg='';draw()});
+ document.querySelectorAll('[data-del]').forEach(e=>e.onclick=()=>{S.ad.splice(+e.dataset.del,1);draw()});
+ on('#aadd',()=>{const l=v('#al').trim(),a=v('#aa').trim();if(!l||!a){S.ce='Add a label and an address.';return draw()}S.ce='';S.ad.push({l,a,z:v('#az')});draw()});
+ on('#ago',()=>{const p=v('#aph');if(!/^\d{10}$/.test(p)){S.ae='Enter a valid 10-digit mobile number.';return draw()}S.ag.ph=p;S.ag.st='otp';S.ae='';draw()});
+ on('#aver',()=>{if(v('#aotp')!=='1234'){S.ae='Wrong or expired OTP.';return draw()}S.ae='';S.ag.st='kyc';L('Agent registered with mobile OTP');draw()});
+ document.querySelectorAll('[data-dk]').forEach(e=>e.onclick=()=>{S.ag.vn=v('#avn')||S.ag.vn;S.ag.dk[e.dataset.dk]=!S.ag.dk[e.dataset.dk];draw()});
+ on('#aks',()=>{S.ag.vn=v('#avn').trim();const d=S.ag.dk;if(!(d.a&&d.d&&d.r&&S.ag.vn)){S.ae='Upload all three documents and enter the vehicle number.';return draw()}S.ae='';S.ag.st='pending';L('Agent KYC submitted · Cashfree result PASS · waiting for admin review');draw()});
+ on('#ars',()=>{S.ag.st='kyc';draw()});
+ document.querySelectorAll('[data-at]').forEach(e=>e.onclick=()=>{S.at=e.dataset.at;draw()});
+ on('#kap',()=>{S.ag.st='ok';L('Admin approved agent KYC · agent can now receive offers');draw()});
+ on('#krj',()=>{S.ag.st='rejected';L('Admin rejected KYC · manual decision recorded');draw()});
+ on('#sr',()=>{S.sus={st:'SUBMITTED',b:'PENDING'};L('Suspicious report sent with order, GPS and time · admin alerted');draw()});
+ on('#sap',()=>credit(false));on('#s48',()=>credit(true));on('#srj',()=>{S.sus={st:'REJECTED',b:'NONE'};L('Admin rejected suspicious report');draw()});
+ on('#pgo',()=>{const a=+v('#pamt'),bal=S.opening+S.earn-S.paid;S.pe='';
+  if(!(a>=100))S.pe='Minimum payout is ₹100.';else if(a>bal)S.pe='Amount is more than your available balance.';
+  if(S.pe)return draw();
+  S.paid+=a;S.py={a,st:'REQUESTED'};S.wa='';L('Payout ₹'+a+' requested · waiting for admin approval');draw()});
+ on('#pap',()=>{const p=S.py;p.st='PROCESSING';L('Admin approved payout ₹'+p.a+' · RazorpayX PROCESSING');draw();setTimeout(()=>{if(S.py!==p)return;p.st='SUCCESS';S.tx.unshift({t:'Just now',m:'Payout to UPI',a:-p.a});S.wa='WhatsApp confirmation sent via MSG91 for ₹'+p.a+'.';L('RazorpayX payout SUCCESS · MSG91 WhatsApp sent');draw()},2000)});
+ on('#prj',()=>{S.paid-=S.py.a;S.py.st='REJECTED';L('Admin rejected payout · amount returned to agent balance');draw()});
+ on('#bs',()=>addShared(true));on('#bo',()=>addShared(false));
+ on('#da',()=>{S.bt.orders.push({id:'LP'+Math.floor(1000+Math.random()*9000),who:'Sender '+String.fromCharCode(65+S.bt.orders.length),q:1});S.dyn='done';L('Dynamic addition accepted · stop added · route recalculated · '+bq()+'/5 parcels'+(bq()===3?' · batch bonus unlocked':''));draw()});
+ on('#dd',()=>{S.dyn='declined';L('Dynamic offer declined · order stays available');draw()});
+ document.querySelectorAll('[data-sp]').forEach(e=>e.onclick=()=>{const k=e.dataset.sp==='c'?'sc':'sa';S[k]=S[k]>=3?4:S[k]+1;draw()});
+ document.querySelectorAll('[data-ss]').forEach(e=>e.onclick=()=>{S[e.dataset.ss==='c'?'sc':'sa']=4;draw()})}
+$('skip').onclick=()=>{if(S.o&&S.o.st==='MATCHING'){L('20-min window closed · batch finalized · offering to agents');offer();draw()}};
+$('rej').onclick=()=>reject('reject');
+$('rst').onclick=()=>{clearInterval(tm);S=fresh();draw()};
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('show',p.id===b.dataset.t))});
+draw();
+</script></body></html>
