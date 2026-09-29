@@ -69,23 +69,79 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 const CFG={offer:30,tiers:{sched:{n:'Scheduled',b:20,k:1.2,m:30,eta:'Fixed slot'},shared:{n:'Shared Standard',b:28,k:2,m:40,eta:'30–45 min'},express:{n:'Express',b:60,k:3,m:75,eta:'15–25 min'}},
 hubs:{sp:'SP Road',kl:'Kalasipalya',out:'Whitefield (outside service area)'},drops:{6:'Indiranagar · 6 km',9:'Jayanagar · 9 km',14:'Koramangala · 14 km'}};
 const OUT='Sorry, Loopit currently delivers from SP Road and Kalasipalya areas only. We are expanding soon.';
-const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'home',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'dash',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null,shift:'Morning',sos:0,hist:[{id:'LP2041',t:'Shared Standard',r:'SP Road → Indiranagar',p:46,s:'Delivered'},{id:'LP2037',t:'Express',r:'Kalasipalya → Jayanagar',p:99,s:'Delivered'}]});
-let S=fresh(),tm=null;
+const G='Hi, I am the LoopIt assistant. Pick a topic or type your question.';
+const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'home',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'dash',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null,shift:'Morning',sos:0,ai:0,req:null,det:0,ae2:'',chat:{c:[{r:'b',t:G}],a:[{r:'b',t:G}]},cat:{},tkc:{},tk:[],hist:[{id:'LP2041',t:'Shared Standard',r:'SP Road → Indiranagar',p:46,s:'Delivered'},{id:'LP2037',t:'Express',r:'Kalasipalya → Jayanagar',p:99,s:'Delivered'}]});
+let S=fresh(),tm=null,wt=null;
 const $=id=>document.getElementById(id);
 const L=m=>S.log.unshift({t:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}),m});
 const fare=(t,d,q,v)=>{const c=CFG.tiers[t],km=Math.max(3,d);return Math.round(Math.max(c.m,c.b+c.k*km)*q*(v==='3W'?1.4:1))};
 const agentPay=(d)=>Math.max(28+6*d,d*10);
 const DIR={6:'East',9:'South',14:'South-East'};
 const bq=()=>S.bt?S.bt.orders.reduce((a,x)=>a+x.q,0):(S.o?S.o.qty:0);
-function openBatch(){const f=S.f;S.bt={id:'B-'+Math.floor(100+Math.random()*900),hub:f.pick,dir:DIR[f.drop],orders:[{id:S.o.id,who:'You',q:f.qty}]};L(`Batch ${S.bt.id} opened · hub ${CFG.hubs[f.pick]} · direction ${S.bt.dir} · 20-min window started`);if(bq()>=5)lockBatch()}
-function lockBatch(){L(`Batch ${S.bt.id} reached 5 parcels · locked immediately · offering to agents`);offer()}
-function addShared(same){if(!S.bt||S.o.st!=='MATCHING')return;
- if(!same){L('Order heading West is a different direction · not grouped, starts its own batch');return draw()}
- const q=Math.min(5-bq(),1+Math.floor(Math.random()*2));S.bt.orders.push({id:'LP'+Math.floor(1000+Math.random()*9000),who:'Sender '+String.fromCharCode(65+S.bt.orders.length),q});
- L(`Same hub and direction order added · ${bq()}/5 parcels`);if(bq()>=5)lockBatch();draw()}
+const fm=t=>{t=Math.max(0,t);return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
+const rnd=()=>String(Math.floor(1000+Math.random()*9000));
+const mk=(who,q)=>({id:'LP'+rnd(),who,q,drop:[6,9,14][Math.floor(Math.random()*3)],pOtp:rnd(),dOtp:rnd(),st:'A'});
+function sync(){const y=S.bt.orders[0];S.o.st={A:'AGENT_ASSIGNED',C:'COLLECTED',P:'PROOF_UPLOADED',D:'DELIVERED'}[y.st]}
+function doneBatch(){const bt=S.bt,e=bt.orders.reduce((a,x)=>a+Math.round(agentPay(x.drop)),0),b=bq()>=3?30:0;S.earn+=e+b;S.bonus+=b;S.n+=bt.orders.length;bt.done=1;bt.st='completed';S.tx.unshift({t:'Today',m:'Batch '+bt.id+' · '+bt.orders.length+' drops'+(b?' + batch bonus':''),a:e+b});L(`Batch ${bt.id} completed · all ${bt.orders.length} deliveries closed · agent +₹${e}${b?' +₹30 batch bonus':''}`);draw()}
+function batchUI(){const bt=S.bt,all=bt.orders,nm=x=>CFG.drops[x.drop].split(' · ')[0],pl=x=>x.q+' parcel'+(x.q>1?'s':''),er=S.ae2?`<div class="err">${S.ae2}</div>`:'';
+ let h=`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>Batch ${bt.id}</b><span class="tag ${bt.st==='ready'?'g':''}">${bt.st.replace('_',' ')}</span></div>
+<p class="small">First booking ${all[0].id} · ${CFG.hubs[bt.hub]} → ${nm(all[0])}</p>
+<div class="ttl" style="margin:8px 0 0"><b>${bq()}/5 parcels</b>${bt.st==='collecting'?`<span class="tag r bwt">${fm(S.bw)}</span>`:''}</div>
+<div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div>
+<p class="small">Drops: ${all.map(nm).join(', ')}</p>
+${bt.st==='collecting'?'<p class="small">More bookings can join until the timer ends or the batch reaches 5. You do not have to wait for 5 (demo speed: 1 s = 1 min).</p>':''}
+<button id="vd" style="width:100%;margin-top:8px">${S.det?'Hide':'View'} batch details</button>
+${S.det?all.map(x=>`<div class="row small" style="margin-top:6px"><span>${x.id} · ${x.who} · ${pl(x)}<br>${CFG.hubs[bt.hub]} → ${nm(x)}</span><span class="tag" style="flex:none">${{A:'to pick up',C:'picked up',P:'proof uploaded',D:'delivered'}[x.st]}</span></div>`).join(''):''}
+${bt.st==='ready'?'<button class="p" id="st" style="width:100%;margin-top:8px">Start trip</button>':''}</div>`;
+ if(bt.st==='collecting'||bt.st==='ready'){if(S.req&&bt.st==='collecting')h+=`<div class="box" style="border-color:var(--or)"><b>Additional shared request</b><p class="small">${S.req.who} · ${CFG.hubs[bt.hub]} → ${nm(S.req)} · 1 parcel</p><div class="row" style="margin-top:8px"><button class="g" id="ra">Accept</button><button class="r" id="rr">Reject</button></div></div>`;return h}
+ if(all.some(x=>x.st==='A'))h+=`<div class="box"><b>Pickup at ${CFG.hubs[bt.hub]}</b><p class="small">Collect each parcel with that sender's OTP.</p>${all.map((x,i)=>x.st!=='A'?'':`<div style="margin-top:8px"><span class="small">${x.who} · ${pl(x)} · drop ${nm(x)}</span><div class="row" style="margin-top:4px"><input id="po${i}" inputmode="numeric" maxlength="4" placeholder="Sender OTP"><button class="p" data-pv="${i}" style="flex:none">Collect</button></div></div>`).join('')}${er}</div>`;
+ if(all.some(x=>x.st!=='A'))h+=`<div class="box"><b>Route · ${all.filter(x=>x.st!=='D').length} drops left</b>${all.map((x,i)=>x.st==='A'?'':x.st==='D'?`<div class="row small" style="margin-top:6px"><span>${nm(x)} · ${x.who}</span><span class="tag g" style="flex:none">Delivered</span></div>`:`<div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><b>${nm(x)}</b> <span class="small">· ${x.who} · ${pl(x)}</span>${x.st==='C'?`<button class="p" data-ph="${i}" style="width:100%;margin-top:6px">Take proof photo</button>`:`<span class="tag g" style="margin-left:6px">Photo uploaded</span>`}<div class="row" style="margin-top:6px"><input id="do${i}" inputmode="numeric" maxlength="4" placeholder="Receiver OTP" ${x.st==='P'?'':'disabled'}><button class="p" data-dv="${i}" style="flex:none" ${x.st==='P'?'':'disabled'}>Deliver</button></div></div>`).join('')}${er}</div>`;
+ return h}
+const TH=[1080,840,600,360,120];
+function tickW(){S.bw-=15;document.querySelectorAll('.bwt').forEach(e=>e.textContent=fm(S.bw));
+ if(S.bt&&S.bt.st==='collecting'){if(S.ai<5&&S.bw<=TH[S.ai]){S.ai++;newReq()}if(S.bw<=0)finalizeBatch()}}
+function newReq(){if(bq()>=5)return;if(S.req)L('Previous additional request expired');S.req=mk('Sender '+String.fromCharCode(65+S.ai),1);L(`Additional shared request sent to agent · drop ${CFG.drops[S.req.drop].split(' · ')[0]}`);draw()}
+function finalizeBatch(){clearInterval(wt);S.bw=0;S.req=null;S.bt.st='ready';L(bq()>=5?`Batch ${S.bt.id} reached 5 parcels · waiting window ended · ready`:`20-min window expired with ${bq()} parcel${bq()>1?'s':''} · batch ${S.bt.id} is ready`);draw()}
+function openBatch(){const f=S.f;S.bt={id:'B-'+Math.floor(100+Math.random()*900),hub:f.pick,dir:DIR[f.drop],st:'collecting',orders:[{id:S.o.id,who:'You',q:f.qty,drop:+f.drop,pOtp:S.o.pOtp,dOtp:S.o.dOtp,st:'A'}]};S.req=null;S.ai=0;S.det=0;S.bw=1200;clearInterval(wt);wt=setInterval(tickW,250);L(`Agent accepted the first booking · batch ${S.bt.id} created · 20-min window started`);if(bq()>=5)finalizeBatch()}
 const SPL={c:[['Loop<b>It</b>','Share the route. Split the cost.'],['Book in a minute','Enter pickup, drop and parcel details. See the price and your savings before you pay.'],['Ride along, pay less','Parcels heading the same way share one agent, so delivery costs less.'],['Track every step','Live tracking, pickup and delivery OTPs, and a proof photo at the door.']],a:[['Loop<b>It</b> Agent','Deliver more parcels on every trip.'],['Take shared batches','Accept batches of up to 5 parcels on your route, with no daily limit.'],['Earn more per trip','₹30 bonus on every batch of 3+ parcels.'],['Cash out from ₹100','Request a payout to your UPI. Admin approves it.']]};
 function splash(w){const i=w==='c'?S.sc:S.sa,x=SPL[w][i],last=i===3;
  return `<div class="phone" style="display:flex;flex-direction:column;justify-content:center;gap:16px;text-align:center">${i?'':'<div class="ring"></div>'}<h2 style="font-size:${i?24:34}px">${x[0]}</h2><p style="color:var(--mu)">${x[1]}</p><div class="dots">${[0,1,2,3].map(n=>`<i class="${n===i?'d':''}"></i>`).join('')}</div><button class="p" data-sp="${w}">${i===0?'Get started':last?(w==='c'?'Log in or register':'Start as agent'):'Next'}</button>${i&&!last?`<button data-ss="${w}">Skip</button>`:''}</div>`}
+const KB={c:[
+ ['Order status',/track|where|status|late|delay/,()=>S.o?`Order ${S.o.id} is ${S.o.st.replace(/_/g,' ').toLowerCase()}. Open Home to follow it live.`:'You have no active order. Start one from the Book tab.'],
+ ['Refund',/refund|cancel/,()=>'Refunds: 100% before an agent is assigned, 50% after assignment and before pickup, 0% after pickup. Failed delivery or return to sender: 100%.'],
+ ['Payment',/pay|razorpay|upi|card|charged|money/,()=>'A failed payment stays unpaid and can be retried with UPI, credit or debit card. If money was debited without a booking, convert this chat to a ticket and we will reconcile it.'],
+ ['OTP',/otp|code|verify/,()=>S.o?'Give your pickup OTP to the agent at pickup. Your receiver gives the delivery OTP after the agent uploads the proof photo. Both show on your order screen.':'OTPs appear on your order once an agent is assigned.'],
+ ['Address',/address|location|zone|area/,()=>'We deliver from SP Road and Kalasipalya pickups for now. Save places in the Saved tab.']],
+ a:[
+ ['Payout',/payout|cash|upi|withdraw/,()=>`Payouts start at ₹100, go to your registered UPI and need admin approval.${S.py?' Your last request is '+S.py.st.toLowerCase()+'.':''}`],
+ ['KYC',/kyc|document|aadhaar|licence|approval/,()=>'KYC needs Aadhaar, driving licence and vehicle RC. Cashfree checks them, then Super Admin approves.'],
+ ['OTP',/otp|code/,()=>'Every parcel has its own pickup OTP from the sender and delivery OTP from the receiver. Upload the proof photo first, then enter the receiver OTP.'],
+ ['Bonus',/bonus|incentive|earning/,()=>'You earn ₹30 for every batch of 3+ parcels, with no daily cap. A suspicious parcel report pays ₹500 after admin approval, or automatically after 48 hours.'],
+ ['Batch',/batch|window|parcel|timer/,()=>'A batch takes up to 5 parcels. The 20-minute window starts when you accept the first booking and ends at 5 parcels or on expiry.'],
+ ['Safety',/sos|unsafe|emergency|accident/,()=>'In an emergency use the SOS button on Home right away. I can also raise a ticket.']]};
+function ask(w,t){const c=S.chat[w],l=t.toLowerCase();c.push({r:'u',t});const k=KB[w].find(x=>x[1].test(l));
+ if(k){S.cat[w]=k[0];c.push({r:'b',t:k[2]()})}
+ else c.push({r:'b',t:/human|support|ticket|complain/.test(l)?'I can pass this to the support team. Tap "Convert this chat to a ticket" and I will include our conversation.':'I could not find an answer to that. Tap "Convert this chat to a ticket" and the support team will reply here.'});
+ draw()}
+function mkTicket(w){const c=S.chat[w],cat=S.cat[w]||'General',t={id:'T-'+(1001+S.tk.length),w:w==='c'?'Customer':'Agent',cat,pr:['Payment','Refund','OTP','Safety','Payout'].includes(cat)?'High':'Normal',ref:w==='c'?(S.o?S.o.id:'none'):(S.bt?S.bt.id:S.o?S.o.id:'none'),st:'Open',msgs:c.filter(x=>x.r==='u').map(x=>x.t)};
+ S.tk.push(t);S.tkc[w]=t.id;c.push({r:'s',t:`Ticket ${t.id} created (${cat}, ${t.pr} priority). The support team will reply here.`});L(`Support ticket ${t.id} created from ${t.w} bot chat · ${cat} · ${t.pr}`);draw()}
+function chatUI(w){const c=S.chat[w],tk=S.tk.find(x=>x.id===S.tkc[w]),chips=w==='c'?['Track my order','Refund policy','Payment failed','Delivery OTP']:['Payout','Batch and bonus','Wrong OTP','KYC status'];
+ return `<div data-sc style="display:flex;flex-direction:column;gap:6px;max-height:320px;overflow:auto">${c.map(m=>`<div style="align-self:${m.r==='u'?'flex-end':'flex-start'};max-width:85%;padding:8px 11px;border-radius:14px;background:${m.r==='u'?'var(--or)':m.r==='s'?'color-mix(in srgb,var(--gr) 18%,var(--card2))':'var(--card2)'};color:${m.r==='u'?'#fff':'var(--tx)'};font-size:13px">${m.r==='s'?'<b>Support</b><br>':''}${m.t}</div>`).join('')}</div>
+ <div class="row" style="flex-wrap:wrap;margin-top:8px">${chips.map(x=>`<button data-cq="${w}|${x}" style="flex:none;font-size:12px;padding:5px 9px">${x}</button>`).join('')}</div>
+ <div class="row" style="margin-top:8px"><input id="ci${w}" placeholder="Ask a question"><button class="p" data-cs="${w}" style="flex:none">Send</button></div>
+ ${tk?`<div class="box small"><b>Ticket ${tk.id}</b> · <span class="tag ${tk.st==='Resolved'?'g':''}">${tk.st}</span><br>${tk.cat} · ${tk.pr} priority<button data-cn="${w}" style="width:100%;margin-top:8px">Start a new chat</button></div>`:c.some(m=>m.r==='u')?`<button class="p" data-ct2="${w}" style="width:100%;margin-top:10px">Convert this chat to a ticket</button>`:''}`}
+function bindSup(){const d=document;
+ d.querySelectorAll('[data-cq]').forEach(e=>e.onclick=()=>{const [w,t]=e.dataset.cq.split('|');ask(w,t)});
+ d.querySelectorAll('[data-cs]').forEach(e=>e.onclick=()=>{const w=e.dataset.cs,t=$('ci'+w).value.trim();if(t)ask(w,t)});
+ d.querySelectorAll('input[id^=ci]').forEach(i=>i.onkeydown=ev=>{if(ev.key==='Enter')i.parentNode.querySelector('[data-cs]').click()});
+ d.querySelectorAll('[data-ct2]').forEach(e=>e.onclick=()=>mkTicket(e.dataset.ct2));
+ d.querySelectorAll('[data-cn]').forEach(e=>e.onclick=()=>{const w=e.dataset.cn;S.chat[w]=[{r:'b',t:G}];S.tkc[w]=null;S.cat[w]=null;draw()});
+ d.querySelectorAll('[data-ta]').forEach(e=>e.onclick=()=>{const [i,a]=e.dataset.ta.split('|'),t=S.tk[+i],k=t.w==='Customer'?'c':'a';
+  if(a==='start'){t.st='In progress';S.chat[k].push({r:'s',t:`Ticket ${t.id} is in progress. We are looking into it.`});L(`Admin started ticket ${t.id}`)}
+  if(a==='reply'){S.chat[k].push({r:'s',t:'We checked your case and are fixing it. You will get an update within 2 hours.'});L(`Admin replied on ticket ${t.id}`)}
+  if(a==='res'){t.st='Resolved';S.chat[k].push({r:'s',t:`Ticket ${t.id} is resolved. Reply here if the problem continues.`});L(`Admin resolved ticket ${t.id}`)}
+  draw()});
+ d.querySelectorAll('[data-sc]').forEach(e=>e.scrollTop=e.scrollHeight)}
 const stepIdx={MATCHING:0,OFFERED:0,UNASSIGNED:0,AGENT_ASSIGNED:1,COLLECTED:2,AT_DELIVERY:2,PROOF_UPLOADED:3,DELIVERED:4};
 function pay(){const f=S.f;S.msg='';
  if(f.pick==='out'){S.msg=OUT;return draw()}
@@ -98,7 +154,7 @@ function pay(){const f=S.f;S.msg='';
  S.bt=null;S.dyn=null;L(`Razorpay payment SUCCESS ₹${amt} · declaration stored · order ${S.o.id} created`);
  if(f.tier==='express'){L('Express: shared batching bypassed');offer()}
  else if(f.tier==='sched'){L('Scheduled: advance-paid, assigned at slot');offer()}
- else openBatch();
+ else{L('Shared request sent to agents');offer()}
  draw()}
 function offer(){S.o.st='OFFERED';S.t=CFG.offer;S.otp='';S.photo=false;S.otpErr='';L('Offer sent to agent · timer '+CFG.offer+'s');clearInterval(tm);
  tm=setInterval(()=>{S.t--;const e=$('tm');if(e)e.textContent=S.t+'s';if(S.t<=0){clearInterval(tm);reject('timeout')}},1000)}
@@ -106,13 +162,14 @@ function reject(w){clearInterval(tm);if(!S.o||!['OFFERED','MATCHING'].includes(S
 function setSt(st,m){S.o.st=st;if(m)L(m);draw()}
 function done(){const o=S.o;const e=Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1);const b=(o.tier==='shared'&&bq()>=3)?30:0;S.earn+=e+b;S.bonus+=b;S.n++;S.tx.unshift({t:'Today',m:'Delivery '+o.id+(b?' + batch bonus':''),a:e+b});S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'});L(`Delivered · receiver OTP verified · agent +₹${e}${b?' +₹30 batch bonus':''}`);setSt('DELIVERED')}
 function cancel(by){const o=S.o,p=['MATCHING','OFFERED','UNASSIGNED'].includes(o.st)||by==='admin'?100:o.st==='AGENT_ASSIGNED'?50:0;
- clearInterval(tm);S.refund={p,amt:Math.round(o.amt*p/100)};S.rev-=S.refund.amt;setSt('CANCELLED',`${by==='admin'?'Admin':'Customer'} cancelled · refund ${p}% (₹${S.refund.amt})`)}
+ clearInterval(tm);clearInterval(wt);S.refund={p,amt:Math.round(o.amt*p/100)};S.rev-=S.refund.amt;setSt('CANCELLED',`${by==='admin'?'Admin':'Customer'} cancelled · refund ${p}% (₹${S.refund.amt})`)}
 function cust(){
  const W=(t,b)=>`<div class="phone"><div class="ttl"><h2>${t}</h2><span class="tag g">Customer app</span></div>${b}</div>`;
  const E=S.ce?`<div class="err">${S.ce}</div>`:'';
  if(S.sc<4)return splash('c');
  if(!S.cu)return W('Log in or register',S.cs==='phone'?`<p class="small">New numbers are registered automatically.</p><label>Mobile number</label><input id="cph" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${S.cph}">${E}<button class="p" id="cgo" style="width:100%;margin-top:14px">Send OTP</button>`:`<p class="small">OTP sent to +91 ${S.cph}. Demo OTP: 1234</p><label>Enter OTP</label><input id="cotp" inputmode="numeric" maxlength="4" placeholder="4 digits">${E}<button class="p" id="cver" style="width:100%;margin-top:14px">Verify and continue</button><button id="cchg" style="width:100%;margin-top:8px">Change number</button>`);
- const nav=`<div class="row" style="margin-top:14px">${[['home','Home'],['book','Book'],['addr','Addresses'],['prof','Profile']].map(([k,n])=>`<button data-ct="${k}" class="${S.ct===k?'on':''}">${n}</button>`).join('')}</div>`;
+ const nav=`<div class="row" style="margin-top:14px">${[['home','Home'],['book','Book'],['addr','Saved'],['prof','Profile'],['help','Help']].map(([k,n])=>`<button data-ct="${k}" class="${S.ct===k?'on':''}">${n}</button>`).join('')}</div>`;
+ if(S.ct==='help')return W('Support',chatUI('c')+nav);
  if(S.ct==='home'){const act=S.o&&!['DELIVERED','CANCELLED'].includes(S.o.st);
   const st={MATCHING:'Order confirmed · pickup in 30–45 min',OFFERED:'Order confirmed · pickup in 30–45 min',UNASSIGNED:'Order confirmed · pickup in 30–45 min',AGENT_ASSIGNED:'Agent is heading to pickup',COLLECTED:'On the way to the drop',AT_DELIVERY:'Agent is at the delivery address',PROOF_UPLOADED:'Completing delivery'};
   return W('Home',`<p style="font-size:18px;font-weight:600">Hi, Priya</p><div class="box row" style="align-items:center"><span><span class="small">Current location</span><br><b>SP Road, Bengaluru</b></span><span class="tag g" style="flex:none">In service area</span></div>
@@ -156,14 +213,14 @@ function agent(){const g=S.ag,E=S.ae?`<div class="err">${S.ae}</div>`:'';
  if(g.st==='kyc')return W('Register and KYC',`<p class="small">All three documents are required. Cashfree checks them automatically.</p>${[['a','Aadhaar card'],['d','Driving licence'],['r','Vehicle RC']].map(([k,n])=>`<button data-dk="${k}" class="${g.dk[k]?'g':''}" style="width:100%;margin-top:8px;text-align:left">${g.dk[k]?'✓ '+n+' uploaded':n+' · tap to upload'}</button>`).join('')}<label>Vehicle number (2-wheeler)</label><input id="avn" value="${g.vn}" placeholder="KA 01 AB 1234">${E}<button class="p" id="aks" style="width:100%;margin-top:14px">Submit for verification</button>`);
  if(g.st==='pending')return W('Under review',`<div class="box"><b>Documents submitted</b><p class="small">Cashfree result: PASS. Super Admin reviews next, and you can't receive offers until approved. Open the Super Admin panel to approve.</p></div>`);
  if(g.st==='rejected')return W('KYC rejected',`<div class="err">Super Admin rejected your documents. Upload clear copies and resubmit.</div><button class="p" id="ars" style="width:100%;margin-top:12px">Resubmit documents</button>`);
- const nav=`<div class="row" style="margin-top:14px">${[['dash','Home'],['home','Tasks'],['earn','Earnings']].map(([k,n])=>`<button data-at="${k}" class="${S.at===k?'on':''}">${n}</button>`).join('')}</div>`;
- return (S.at==='dash'?dash():S.at==='home'?agentHome():earn()).replace(/<\/div>$/,nav+'</div>')}
-function dash(){const o=S.o,act=o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st);
+ const nav=`<div class="row" style="margin-top:14px">${[['dash','Home'],['home','Tasks'],['earn','Earnings'],['help','Help']].map(([k,n])=>`<button data-at="${k}" class="${S.at===k?'on':''}">${n}</button>`).join('')}</div>`;
+ return (S.at==='dash'?dash():S.at==='home'?agentHome():S.at==='help'?`<div class="phone"><div class="ttl"><h2>Support</h2><span class="tag g">Agent app</span></div>${chatUI('a')}</div>`:earn()).replace(/<\/div>$/,nav+'</div>')}
+function dash(){const o=S.o,act=o&&(['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)||(S.bt&&!S.bt.done&&o.st==='DELIVERED'));
  return `<div class="phone"><div class="ttl"><h2>Hi, Ravi</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div>
  <div class="row" style="flex-wrap:wrap;gap:6px"><span class="tag">SP Road zone</span><span class="tag g">KYC approved</span><span class="tag">2-wheeler</span></div>
  <label>Shift</label><div class="row">${[['Morning','6–12'],['Day','10–4'],['Evening','4–8']].map(([n,t])=>`<button data-sh="${n}" class="${S.shift===n?'on':''}" style="padding:8px 4px"><b>${n}</b><br><span style="font-size:11px">${t}</span></button>`).join('')}</div>
  <div class="k" style="grid-template-columns:repeat(3,1fr);margin-top:12px"><div><b>${S.n}</b><span>Deliveries</span></div><div><b>₹${S.earn}</b><span>Today</span></div><div><b>₹${S.bonus}</b><span>Bonus</span></div></div>
- ${o&&o.st==='OFFERED'?`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>New offer</b><span class="tag r" id="tm">${S.t}s</span></div><p class="small">${CFG.hubs[o.pick]} · ${bq()} parcel${bq()>1?'s':''}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">View offer</button></div>`:act?`<div class="box"><b>Active task · ${o.id}</b><p class="small">${o.st.replace(/_/g,' ').toLowerCase()}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">Open task</button></div>`:`<div class="box"><b>${S.agent?'You are online':'You are offline'}</b><p class="small">${S.agent?'Offers show up here when a batch is ready in your zone.':'Go online to receive offers during your shift.'}</p></div>`}
+ ${o&&o.st==='OFFERED'?`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>New offer</b><span class="tag r" id="tm">${S.t}s</span></div><p class="small">${CFG.hubs[o.pick]} · ${bq()} parcel${bq()>1?'s':''}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">View offer</button></div>`:act?`<div class="box"><b>Active task · ${o.id}</b><p class="small">${S.bt&&!S.bt.done?'Batch '+S.bt.id+' · '+S.bt.st.replace('_',' ')+' · '+bq()+'/5 parcels'+(S.bt.st==='collecting'?' · <span class="bwt">'+fm(S.bw)+'</span> left':''):o.st.replace(/_/g,' ').toLowerCase()}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">Open task</button></div>`:`<div class="box"><b>${S.agent?'You are online':'You are offline'}</b><p class="small">${S.agent?'Offers show up here when a batch is ready in your zone.':'Go online to receive offers during your shift.'}</p></div>`}
  <div class="box"><b>Batch bonus</b><p class="small">₹30 for every batch of 3+ parcels. No daily cap.</p></div>
  <button class="r" id="sos" style="width:100%;margin-top:10px">${S.sos?'SOS sent · support is notified':'SOS'}</button></div>`}
 function earn(){const b=S.opening+S.earn-S.paid,wk=[420,380,510,460,390,S.earn],dy=['Mon','Tue','Wed','Thu','Fri','Today'];
@@ -173,39 +230,40 @@ function earn(){const b=S.opening+S.earn-S.paid,wk=[420,380,510,460,390,S.earn],
  <div class="box"><b>Incentives</b><p class="small">₹30 batch bonus for every shared batch with 3+ parcels, no daily cap. It also applies when a third parcel is added mid-trip. Solo Express trips don't qualify.<br>Suspicious report bonus ₹500: ${S.sus?S.sus.st+' · '+S.sus.b:'no report sent'}</p></div>
  <div class="box"><b>Cash out to UPI</b><p class="small">ravi@upi · minimum ₹100</p><input id="pamt" type="number" value="100">${S.pe?`<div class="err">${S.pe}</div>`:''}<button class="p" id="pgo" style="width:100%;margin-top:8px">Request payout</button>${S.py?`<p class="small" style="margin-top:8px">Payout ₹${S.py.a} · <span class="tag ${S.py.st==='SUCCESS'?'g':''}">${S.py.st}</span>${S.py.st==='REQUESTED'?' · waiting for admin approval':''}</p>`:''}${S.wa?`<p class="small">${S.wa}</p>`:''}</div>
  <div class="box"><b>Transactions</b>${S.tx.map(x=>`<div class="row small" style="margin-top:4px"><span>${x.t} · ${x.m}</span><span style="flex:none;text-align:right">${x.a>0?'+':'−'}₹${Math.abs(x.a)}</span></div>`).join('')}</div></div>`}
-function agentHome(){const o=S.o;let h=`<div class="phone"><div class="ttl"><h2>Ravi K.</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div><div class="small">Morning shift · SP Road zone · KYC approved</div>
+function agentHome(){const o=S.o,B=S.bt&&o&&['AGENT_ASSIGNED','COLLECTED','PROOF_UPLOADED','DELIVERED'].includes(o.st)&&!S.bt.done;let h=`<div class="phone"><div class="ttl"><h2>Ravi K.</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div><div class="small">Morning shift · SP Road zone · KYC approved</div>
 <div class="k" style="grid-template-columns:repeat(3,1fr);margin-top:10px"><div><b>${S.n}</b><span>Deliveries</span></div><div><b>₹${S.earn}</b><span>Earned</span></div><div><b>₹${S.bonus}</b><span>Batch bonus</span></div></div>`;
- if(!o||['MATCHING','DELIVERED','CANCELLED','UNASSIGNED'].includes(o.st))h+=`<div class="box"><b>${o&&o.st==='MATCHING'?'Waiting for a batch':'No active task'}</b><p class="small">Offers appear here when a batch is finalized.</p></div>`;
- if(o&&o.st==='OFFERED')h+=`<div class="box"><div class="ttl" style="margin:0"><b>New ${o.tier==='shared'?'batch':'order'} offer</b><span class="tag r" id="tm">${S.t}s</span></div><p>${CFG.hubs[o.pick]} → ${CFG.drops[o.drop].split(' · ')[0]}<br>${bq()} parcel${bq()>1?'s':''}${S.bt?' from '+S.bt.orders.length+' senders':''} · est. ₹${Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1)}${o.tier==='shared'&&bq()>=3?' + ₹30 bonus':''}</p><div class="row" style="margin-top:8px"><button class="g" id="acc" ${S.agent?'':'disabled'}>Accept</button><button class="r" id="rj">Reject</button></div></div>`;
- if(o&&['AGENT_ASSIGNED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)){const pick=o.st==='AGENT_ASSIGNED',gate=o.st==='PROOF_UPLOADED';
+  if(!o||(o.st==='MATCHING'&&!S.bt)||(['DELIVERED','CANCELLED','UNASSIGNED'].includes(o.st)&&!B))h+=`<div class="box"><b>${o&&o.st==='MATCHING'?'Waiting for a batch':'No active task'}</b><p class="small">Offers appear here when a batch is finalized.</p></div>`;
+ if(o&&o.st==='OFFERED')h+=`<div class="box"><div class="ttl" style="margin:0"><b>New ${o.tier==='shared'?'shared booking request':'order offer'}</b><span class="tag r" id="tm">${S.t}s</span></div><p>${CFG.hubs[o.pick]} → ${CFG.drops[o.drop].split(' · ')[0]}<br>${bq()} parcel${bq()>1?'s':''}${S.bt?' from '+S.bt.orders.length+' senders':''} · est. ₹${Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1)}${o.tier==='shared'&&bq()>=3?' + ₹30 bonus':''}</p><div class="row" style="margin-top:8px"><button class="g" id="acc" ${S.agent?'':'disabled'}>Accept</button><button class="r" id="rj">Reject</button></div></div>`;
+ if(B)h+=batchUI();
+ if(!B&&o&&['AGENT_ASSIGNED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)){const pick=o.st==='AGENT_ASSIGNED',gate=o.st==='PROOF_UPLOADED';
  h+=`<div class="box"><b>${pick?'Pickup · enter sender OTP':'Delivery at '+CFG.drops[o.drop].split(' · ')[0]}</b>
  ${o.st==='AT_DELIVERY'?`<button class="p" id="ph" style="width:100%;margin-top:8px">Take proof photo</button><p class="small" style="margin-top:6px">OTP entry stays locked until the photo uploads.</p>`:''}
  <label>${pick?'Pickup OTP':'Receiver OTP'}</label><input id="otp" inputmode="numeric" maxlength="4" ${pick||gate?'':'disabled'} placeholder="4 digits" value="${S.otp}">
  ${S.otpErr?`<div class="err">${S.otpErr}</div>`:''}<button class="p" id="vo" style="width:100%;margin-top:8px" ${pick||gate?'':'disabled'}>${pick?'Verify and collect':'Verify and complete'}</button></div>`}
  if(o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=S.sus?`<p class="small" style="margin-top:8px">Suspicious report ${S.sus.st} · ₹500 bonus ${S.sus.b}</p>`:`<button class="r" id="sr" style="width:100%;margin-top:8px">Report suspicious parcel</button>`;
-if(o&&o.st==='COLLECTED')h+=`<div class="box"><b>Parcel collected · route started</b><p class="small">${S.bt?S.bt.orders.length+' stops · '+bq()+' parcels':''}</p><button class="p" id="ar" style="width:100%;margin-top:8px">Arrived at drop</button></div>`;
- if(o&&o.st==='COLLECTED'&&o.tier==='shared'&&S.bt&&bq()<5&&!S.dyn)h+=`<div class="box"><b>Nearby order offer</b><p class="small">Same hub and direction · +1 parcel. Accepting adds a stop and recalculates the route.${bq()===2?' Batch bonus ₹30 unlocks at 3 parcels.':''}</p><div class="row" style="margin-top:8px"><button class="g" id="da">Accept</button><button class="r" id="dd">Decline</button></div></div>`;
+if(o&&!B&&o.st==='COLLECTED')h+=`<div class="box"><b>Parcel collected · route started</b><p class="small">${S.bt?S.bt.orders.length+' stops · '+bq()+' parcels':''}</p><button class="p" id="ar" style="width:100%;margin-top:8px">Arrived at drop</button></div>`;
  return h+'</div>'}
 function admin(){const o=S.o,un=o&&o.st==='UNASSIGNED';
  let h=`<div class="admin"><div class="ttl"><h2>Super Admin</h2><span class="tag">Live operations</span></div>
- <div class="k"><div><b>${o?1:0}</b><span>Active orders</span></div><div><b>${S.n}</b><span>Delivered</span></div><div><b>₹${S.rev}</b><span>Revenue</span></div><div><b>${S.agent&&S.ag.st==='ok'?1:0}</b><span>Agents online</span></div></div>`;
- if(S.bt)h+=`<div class="box" style="margin:0 0 12px"><b>Shared batch ${S.bt.id}</b> <span class="tag">${CFG.hubs[S.bt.hub]} · ${S.bt.dir}</span><div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div><p class="small">${bq()}/5 parcels · ${S.bt.orders.map(x=>x.who+' ('+x.q+')').join(', ')}<br>${o&&o.st==='MATCHING'?'20-min window open. Finalizes at 5 parcels or when the window ends.':'Batch finalized.'}</p>${o&&o.st==='MATCHING'?`<div class="row" style="margin-top:8px"><button id="bs">Add same-direction order</button><button id="bo">Add other-direction order</button></div>`:''}</div>`;
+ <div class="k"><div><b>${S.bt?S.bt.orders.length:o?1:0}</b><span>Active orders</span></div><div><b>${S.n}</b><span>Delivered</span></div><div><b>₹${S.rev}</b><span>Revenue</span></div><div><b>${S.agent&&S.ag.st==='ok'?1:0}</b><span>Agents online</span></div></div>`;
+ if(S.tk.length)h+=`<div class="box" style="margin:0 0 12px"><b>Support tickets · ${S.tk.filter(x=>x.st!=='Resolved').length} open</b>${S.tk.map((t,i)=>`<div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><div class="row" style="align-items:center"><b>${t.id} · ${t.w}</b><span style="flex:none;text-align:right"><span class="tag ${t.pr==='High'?'r':''}">${t.pr}</span> <span class="tag ${t.st==='Resolved'?'g':''}">${t.st}</span></span></div><p class="small">${t.cat} · ref ${t.ref} · converted from bot chat<br>“${t.msgs.join(' / ').slice(0,110)}”</p>${t.st==='Resolved'?'':`<div class="row" style="margin-top:6px">${t.st==='Open'?`<button data-ta="${i}|start">Start</button>`:''}<button data-ta="${i}|reply">Reply</button><button class="g" data-ta="${i}|res">Resolve</button></div>`}</div>`).join('')}</div>`;
+ if(S.bt)h+=`<div class="box" style="margin:0 0 12px"><b>Shared batch ${S.bt.id}</b> <span class="tag">${CFG.hubs[S.bt.hub]} · ${S.bt.dir}</span><div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div><p class="small">${bq()}/5 parcels · ${S.bt.orders.map(x=>x.who+' ('+x.q+')').join(', ')}<br>Status ${S.bt.st.replace('_',' ')}${S.bt.st==='collecting'?' · window closes in <span class="bwt">'+fm(S.bw)+'</span>':''}</p></div>`;
  if(S.ag.st==='pending')h+=`<div class="box" style="margin:0 0 12px"><b>Agent KYC review · Ravi K.</b><p class="small">Aadhaar, licence and RC uploaded · vehicle ${S.ag.vn}<br>Cashfree result <span class="tag g">PASS</span> · you can approve, reject or override, and it is logged.</p><div class="row" style="margin-top:8px"><button class="g" id="kap">Approve</button><button class="r" id="krj">Reject</button></div></div>`;
  if(S.sus&&S.sus.b==='PENDING')h+=`<div class="box" style="margin:0 0 12px"><b>Suspicious parcel report</b><p class="small">Order ${o?o.id:''} · Ravi K. · GPS 12.97, 77.57. ₹500 auto-credits if there is no action within 48h.</p><div class="row" style="margin-top:8px"><button class="g" id="sap">Approve ₹500</button><button class="r" id="srj">Reject</button><button id="s48">Skip 48h</button></div></div>`;
  if(S.py)h+=`<div class="box" style="margin:0 0 12px"><b>Agent payout</b> · ₹${S.py.a} to ravi@upi · RazorpayX <span class="tag ${S.py.st==='SUCCESS'?'g':''}">${S.py.st}</span>${S.py.st==='SUCCESS'?' · MSG91 WhatsApp sent':''}${S.py.st==='REQUESTED'?`<div class="row" style="margin-top:8px"><button class="g" id="pap">Approve payout</button><button class="r" id="prj">Reject</button></div>`:''}</div>`;
  if(un)h+=`<div class="err" style="margin:0 0 12px"><b>Unassigned alert</b> · order ${o.id} has no agent. Review the map, then force-assign (zone override) or cancel with full refund.<div class="row" style="margin-top:8px"><button class="p" id="fa" ${S.ag.st==='ok'?'':'disabled'}>Force-assign Ravi K.</button><button class="r" id="ac">Cancel + full refund</button></div></div>`;
- h+=`<div class="two"><div><h3 style="margin-bottom:6px">Bookings</h3><div class="tw"><table><tr><th>ID</th><th>Type</th><th>Parcels</th><th>Status</th></tr>${o?`<tr><td>${o.id}</td><td>${CFG.tiers[o.tier].n}</td><td>${o.qty}</td><td><span class="tag ${o.st==='DELIVERED'?'g':un?'r':''}">${o.st}</span></td></tr>`:`<tr><td colspan="4" class="small">No bookings yet. Create one in the customer app.</td></tr>`}</table></div>
+ h+=`<div class="two"><div><h3 style="margin-bottom:6px">Bookings</h3><div class="tw"><table><tr><th>ID</th><th>Type</th><th>Parcels</th><th>Status</th></tr>${o?`<tr><td>${o.id}</td><td>${CFG.tiers[o.tier].n}</td><td>${o.qty}</td><td><span class="tag ${o.st==='DELIVERED'?'g':un?'r':''}">${o.st}</span></td></tr>${S.bt?S.bt.orders.slice(1).map(x=>`<tr><td>${x.id}</td><td>Shared Standard</td><td>${x.q}</td><td><span class="tag ${x.st==='D'?'g':''}">${['MATCHING','OFFERED','UNASSIGNED'].includes(o.st)?o.st:{A:'AGENT_ASSIGNED',C:'COLLECTED',P:'PROOF_UPLOADED',D:'DELIVERED'}[x.st]}</span></td></tr>`).join(''):''}`:`<tr><td colspan="4" class="small">No bookings yet. Create one in the customer app.</td></tr>`}</table></div>
  <h3 style="margin:14px 0 6px">Hubs</h3><div class="small">SP Road · Kalasipalya · both active · max 5 parcels per batch · 20-min window</div>
  <h3 style="margin:14px 0 6px">Configuration</h3><div class="small">Offer timeout ${CFG.offer}s · min distance 3 km · batch bonus ₹30 at 3+ parcels · suspicious report ₹500 (auto-credit after 48h)</div></div>
  <div><h3 style="margin-bottom:6px">Live agent board</h3><div class="map"><span style="left:20%;top:55%">SP Road hub</span><span style="left:62%;top:22%">Kalasipalya hub</span>${S.agent&&S.ag.st==='ok'?`<span style="left:40%;top:36%;background:var(--gr);color:#04140F;border-color:var(--gr)">Ravi K. · ${o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)?'on trip':'available'}</span>`:''}</div>
  <h3 style="margin:14px 0 6px">Audit trail</h3><div class="log">${S.log.length?S.log.map(x=>`<div>${x.t} · ${x.m}</div>`).join(''):'<div>No events yet.</div>'}</div></div></div></div>`;return h}
-function draw(){$('c').innerHTML=cust();$('a').innerHTML=agent();$('s').innerHTML=admin();bind()}
+function draw(){$('c').innerHTML=cust();$('a').innerHTML=agent();$('s').innerHTML=admin();bind();bindSup()}
 function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if(e)e.onclick=fn};
  document.querySelectorAll('[data-k]').forEach(e=>e.onchange=()=>{const k=e.dataset.k;S.f[k]=e.type==='checkbox'?e.checked:e.type==='number'?+e.value:e.value;S.msg='';draw()});
  document.querySelectorAll('[data-tier]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.tier;draw()});
  on('#pay',pay);on('#cx',()=>cancel('customer'));on('#nw',()=>{const k=S.f;S.o=null;S.refund=null;S.f={...k,desc:'',decl:false};draw()});
  on('#on',()=>{S.agent=!S.agent;draw()});
- on('#acc',()=>{clearInterval(tm);L('Atomic lock: batch locked to Ravi K. · customer push sent');setSt('AGENT_ASSIGNED')});
+ on('#acc',()=>{clearInterval(tm);L('Atomic lock: booking locked to Ravi K. · customer push sent');S.o.st='AGENT_ASSIGNED';if(S.o.tier==='shared')openBatch();draw()});
  on('#rj',()=>reject('reject'));
  on('#ph',()=>{S.photo=true;L('Proof photo uploaded');setSt('PROOF_UPLOADED')});
  on('#ar',()=>setSt('AT_DELIVERY','Agent at delivery address'));
@@ -232,25 +290,30 @@ function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if
  on('#krj',()=>{S.ag.st='rejected';L('Admin rejected KYC · manual decision recorded');draw()});
  on('#sr',()=>{S.sus={st:'SUBMITTED',b:'PENDING'};L('Suspicious report sent with order, GPS and time · admin alerted');draw()});
  on('#sap',()=>credit(false));on('#s48',()=>credit(true));on('#srj',()=>{S.sus={st:'REJECTED',b:'NONE'};L('Admin rejected suspicious report');draw()});
+ on('#ra',()=>{S.bt.orders.push(S.req);L(`Agent accepted additional booking ${S.req.id} · ${bq()}/5 parcels`);S.req=null;if(bq()>=5)finalizeBatch();else draw()});
+ on('#rr',()=>{L('Agent rejected additional request '+S.req.id+' · not added to the batch');S.req=null;draw()});
+ on('#st',()=>{S.bt.st='in_progress';L('Agent started the trip · '+S.bt.orders.length+' pickups, '+S.bt.orders.length+' drops');draw()});
+ on('#vd',()=>{S.det=!S.det;draw()});
  on('#pgo',()=>{const a=+v('#pamt'),bal=S.opening+S.earn-S.paid;S.pe='';
   if(!(a>=100))S.pe='Minimum payout is ₹100.';else if(a>bal)S.pe='Amount is more than your available balance.';
   if(S.pe)return draw();
   S.paid+=a;S.py={a,st:'REQUESTED'};S.wa='';L('Payout ₹'+a+' requested · waiting for admin approval');draw()});
  on('#pap',()=>{const p=S.py;p.st='PROCESSING';L('Admin approved payout ₹'+p.a+' · RazorpayX PROCESSING');draw();setTimeout(()=>{if(S.py!==p)return;p.st='SUCCESS';S.tx.unshift({t:'Just now',m:'Payout to UPI',a:-p.a});S.wa='WhatsApp confirmation sent via MSG91 for ₹'+p.a+'.';L('RazorpayX payout SUCCESS · MSG91 WhatsApp sent');draw()},2000)});
  on('#prj',()=>{S.paid-=S.py.a;S.py.st='REJECTED';L('Admin rejected payout · amount returned to agent balance');draw()});
- on('#bs',()=>addShared(true));on('#bo',()=>addShared(false));
- on('#da',()=>{S.bt.orders.push({id:'LP'+Math.floor(1000+Math.random()*9000),who:'Sender '+String.fromCharCode(65+S.bt.orders.length),q:1});S.dyn='done';L('Dynamic addition accepted · stop added · route recalculated · '+bq()+'/5 parcels'+(bq()===3?' · batch bonus unlocked':''));draw()});
- on('#dd',()=>{S.dyn='declined';L('Dynamic offer declined · order stays available');draw()});
+ 
  document.querySelectorAll('[data-sp]').forEach(e=>e.onclick=()=>{const k=e.dataset.sp==='c'?'sc':'sa';S[k]=S[k]>=3?4:S[k]+1;draw()});
  document.querySelectorAll('[data-ss]').forEach(e=>e.onclick=()=>{S[e.dataset.ss==='c'?'sc':'sa']=4;draw()});
  document.querySelectorAll('[data-th]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.th;S.ct='book';draw()});
  document.querySelectorAll('[data-qh]').forEach(e=>e.onclick=()=>{S.f.pick=S.ad[+e.dataset.qh].z;S.msg='';S.ct='book';draw()});
  document.querySelectorAll('[data-sh]').forEach(e=>e.onclick=()=>{S.shift=e.dataset.sh;L('Agent shift set to '+S.shift);draw()});
  document.querySelectorAll('[data-ag]').forEach(e=>e.onclick=()=>{S.at=e.dataset.ag;draw()});
- on('#sos',()=>{S.sos=1;L('SOS raised by Ravi K. · support notified with GPS');draw()})}
-$('skip').onclick=()=>{if(S.o&&S.o.st==='MATCHING'){L('20-min window closed · batch finalized · offering to agents');offer();draw()}};
+ on('#sos',()=>{S.sos=1;L('SOS raised by Ravi K. · support notified with GPS');draw()});
+ document.querySelectorAll('[data-pv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.pv,x=S.bt.orders[i];if(v('#po'+i)!==x.pOtp){S.ae2='Wrong OTP for '+x.who+'. Ask that sender for their 4-digit code.';return draw()}S.ae2='';x.st='C';L(`Pickup OTP verified for ${x.id} (${x.who}) · parcel collected`);sync();draw()});
+ document.querySelectorAll('[data-ph]').forEach(e=>e.onclick=()=>{const x=S.bt.orders[+e.dataset.ph];x.st='P';L(`Proof photo uploaded for ${x.id}`);sync();draw()});
+ document.querySelectorAll('[data-dv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.dv,x=S.bt.orders[i];if(v('#do'+i)!==x.dOtp){S.ae2='Wrong receiver OTP. The parcel stays undelivered.';return draw()}S.ae2='';x.st='D';L(`Receiver OTP verified · ${x.id} delivered`);if(i===0){const o=S.o;S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'})}sync();if(S.bt.orders.every(y=>y.st==='D'))doneBatch();else draw()})}
+$('skip').onclick=()=>{if(S.bt&&S.bt.st==='collecting')finalizeBatch()};
 $('rej').onclick=()=>reject('reject');
-$('rst').onclick=()=>{clearInterval(tm);S=fresh();draw()};
+$('rst').onclick=()=>{clearInterval(tm);clearInterval(wt);S=fresh();draw()};
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('show',p.id===b.dataset.t))});
 draw();
 </script></body></html>
