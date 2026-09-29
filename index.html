@@ -69,7 +69,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 const CFG={offer:30,tiers:{sched:{n:'Scheduled',b:20,k:1.2,m:30,eta:'Fixed slot'},shared:{n:'Shared Standard',b:28,k:2,m:40,eta:'30–45 min'},express:{n:'Express',b:60,k:3,m:75,eta:'15–25 min'}},
 hubs:{sp:'SP Road',kl:'Kalasipalya',out:'Whitefield (outside service area)'},drops:{6:'Indiranagar · 6 km',9:'Jayanagar · 9 km',14:'Koramangala · 14 km'}};
 const OUT='Sorry, Loopit currently delivers from SP Road and Kalasipalya areas only. We are expanding soon.';
-const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'book',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'home',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null});
+const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'home',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'dash',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null,shift:'Morning',sos:0,hist:[{id:'LP2041',t:'Shared Standard',r:'SP Road → Indiranagar',p:46,s:'Delivered'},{id:'LP2037',t:'Express',r:'Kalasipalya → Jayanagar',p:99,s:'Delivered'}]});
 let S=fresh(),tm=null;
 const $=id=>document.getElementById(id);
 const L=m=>S.log.unshift({t:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}),m});
@@ -104,7 +104,7 @@ function offer(){S.o.st='OFFERED';S.t=CFG.offer;S.otp='';S.photo=false;S.otpErr=
  tm=setInterval(()=>{S.t--;const e=$('tm');if(e)e.textContent=S.t+'s';if(S.t<=0){clearInterval(tm);reject('timeout')}},1000)}
 function reject(w){clearInterval(tm);if(!S.o||!['OFFERED','MATCHING'].includes(S.o.st))return;S.o.st='UNASSIGNED';L(w==='timeout'?'Offer timed out · no agents left in zone':'All zone agents rejected · order UNASSIGNED · admin alert fired');draw()}
 function setSt(st,m){S.o.st=st;if(m)L(m);draw()}
-function done(){const o=S.o;const e=Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1);const b=(o.tier==='shared'&&bq()>=3)?30:0;S.earn+=e+b;S.bonus+=b;S.n++;S.tx.unshift({t:'Today',m:'Delivery '+o.id+(b?' + batch bonus':''),a:e+b});L(`Delivered · receiver OTP verified · agent +₹${e}${b?' +₹30 batch bonus':''}`);setSt('DELIVERED')}
+function done(){const o=S.o;const e=Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1);const b=(o.tier==='shared'&&bq()>=3)?30:0;S.earn+=e+b;S.bonus+=b;S.n++;S.tx.unshift({t:'Today',m:'Delivery '+o.id+(b?' + batch bonus':''),a:e+b});S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'});L(`Delivered · receiver OTP verified · agent +₹${e}${b?' +₹30 batch bonus':''}`);setSt('DELIVERED')}
 function cancel(by){const o=S.o,p=['MATCHING','OFFERED','UNASSIGNED'].includes(o.st)||by==='admin'?100:o.st==='AGENT_ASSIGNED'?50:0;
  clearInterval(tm);S.refund={p,amt:Math.round(o.amt*p/100)};S.rev-=S.refund.amt;setSt('CANCELLED',`${by==='admin'?'Admin':'Customer'} cancelled · refund ${p}% (₹${S.refund.amt})`)}
 function cust(){
@@ -112,7 +112,16 @@ function cust(){
  const E=S.ce?`<div class="err">${S.ce}</div>`:'';
  if(S.sc<4)return splash('c');
  if(!S.cu)return W('Log in or register',S.cs==='phone'?`<p class="small">New numbers are registered automatically.</p><label>Mobile number</label><input id="cph" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${S.cph}">${E}<button class="p" id="cgo" style="width:100%;margin-top:14px">Send OTP</button>`:`<p class="small">OTP sent to +91 ${S.cph}. Demo OTP: 1234</p><label>Enter OTP</label><input id="cotp" inputmode="numeric" maxlength="4" placeholder="4 digits">${E}<button class="p" id="cver" style="width:100%;margin-top:14px">Verify and continue</button><button id="cchg" style="width:100%;margin-top:8px">Change number</button>`);
- const nav=`<div class="row" style="margin-top:14px">${[['book','Book'],['addr','Addresses'],['prof','Profile']].map(([k,n])=>`<button data-ct="${k}" class="${S.ct===k?'on':''}">${n}</button>`).join('')}</div>`;
+ const nav=`<div class="row" style="margin-top:14px">${[['home','Home'],['book','Book'],['addr','Addresses'],['prof','Profile']].map(([k,n])=>`<button data-ct="${k}" class="${S.ct===k?'on':''}">${n}</button>`).join('')}</div>`;
+ if(S.ct==='home'){const act=S.o&&!['DELIVERED','CANCELLED'].includes(S.o.st);
+  const st={MATCHING:'Order confirmed · pickup in 30–45 min',OFFERED:'Order confirmed · pickup in 30–45 min',UNASSIGNED:'Order confirmed · pickup in 30–45 min',AGENT_ASSIGNED:'Agent is heading to pickup',COLLECTED:'On the way to the drop',AT_DELIVERY:'Agent is at the delivery address',PROOF_UPLOADED:'Completing delivery'};
+  return W('Home',`<p style="font-size:18px;font-weight:600">Hi, Priya</p><div class="box row" style="align-items:center"><span><span class="small">Current location</span><br><b>SP Road, Bengaluru</b></span><span class="tag g" style="flex:none">In service area</span></div>
+<button class="p" data-ct="book" style="width:100%;margin-top:12px;padding:14px">New booking</button>
+${act?`<div class="box"><div class="ttl" style="margin:0"><b>Active · ${S.o.id}</b><span class="tag">${CFG.tiers[S.o.tier].n}</span></div><p class="small">${st[S.o.st]}</p><button data-ct="book" style="width:100%;margin-top:8px">Track order</button></div>`:''}
+<div class="box" style="background:var(--or);border-color:var(--or);color:#fff"><b class="d" style="font-size:16px">Save up to 45% with Shared Standard</b><br><span style="font-size:13px">Parcels going your way share one agent.</span></div>
+<label>Delivery types</label><div class="row">${Object.entries(CFG.tiers).map(([k,t])=>`<button data-th="${k}" style="padding:8px 6px;font-size:12px"><b>${t.n}</b><br><span class="small">from ₹${t.m}</span></button>`).join('')}</div>
+<label>Book from a saved address</label><div class="row" style="flex-wrap:wrap">${S.ad.map((x,i)=>`<button data-qh="${i}" style="flex:none;font-size:12px;padding:5px 9px">${x.l}</button>`).join('')||'<span class="small">No saved addresses yet.</span>'}</div>
+<label>Recent bookings</label>${S.hist.slice(0,3).map(x=>`<div class="box row small" style="align-items:center;margin-top:6px"><span><b>${x.t}</b> · ${x.id}<br>${x.r}</span><span style="flex:none;text-align:right">₹${x.p}<br>${x.s}</span></div>`).join('')}`+nav)}
  if(S.ct==='book')return book().replace(/<\/div>$/,nav+'</div>');
  if(S.ct==='addr')return W('Saved addresses',S.ad.map((x,i)=>`<div class="box row" style="align-items:center"><span><b>${x.l}</b><br><span class="small">${x.a} · ${CFG.hubs[x.z]}</span></span><button class="r" data-del="${i}" style="flex:none">Remove</button></div>`).join('')+`<label>Label</label><input id="al" placeholder="Home, Office, Shop"><label>Address</label><input id="aa" placeholder="Street, area"><label>Area</label><select id="az">${Object.entries(CFG.hubs).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>${E}<button class="p" id="aadd" style="width:100%;margin-top:10px">Save address</button><p class="small" style="margin-top:8px">Saved addresses show up as quick-select buttons when you book.</p>`+nav);
  return W('Profile',`<div class="box"><b>Priya Traders</b><br><span class="small">+91 ${S.cph}</span></div><div class="box small">${S.ad.length} saved addresses. Order history and invoices appear here after delivery.</div><button class="r" id="lo" style="width:100%;margin-top:12px">Log out</button>`+nav)}
@@ -147,8 +156,16 @@ function agent(){const g=S.ag,E=S.ae?`<div class="err">${S.ae}</div>`:'';
  if(g.st==='kyc')return W('Register and KYC',`<p class="small">All three documents are required. Cashfree checks them automatically.</p>${[['a','Aadhaar card'],['d','Driving licence'],['r','Vehicle RC']].map(([k,n])=>`<button data-dk="${k}" class="${g.dk[k]?'g':''}" style="width:100%;margin-top:8px;text-align:left">${g.dk[k]?'✓ '+n+' uploaded':n+' · tap to upload'}</button>`).join('')}<label>Vehicle number (2-wheeler)</label><input id="avn" value="${g.vn}" placeholder="KA 01 AB 1234">${E}<button class="p" id="aks" style="width:100%;margin-top:14px">Submit for verification</button>`);
  if(g.st==='pending')return W('Under review',`<div class="box"><b>Documents submitted</b><p class="small">Cashfree result: PASS. Super Admin reviews next, and you can't receive offers until approved. Open the Super Admin panel to approve.</p></div>`);
  if(g.st==='rejected')return W('KYC rejected',`<div class="err">Super Admin rejected your documents. Upload clear copies and resubmit.</div><button class="p" id="ars" style="width:100%;margin-top:12px">Resubmit documents</button>`);
- const nav=`<div class="row" style="margin-top:14px">${[['home','Tasks'],['earn','Earnings']].map(([k,n])=>`<button data-at="${k}" class="${S.at===k?'on':''}">${n}</button>`).join('')}</div>`;
- return (S.at==='home'?agentHome():earn()).replace(/<\/div>$/,nav+'</div>')}
+ const nav=`<div class="row" style="margin-top:14px">${[['dash','Home'],['home','Tasks'],['earn','Earnings']].map(([k,n])=>`<button data-at="${k}" class="${S.at===k?'on':''}">${n}</button>`).join('')}</div>`;
+ return (S.at==='dash'?dash():S.at==='home'?agentHome():earn()).replace(/<\/div>$/,nav+'</div>')}
+function dash(){const o=S.o,act=o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st);
+ return `<div class="phone"><div class="ttl"><h2>Hi, Ravi</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div>
+ <div class="row" style="flex-wrap:wrap;gap:6px"><span class="tag">SP Road zone</span><span class="tag g">KYC approved</span><span class="tag">2-wheeler</span></div>
+ <label>Shift</label><div class="row">${[['Morning','6–12'],['Day','10–4'],['Evening','4–8']].map(([n,t])=>`<button data-sh="${n}" class="${S.shift===n?'on':''}" style="padding:8px 4px"><b>${n}</b><br><span style="font-size:11px">${t}</span></button>`).join('')}</div>
+ <div class="k" style="grid-template-columns:repeat(3,1fr);margin-top:12px"><div><b>${S.n}</b><span>Deliveries</span></div><div><b>₹${S.earn}</b><span>Today</span></div><div><b>₹${S.bonus}</b><span>Bonus</span></div></div>
+ ${o&&o.st==='OFFERED'?`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>New offer</b><span class="tag r" id="tm">${S.t}s</span></div><p class="small">${CFG.hubs[o.pick]} · ${bq()} parcel${bq()>1?'s':''}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">View offer</button></div>`:act?`<div class="box"><b>Active task · ${o.id}</b><p class="small">${o.st.replace(/_/g,' ').toLowerCase()}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">Open task</button></div>`:`<div class="box"><b>${S.agent?'You are online':'You are offline'}</b><p class="small">${S.agent?'Offers show up here when a batch is ready in your zone.':'Go online to receive offers during your shift.'}</p></div>`}
+ <div class="box"><b>Batch bonus</b><p class="small">₹30 for every batch of 3+ parcels. No daily cap.</p></div>
+ <button class="r" id="sos" style="width:100%;margin-top:10px">${S.sos?'SOS sent · support is notified':'SOS'}</button></div>`}
 function earn(){const b=S.opening+S.earn-S.paid,wk=[420,380,510,460,390,S.earn],dy=['Mon','Tue','Wed','Thu','Fri','Today'];
  return `<div class="phone"><div class="ttl"><h2>Earnings</h2><span class="tag g">Agent app</span></div>
  <div class="box"><span class="small">Available to cash out</span><div class="big">₹${b}</div><span class="small">Today ₹${S.earn} from ${S.n} deliveries · batch bonuses ₹${S.bonus}</span></div>
@@ -200,7 +217,7 @@ function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if
  const v=s=>(q(s)||{}).value||'';
  on('#cgo',()=>{const p=v('#cph');if(!/^\d{10}$/.test(p)){S.ce='Enter a valid 10-digit mobile number.';return draw()}S.cph=p;S.cs='otp';S.ce='';draw()});
  on('#cver',()=>{if(v('#cotp')!=='1234'){S.ce='Wrong or expired OTP. Check the code or change the number.';return draw()}S.cu=1;S.ce='';L('Customer logged in with OTP · +91 '+S.cph);draw()});
- on('#cchg',()=>{S.cs='phone';S.ce='';draw()});on('#lo',()=>{S.cu=null;S.cs='phone';S.ct='book';draw()});
+ on('#cchg',()=>{S.cs='phone';S.ce='';draw()});on('#lo',()=>{S.cu=null;S.cs='phone';S.ct='home';draw()});
  document.querySelectorAll('[data-ct]').forEach(e=>e.onclick=()=>{S.ct=e.dataset.ct;S.ce='';draw()});
  document.querySelectorAll('[data-qa]').forEach(e=>e.onclick=()=>{S.f.pick=S.ad[+e.dataset.qa].z;S.msg='';draw()});
  document.querySelectorAll('[data-del]').forEach(e=>e.onclick=()=>{S.ad.splice(+e.dataset.del,1);draw()});
@@ -225,7 +242,12 @@ function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if
  on('#da',()=>{S.bt.orders.push({id:'LP'+Math.floor(1000+Math.random()*9000),who:'Sender '+String.fromCharCode(65+S.bt.orders.length),q:1});S.dyn='done';L('Dynamic addition accepted · stop added · route recalculated · '+bq()+'/5 parcels'+(bq()===3?' · batch bonus unlocked':''));draw()});
  on('#dd',()=>{S.dyn='declined';L('Dynamic offer declined · order stays available');draw()});
  document.querySelectorAll('[data-sp]').forEach(e=>e.onclick=()=>{const k=e.dataset.sp==='c'?'sc':'sa';S[k]=S[k]>=3?4:S[k]+1;draw()});
- document.querySelectorAll('[data-ss]').forEach(e=>e.onclick=()=>{S[e.dataset.ss==='c'?'sc':'sa']=4;draw()})}
+ document.querySelectorAll('[data-ss]').forEach(e=>e.onclick=()=>{S[e.dataset.ss==='c'?'sc':'sa']=4;draw()});
+ document.querySelectorAll('[data-th]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.th;S.ct='book';draw()});
+ document.querySelectorAll('[data-qh]').forEach(e=>e.onclick=()=>{S.f.pick=S.ad[+e.dataset.qh].z;S.msg='';S.ct='book';draw()});
+ document.querySelectorAll('[data-sh]').forEach(e=>e.onclick=()=>{S.shift=e.dataset.sh;L('Agent shift set to '+S.shift);draw()});
+ document.querySelectorAll('[data-ag]').forEach(e=>e.onclick=()=>{S.at=e.dataset.ag;draw()});
+ on('#sos',()=>{S.sos=1;L('SOS raised by Ravi K. · support notified with GPS');draw()})}
 $('skip').onclick=()=>{if(S.o&&S.o.st==='MATCHING'){L('20-min window closed · batch finalized · offering to agents');offer();draw()}};
 $('rej').onclick=()=>reject('reject');
 $('rst').onclick=()=>{clearInterval(tm);S=fresh();draw()};
