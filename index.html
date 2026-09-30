@@ -58,7 +58,7 @@ table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;p
 @media(min-width:700px) and (max-width:1099px){.two{grid-template-columns:1fr 1fr}}
 .map{height:120px;border-radius:12px;background:var(--card2);border:1px solid var(--line);position:relative;overflow:hidden}
 .map span{position:absolute;font-size:11px;padding:2px 7px;border-radius:8px;background:var(--card);border:1px solid var(--line)}
-.small{font-size:12px;color:var(--mu)}h2 b{color:var(--or)}.dots{display:flex;gap:6px;justify-content:center}.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.dots i.d{background:var(--or)}.ring{width:96px;height:96px;margin:0 auto;border-radius:50%;border:8px solid var(--or);border-right-color:transparent;animation:sp 2.2s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.ring{animation:none}}
+.small{font-size:12px;color:var(--mu)}.sl{position:relative;height:48px;border-radius:24px;background:var(--card2);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:13px;margin-top:10px;user-select:none}.sh{position:absolute;left:4px;top:4px;width:40px;height:38px;border-radius:20px;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none;font-weight:700}@keyframes mvA{from{left:6%;top:68%}to{left:50%;top:38%}}.mv{animation:mvA 8s ease-in-out forwards}@media(prefers-reduced-motion:reduce){.mv{animation:none;left:50%;top:38%}}h2 b{color:var(--or)}.dots{display:flex;gap:6px;justify-content:center}.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.dots i.d{background:var(--or)}.ring{width:96px;height:96px;margin:0 auto;border-radius:50%;border:8px solid var(--or);border-right-color:transparent;animation:sp 2.2s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.ring{animation:none}}
 </style></head><body>
 <header><h1 class="d">Loop<b>It</b> <span class="small">prototype · Final Release flow</span></h1>
 <div class="demo">Demo controls:
@@ -70,7 +70,7 @@ const CFG={offer:30,tiers:{sched:{n:'Scheduled',b:20,k:1.2,m:30,eta:'Fixed slot'
 hubs:{sp:'SP Road',kl:'Kalasipalya',out:'Whitefield (outside service area)'},drops:{6:'Indiranagar · 6 km',9:'Jayanagar · 9 km',14:'Koramangala · 14 km'}};
 const OUT='Sorry, Loopit currently delivers from SP Road and Kalasipalya areas only. We are expanding soon.';
 const G='Hi, I am the LoopIt assistant. Pick a topic or type your question.';
-const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'home',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'dash',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null,shift:'Morning',sos:0,ai:0,req:null,det:0,ae2:'',chat:{c:[{r:'b',t:G}],a:[{r:'b',t:G}]},cat:{},tkc:{},tk:[],hist:[{id:'LP2041',t:'Shared Standard',r:'SP Road → Indiranagar',p:46,s:'Delivered'},{id:'LP2037',t:'Express',r:'Kalasipalya → Jayanagar',p:99,s:'Delivered'}]});
+const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'home',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'dash',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null,shift:'Morning',sos:0,rp:0,sel:null,ai:0,req:null,det:0,ae2:'',chat:{c:[{r:'b',t:G}],a:[{r:'b',t:G}]},cat:{},tkc:{},tk:[],hist:[{id:'LP2041',t:'Shared Standard',r:'SP Road → Indiranagar',p:46,s:'Delivered'},{id:'LP2037',t:'Express',r:'Kalasipalya → Jayanagar',p:99,s:'Delivered'}]});
 let S=fresh(),tm=null,wt=null;
 const $=id=>document.getElementById(id);
 const L=m=>S.log.unshift({t:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}),m});
@@ -84,19 +84,24 @@ const mk=(who,q)=>({id:'LP'+rnd(),who,q,drop:[6,9,14][Math.floor(Math.random()*3
 function sync(){const y=S.bt.orders[0];S.o.st={A:'AGENT_ASSIGNED',C:'COLLECTED',P:'PROOF_UPLOADED',D:'DELIVERED'}[y.st]}
 function doneBatch(){const bt=S.bt,e=bt.orders.reduce((a,x)=>a+Math.round(agentPay(x.drop)),0),b=bq()>=3?30:0;S.earn+=e+b;S.bonus+=b;S.n+=bt.orders.length;bt.done=1;bt.st='completed';S.tx.unshift({t:'Today',m:'Batch '+bt.id+' · '+bt.orders.length+' drops'+(b?' + batch bonus':''),a:e+b});L(`Batch ${bt.id} completed · all ${bt.orders.length} deliveries closed · agent +₹${e}${b?' +₹30 batch bonus':''}`);draw()}
 function batchUI(){const bt=S.bt,all=bt.orders,nm=x=>CFG.drops[x.drop].split(' · ')[0],pl=x=>x.q+' parcel'+(x.q>1?'s':''),er=S.ae2?`<div class="err">${S.ae2}</div>`:'';
+ const stl={A:'To pick up',C:'Picked up',P:'Proof uploaded',D:'Delivered'};
+ if(bt.st==='in_progress'&&!S.rp&&all.some(x=>x.st==='A'))return trackUI(CFG.hubs[bt.hub]);
+ if(bt.st==='in_progress'&&S.sel!=null&&all[S.sel]){const i=S.sel,x=all[i];
+  return `<div class="box"><div class="ttl" style="margin:0"><b>${x.st==='A'?'Parcel pickup':'Parcel delivery'}</b><span class="tag">${stl[x.st]}</span></div>
+<p class="small">Booking ${x.id} · ${x.who} · ${pl(x)}<br>Pickup: ${CFG.hubs[bt.hub]}<br>Drop: ${nm(x)}</p>
+${x.st==='A'?`<label>Sender pickup OTP</label><div class="row"><input id="po${i}" inputmode="numeric" maxlength="4" placeholder="4 digits"><button class="p" data-pv="${i}" style="flex:none">Verify and collect</button></div>`:`${x.st==='C'?`<button class="p" data-ph="${i}" style="width:100%;margin-top:8px">Take proof photo</button>`:`<span class="tag g">Photo uploaded</span>`}<label>Receiver OTP</label><div class="row"><input id="do${i}" inputmode="numeric" maxlength="4" placeholder="4 digits" ${x.st==='P'?'':'disabled'}><button class="p" data-dv="${i}" style="flex:none" ${x.st==='P'?'':'disabled'}>Deliver</button></div>`}
+${er}<button id="bk" style="width:100%;margin-top:10px">Back to batch</button></div>`}
  let h=`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>Batch ${bt.id}</b><span class="tag ${bt.st==='ready'?'g':''}">${bt.st.replace('_',' ')}</span></div>
 <p class="small">First booking ${all[0].id} · ${CFG.hubs[bt.hub]} → ${nm(all[0])}</p>
 <div class="ttl" style="margin:8px 0 0"><b>${bq()}/5 parcels</b>${bt.st==='collecting'?`<span class="tag r bwt">${fm(S.bw)}</span>`:''}</div>
 <div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div>
 <p class="small">Drops: ${all.map(nm).join(', ')}</p>
 ${bt.st==='collecting'?'<p class="small">More bookings can join until the timer ends or the batch reaches 5. You do not have to wait for 5 (demo speed: 1 s = 1 min).</p>':''}
-<button id="vd" style="width:100%;margin-top:8px">${S.det?'Hide':'View'} batch details</button>
-${S.det?all.map(x=>`<div class="row small" style="margin-top:6px"><span>${x.id} · ${x.who} · ${pl(x)}<br>${CFG.hubs[bt.hub]} → ${nm(x)}</span><span class="tag" style="flex:none">${{A:'to pick up',C:'picked up',P:'proof uploaded',D:'delivered'}[x.st]}</span></div>`).join(''):''}
+${bt.st!=='in_progress'?`<button id="vd" style="width:100%;margin-top:8px">${S.det?'Hide':'View'} batch details</button>`:''}
+${S.det&&bt.st!=='in_progress'?all.map(x=>`<div class="row small" style="margin-top:6px"><span>${x.id} · ${x.who} · ${pl(x)}<br>${CFG.hubs[bt.hub]} → ${nm(x)}</span><span class="tag" style="flex:none">${stl[x.st]}</span></div>`).join(''):''}
 ${bt.st==='ready'?'<button class="p" id="st" style="width:100%;margin-top:8px">Start trip</button>':''}</div>`;
  if(bt.st==='collecting'||bt.st==='ready'){if(S.req&&bt.st==='collecting')h+=`<div class="box" style="border-color:var(--or)"><b>Additional shared request</b><p class="small">${S.req.who} · ${CFG.hubs[bt.hub]} → ${nm(S.req)} · 1 parcel</p><div class="row" style="margin-top:8px"><button class="g" id="ra">Accept</button><button class="r" id="rr">Reject</button></div></div>`;return h}
- if(all.some(x=>x.st==='A'))h+=`<div class="box"><b>Pickup at ${CFG.hubs[bt.hub]}</b><p class="small">Collect each parcel with that sender's OTP.</p>${all.map((x,i)=>x.st!=='A'?'':`<div style="margin-top:8px"><span class="small">${x.who} · ${pl(x)} · drop ${nm(x)}</span><div class="row" style="margin-top:4px"><input id="po${i}" inputmode="numeric" maxlength="4" placeholder="Sender OTP"><button class="p" data-pv="${i}" style="flex:none">Collect</button></div></div>`).join('')}${er}</div>`;
- if(all.some(x=>x.st!=='A'))h+=`<div class="box"><b>Route · ${all.filter(x=>x.st!=='D').length} drops left</b>${all.map((x,i)=>x.st==='A'?'':x.st==='D'?`<div class="row small" style="margin-top:6px"><span>${nm(x)} · ${x.who}</span><span class="tag g" style="flex:none">Delivered</span></div>`:`<div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><b>${nm(x)}</b> <span class="small">· ${x.who} · ${pl(x)}</span>${x.st==='C'?`<button class="p" data-ph="${i}" style="width:100%;margin-top:6px">Take proof photo</button>`:`<span class="tag g" style="margin-left:6px">Photo uploaded</span>`}<div class="row" style="margin-top:6px"><input id="do${i}" inputmode="numeric" maxlength="4" placeholder="Receiver OTP" ${x.st==='P'?'':'disabled'}><button class="p" data-dv="${i}" style="flex:none" ${x.st==='P'?'':'disabled'}>Deliver</button></div></div>`).join('')}${er}</div>`;
- return h}
+ return h+`<div class="box"><b>Parcels · ${all.filter(x=>x.st!=='D').length} left</b>${all.map((x,i)=>`<div class="row" style="align-items:center;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px"><span class="small"><b>${x.id}</b> · ${x.who}<br>${pl(x)} · drop ${nm(x)}</span><span style="flex:none;text-align:right"><span class="tag ${x.st==='D'?'g':''}">${stl[x.st]}</span>${x.st==='D'?'':`<br><button class="p" data-sel="${i}" style="margin-top:4px;padding:5px 10px;font-size:12px">${x.st==='A'?'Pickup':'Deliver'}</button>`}</span></div>`).join('')}</div>`}
 const TH=[1080,840,600,360,120];
 function tickW(){S.bw-=15;document.querySelectorAll('.bwt').forEach(e=>e.textContent=fm(S.bw));
  if(S.bt&&S.bt.st==='collecting'){if(S.ai<5&&S.bw<=TH[S.ai]){S.ai++;newReq()}if(S.bw<=0)finalizeBatch()}}
@@ -130,7 +135,16 @@ function chatUI(w){const c=S.chat[w],tk=S.tk.find(x=>x.id===S.tkc[w]),chips=w===
  <div class="row" style="flex-wrap:wrap;margin-top:8px">${chips.map(x=>`<button data-cq="${w}|${x}" style="flex:none;font-size:12px;padding:5px 9px">${x}</button>`).join('')}</div>
  <div class="row" style="margin-top:8px"><input id="ci${w}" placeholder="Ask a question"><button class="p" data-cs="${w}" style="flex:none">Send</button></div>
  ${tk?`<div class="box small"><b>Ticket ${tk.id}</b> · <span class="tag ${tk.st==='Resolved'?'g':''}">${tk.st}</span><br>${tk.cat} · ${tk.pr} priority<button data-cn="${w}" style="width:100%;margin-top:8px">Start a new chat</button></div>`:c.some(m=>m.r==='u')?`<button class="p" data-ct2="${w}" style="width:100%;margin-top:10px">Convert this chat to a ticket</button>`:''}`}
+function trackUI(hub){return `<div class="box"><div class="ttl" style="margin:0"><b>Head to pickup</b><span class="tag">ETA 6 min · 1.8 km</span></div><p class="small">${hub}</p><div class="map" style="height:150px"><svg viewBox="0 0 100 50" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><path d="M10 38 Q38 44 52 24 T88 12" fill="none" stroke="var(--or)" stroke-width="1.2" stroke-dasharray="3 2"/></svg><span style="left:74%;top:6%">Pickup</span><span class="mv" style="background:var(--or);color:#fff;border-color:var(--or)">You</span></div><div class="sl"><span>Slide when you reach pickup</span><div class="sh" role="button" tabindex="0" aria-label="Slide to confirm you reached the pickup location">➜</div></div></div>`}
+function bindSlide(){document.querySelectorAll('.sl').forEach(el=>{const h=el.querySelector('.sh');let x0=null,mx=0,dx=0;
+ const ok=()=>{S.rp=1;L('Agent confirmed reached at pickup location');draw()};
+ h.onpointerdown=e=>{x0=e.clientX;mx=el.clientWidth-h.offsetWidth-8;dx=0;h.setPointerCapture(e.pointerId)};
+ h.onpointermove=e=>{if(x0===null)return;dx=Math.max(0,Math.min(mx,e.clientX-x0));h.style.transform=`translateX(${dx}px)`};
+ h.onpointerup=()=>{if(x0===null)return;x0=null;if(dx>=mx*.85)ok();else h.style.transform=''};
+ h.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ok()}}})}
 function bindSup(){const d=document;
+ d.querySelectorAll('[data-sel]').forEach(e=>e.onclick=()=>{S.sel=+e.dataset.sel;S.ae2='';draw()});
+ const bk=$('bk');if(bk)bk.onclick=()=>{S.sel=null;S.ae2='';draw()};
  d.querySelectorAll('[data-cq]').forEach(e=>e.onclick=()=>{const [w,t]=e.dataset.cq.split('|');ask(w,t)});
  d.querySelectorAll('[data-cs]').forEach(e=>e.onclick=()=>{const w=e.dataset.cs,t=$('ci'+w).value.trim();if(t)ask(w,t)});
  d.querySelectorAll('input[id^=ci]').forEach(i=>i.onkeydown=ev=>{if(ev.key==='Enter')i.parentNode.querySelector('[data-cs]').click()});
@@ -156,7 +170,7 @@ function pay(){const f=S.f;S.msg='';
  else if(f.tier==='sched'){L('Scheduled: advance-paid, assigned at slot');offer()}
  else{L('Shared request sent to agents');offer()}
  draw()}
-function offer(){S.o.st='OFFERED';S.t=CFG.offer;S.otp='';S.photo=false;S.otpErr='';L('Offer sent to agent · timer '+CFG.offer+'s');clearInterval(tm);
+function offer(){S.rp=0;S.sel=null;S.o.st='OFFERED';S.t=CFG.offer;S.otp='';S.photo=false;S.otpErr='';L('Offer sent to agent · timer '+CFG.offer+'s');clearInterval(tm);
  tm=setInterval(()=>{S.t--;const e=$('tm');if(e)e.textContent=S.t+'s';if(S.t<=0){clearInterval(tm);reject('timeout')}},1000)}
 function reject(w){clearInterval(tm);if(!S.o||!['OFFERED','MATCHING'].includes(S.o.st))return;S.o.st='UNASSIGNED';L(w==='timeout'?'Offer timed out · no agents left in zone':'All zone agents rejected · order UNASSIGNED · admin alert fired');draw()}
 function setSt(st,m){S.o.st=st;if(m)L(m);draw()}
@@ -235,7 +249,8 @@ function agentHome(){const o=S.o,B=S.bt&&o&&['AGENT_ASSIGNED','COLLECTED','PROOF
   if(!o||(o.st==='MATCHING'&&!S.bt)||(['DELIVERED','CANCELLED','UNASSIGNED'].includes(o.st)&&!B))h+=`<div class="box"><b>${o&&o.st==='MATCHING'?'Waiting for a batch':'No active task'}</b><p class="small">Offers appear here when a batch is finalized.</p></div>`;
  if(o&&o.st==='OFFERED')h+=`<div class="box"><div class="ttl" style="margin:0"><b>New ${o.tier==='shared'?'shared booking request':'order offer'}</b><span class="tag r" id="tm">${S.t}s</span></div><p>${CFG.hubs[o.pick]} → ${CFG.drops[o.drop].split(' · ')[0]}<br>${bq()} parcel${bq()>1?'s':''}${S.bt?' from '+S.bt.orders.length+' senders':''} · est. ₹${Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1)}${o.tier==='shared'&&bq()>=3?' + ₹30 bonus':''}</p><div class="row" style="margin-top:8px"><button class="g" id="acc" ${S.agent?'':'disabled'}>Accept</button><button class="r" id="rj">Reject</button></div></div>`;
  if(B)h+=batchUI();
- if(!B&&o&&['AGENT_ASSIGNED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)){const pick=o.st==='AGENT_ASSIGNED',gate=o.st==='PROOF_UPLOADED';
+ if(!B&&o&&o.st==='AGENT_ASSIGNED'&&!S.rp)h+=trackUI(CFG.hubs[o.pick]);
+ if(!B&&o&&['AGENT_ASSIGNED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)&&(o.st!=='AGENT_ASSIGNED'||S.rp)){const pick=o.st==='AGENT_ASSIGNED',gate=o.st==='PROOF_UPLOADED';
  h+=`<div class="box"><b>${pick?'Pickup · enter sender OTP':'Delivery at '+CFG.drops[o.drop].split(' · ')[0]}</b>
  ${o.st==='AT_DELIVERY'?`<button class="p" id="ph" style="width:100%;margin-top:8px">Take proof photo</button><p class="small" style="margin-top:6px">OTP entry stays locked until the photo uploads.</p>`:''}
  <label>${pick?'Pickup OTP':'Receiver OTP'}</label><input id="otp" inputmode="numeric" maxlength="4" ${pick||gate?'':'disabled'} placeholder="4 digits" value="${S.otp}">
@@ -257,7 +272,7 @@ function admin(){const o=S.o,un=o&&o.st==='UNASSIGNED';
  <h3 style="margin:14px 0 6px">Configuration</h3><div class="small">Offer timeout ${CFG.offer}s · min distance 3 km · batch bonus ₹30 at 3+ parcels · suspicious report ₹500 (auto-credit after 48h)</div></div>
  <div><h3 style="margin-bottom:6px">Live agent board</h3><div class="map"><span style="left:20%;top:55%">SP Road hub</span><span style="left:62%;top:22%">Kalasipalya hub</span>${S.agent&&S.ag.st==='ok'?`<span style="left:40%;top:36%;background:var(--gr);color:#04140F;border-color:var(--gr)">Ravi K. · ${o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)?'on trip':'available'}</span>`:''}</div>
  <h3 style="margin:14px 0 6px">Audit trail</h3><div class="log">${S.log.length?S.log.map(x=>`<div>${x.t} · ${x.m}</div>`).join(''):'<div>No events yet.</div>'}</div></div></div></div>`;return h}
-function draw(){$('c').innerHTML=cust();$('a').innerHTML=agent();$('s').innerHTML=admin();bind();bindSup()}
+function draw(){$('c').innerHTML=cust();$('a').innerHTML=agent();$('s').innerHTML=admin();bind();bindSup();bindSlide()}
 function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if(e)e.onclick=fn};
  document.querySelectorAll('[data-k]').forEach(e=>e.onchange=()=>{const k=e.dataset.k;S.f[k]=e.type==='checkbox'?e.checked:e.type==='number'?+e.value:e.value;S.msg='';draw()});
  document.querySelectorAll('[data-tier]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.tier;draw()});
@@ -308,9 +323,9 @@ function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if
  document.querySelectorAll('[data-sh]').forEach(e=>e.onclick=()=>{S.shift=e.dataset.sh;L('Agent shift set to '+S.shift);draw()});
  document.querySelectorAll('[data-ag]').forEach(e=>e.onclick=()=>{S.at=e.dataset.ag;draw()});
  on('#sos',()=>{S.sos=1;L('SOS raised by Ravi K. · support notified with GPS');draw()});
- document.querySelectorAll('[data-pv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.pv,x=S.bt.orders[i];if(v('#po'+i)!==x.pOtp){S.ae2='Wrong OTP for '+x.who+'. Ask that sender for their 4-digit code.';return draw()}S.ae2='';x.st='C';L(`Pickup OTP verified for ${x.id} (${x.who}) · parcel collected`);sync();draw()});
+ document.querySelectorAll('[data-pv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.pv,x=S.bt.orders[i];if(v('#po'+i)!==x.pOtp){S.ae2='Wrong OTP for '+x.who+'. Ask that sender for their 4-digit code.';return draw()}S.ae2='';x.st='C';S.sel=null;L(`Pickup OTP verified for ${x.id} (${x.who}) · parcel collected`);sync();draw()});
  document.querySelectorAll('[data-ph]').forEach(e=>e.onclick=()=>{const x=S.bt.orders[+e.dataset.ph];x.st='P';L(`Proof photo uploaded for ${x.id}`);sync();draw()});
- document.querySelectorAll('[data-dv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.dv,x=S.bt.orders[i];if(v('#do'+i)!==x.dOtp){S.ae2='Wrong receiver OTP. The parcel stays undelivered.';return draw()}S.ae2='';x.st='D';L(`Receiver OTP verified · ${x.id} delivered`);if(i===0){const o=S.o;S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'})}sync();if(S.bt.orders.every(y=>y.st==='D'))doneBatch();else draw()})}
+ document.querySelectorAll('[data-dv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.dv,x=S.bt.orders[i];if(v('#do'+i)!==x.dOtp){S.ae2='Wrong receiver OTP. The parcel stays undelivered.';return draw()}S.ae2='';x.st='D';S.sel=null;L(`Receiver OTP verified · ${x.id} delivered`);if(i===0){const o=S.o;S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'})}sync();if(S.bt.orders.every(y=>y.st==='D'))doneBatch();else draw()})}
 $('skip').onclick=()=>{if(S.bt&&S.bt.st==='collecting')finalizeBatch()};
 $('rej').onclick=()=>reject('reject');
 $('rst').onclick=()=>{clearInterval(tm);clearInterval(wt);S=fresh();draw()};
