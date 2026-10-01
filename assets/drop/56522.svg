@@ -1,0 +1,24 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="348" height="218" viewBox="0 0 348 218" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="SVG Map Visuals: Roads &#38; Traced Route" clip-path="url(#clip0_0_19)">
+<path id="Vector" d="M-19.2273 59.4545H377.136M-9.31818 158.545H367.227M99.6818 -19.8182V237.818M258.227 -9.90909V227.909" stroke="#E2E8F0" stroke-width="2.47727" stroke-linecap="round"/>
+<path id="Vector_2" d="M40.2273 227.909L218.591 -19.8182M-9.31818 188.273L357.318 39.6364" stroke="#E6ECE9" stroke-width="1.98182"/>
+<g id="Vector_3" filter="url(#filter0_d_0_19)">
+<path d="M195.8 77.2909V89.1818L165.082 97.1091V120.891L178.955 150.618L212.645 184.309C217.6 189.264 221.564 187.282 218.591 178.364" stroke="#FF4B0B" stroke-width="3.46818" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_0_19" x="159.348" y="73.5568" width="66.0012" height="121.14" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="2"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.294118 0 0 0 0 0.0431373 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_19"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_19" result="shape"/>
+</filter>
+<clipPath id="clip0_0_19">
+<rect width="348" height="218" fill="white"/>
+</clipPath>
+</defs>
+</svg>

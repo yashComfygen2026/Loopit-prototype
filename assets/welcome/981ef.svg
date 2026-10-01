@@ -1,0 +1,14 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="390" height="852" viewBox="0 0 390 852" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Ambient background soft curve decoration &#226;&#134;&#146; SVG" opacity="0.6" clip-path="url(#clip0_0_53)">
+<path id="Vector" d="M-56.7961 420.32C37.8641 401.388 113.592 477.116 227.184 458.184C321.845 439.252 397.573 486.583 454.369 467.65V836.825H-56.7961V420.32V420.32" fill="url(#paint0_linear_0_53)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_53" x1="198.786" y1="420.32" x2="198.786" y2="836.825" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FFF1E8" stop-opacity="0.8"/>
+<stop stop-color="#FFE1CC" stop-opacity="0.3"/>
+</linearGradient>
+<clipPath id="clip0_0_53">
+<rect width="390" height="852" fill="white"/>
+</clipPath>
+</defs>
+</svg>
