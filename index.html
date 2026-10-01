@@ -504,6 +504,202 @@ img{display:block;flex:none}
 .adr .edit{color:var(--rd)}
 select.inp{appearance:auto}
 
+/* journey screens 13, 19–45: section structure from the Untitled layer outline; colours/icons reuse the design system */
+.mt12{margin-top:12px}.mt16{margin-top:16px}.mb16{margin-bottom:16px}
+.lft{text-align:left}.mid{align-self:center;text-align:center}
+.inp.tall{height:46px}
+.phrow{display:flex;gap:8px}.phrow .inp{flex:1;min-width:0}
+.ccp{flex:none;height:46px;padding:0 14px;border:1px solid var(--ln);border-radius:12px;background:#fff;display:flex;align-items:center;gap:6px;font:700 13px var(--pj);color:var(--navy)}
+.psh{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.osp{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:9999px;background:var(--pe);border:1px solid var(--pe2);font:700 12px/16px var(--in);color:var(--or)}
+.popt{display:flex;flex-direction:column;gap:8px}
+.po{display:flex;align-items:center;gap:14px;width:100%;padding:17px;background:#fff;border:1px solid var(--ln);border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.05);text-align:left}
+.po.on{padding:16px;background:var(--pe);border:2px solid var(--or)}
+.poi{width:44px;height:44px;flex:none;border-radius:12px;background:var(--pe);display:grid;place-items:center;font:800 10px/1 var(--in);letter-spacing:.3px;color:var(--or)}
+.po.on .poi{background:#fff}
+.rec{font:600 10px/14px var(--in);font-style:normal;color:var(--gr);background:#ecfdf5;border-radius:9999px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.trust{display:flex;gap:12px;align-items:center;margin-top:16px;padding:16px;border-radius:16px;background:#f0fdf4;border:1px solid #d1fae5}
+.trust .ic40{background:#fff}
+.trust b{display:block;font:700 13px/18px var(--in);color:var(--navy)}.trust small{font:400 12px/16px var(--in);color:var(--mu)}
+.pst{width:160px;height:160px;margin:8px auto 16px;display:grid;place-items:center}
+.pglow{position:relative;width:144px;height:144px;border-radius:50%;background:radial-gradient(circle,#fff1e8 0,#ffe1cc 72%)}
+.pph{position:absolute;left:39px;top:21px;width:56px;height:96px;border:4px solid var(--navy);border-radius:14px;background:#fff}
+.pph i{position:absolute;left:50%;top:6px;width:16px;height:3px;border-radius:2px;background:var(--navy);transform:translateX(-50%)}
+.pcd{position:absolute;left:61px;top:65px;width:60px;height:40px;border-radius:8px;background:var(--grad);box-shadow:0 6px 12px -4px rgba(255,75,11,.5);animation:bob 1.6s ease-in-out infinite}
+.pcd i{position:absolute;left:8px;top:10px;width:12px;height:9px;border-radius:2px;background:var(--pe3)}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.spk{position:absolute;font-style:normal;color:var(--or);font-size:16px;line-height:1}.spk.a{left:12px;top:12px}.spk.b{right:14px;bottom:18px;font-size:11px}
+.pchk{margin-top:24px;padding:20px 16px;display:flex;flex-direction:column;gap:24px;text-align:left}
+.pci{display:flex;align-items:center;gap:12px;font:500 14px/20px var(--in);color:var(--mu)}
+.pci b{width:28px;height:28px;flex:none;border-radius:50%;background:var(--bl);display:grid;place-items:center}
+.pci.d{color:var(--navy)}.pci.d b{background:var(--grad)}
+.pci.c{color:var(--or);font-weight:600}.pci.c b{border:3px solid var(--pe3);border-top-color:var(--or);background:#fff;animation:rot 1s linear infinite}
+.secb{display:flex;gap:6px;align-items:center;justify-content:center;font:500 12px/16px var(--in);color:var(--mu);margin-top:20px}
+.hrow2{display:flex;align-items:center;gap:12px;width:100%;padding:16px;text-align:left}
+.pbtn{flex:none;padding:6px 14px;border-radius:9999px;background:var(--pe);border:1px solid var(--pe2);font:700 12px/16px var(--in);color:var(--or)}
+.pbtn.on{background:var(--grad);color:#fff;border-color:transparent}
+.hro{display:flex;flex-direction:column;align-items:center;margin:8px 0 20px}
+.hpod{position:relative;width:112px;height:112px;border-radius:50%;background:radial-gradient(circle,#fff1e8 0,#ffe1cc 100%);display:grid;place-items:center;margin-bottom:16px}
+.hbox{border-radius:28%;background:#fff;display:grid;place-items:center;flex:none;box-shadow:0 8px 16px -6px rgba(255,75,11,.3)}
+.hbg{position:absolute;right:4px;bottom:4px;width:34px;height:34px;border-radius:50%;border:3px solid #fff;display:grid;place-items:center;font:800 16px/1 var(--pj);font-style:normal;color:#fff;background:var(--gr)}
+.hbg.r{background:var(--rd)}.hbg.o{background:var(--or)}
+.cardi{position:relative;width:64px;height:44px;border-radius:8px;background:var(--grad);box-shadow:0 8px 16px -6px rgba(255,75,11,.4)}
+.cardi i{position:absolute;left:0;right:0;top:10px;height:8px;background:rgba(1,29,53,.35)}
+.tip{padding:14px 16px;border-radius:16px;background:var(--pe);border:1px solid var(--pe2);text-align:left}
+.tip b{display:block;font:700 13px/18px var(--in);color:var(--navy)}
+.tip p{font:400 12px/18px var(--in);color:var(--br);margin-top:2px}
+.kv{padding:4px 16px;margin-top:16px;text-align:left}
+.kv>div,.kv0>div{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;font:400 13px/18px var(--in);color:var(--mu)}
+.kv>div+div,.kv0>div+div{border-top:1px solid var(--bl2)}
+.kv b,.kv0 b{font:700 13px/18px var(--in);color:var(--navy);display:flex;align-items:center;gap:8px;text-align:right}
+.kv .tot b{font:700 18px/24px var(--pj);color:var(--or)}
+.kv0{margin-top:4px}
+.rdt{color:var(--rd)!important}
+.dsum{display:flex;align-items:center;gap:12px;padding:16px;margin-top:16px;text-align:left}
+.cpy{flex:none;padding:6px 12px;border-radius:9999px;background:var(--pe);font:700 12px/16px var(--in);color:var(--or)}
+.cpy.sm{padding:2px 8px;font-size:11px}
+.idc{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;margin:16px 0;text-align:left}
+.idc small{display:block;font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--mu)}
+.idc b{font:700 16px/22px var(--pj);color:var(--navy);letter-spacing:.3px}
+.cour{display:flex;align-items:center;gap:12px;padding:16px;margin-top:16px;text-align:left}
+.cour .lrt b{font:600 15px/20px var(--pj);color:var(--ink)}
+.cour.flat{padding:0;margin-top:12px}
+.pod44,.pod56{flex:none;border-radius:16px;background:var(--pe);display:grid;place-items:center}.pod44{width:44px;height:44px}.pod56{width:56px;height:56px}
+.otpd{padding:24px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:8px;background:linear-gradient(180deg,#fff1e8,#fff);border-color:var(--pe2)}
+.otpic{width:64px;height:64px;border-radius:20px;background:#fff;display:grid;place-items:center;box-shadow:0 8px 16px -6px rgba(255,75,11,.3);margin-bottom:4px}
+.otpd h2{font:700 18px/24px var(--pj);color:var(--ink)}
+.otpd p{font:400 13px/19.5px var(--in);color:var(--br);max-width:270px}
+.odig{display:flex;gap:8px;margin:8px 0}
+.odig b{width:44px;height:56px;border-radius:12px;background:#fff;border:1.5px solid var(--pe2);display:grid;place-items:center;font:800 26px var(--pj);color:var(--or)}
+.vtm{font:500 12px/16px var(--in);color:var(--mu)}
+.pcard2{padding:16px;display:flex;flex-direction:column;gap:12px}
+.chipsr{display:flex;gap:6px;flex-wrap:wrap}.chipsr.c{justify-content:center}
+.chipsr span{padding:4px 10px;border-radius:9999px;background:var(--bl);font:600 11px/16px var(--in);color:var(--ink)}
+.ptile{display:flex;gap:12px;align-items:center;padding:12px;border-radius:16px;background:var(--pe)}
+.ptile small{display:block;font:500 11px/14px var(--in);color:var(--br)}.ptile b{font:600 13px/18px var(--in);color:var(--ink)}
+.hcard{padding:20px 16px 16px;text-align:center}
+.hcard .hro{margin:0 0 12px}
+.illc{position:relative;display:flex;justify-content:center;margin-top:12px}
+.okb{position:absolute;right:calc(50% - 88px);top:0;width:32px;height:32px;border-radius:50%;background:var(--gr);border:3px solid #fff;display:grid;place-items:center}
+.map.big{height:400px}
+.zt{font:600 20px/1 var(--in);color:var(--navy)}
+.etab{display:flex;justify-content:space-between;align-items:center;padding:16px;border-radius:24px;background:var(--pe)}
+.etab small{display:block;font:600 12px/16px var(--in);color:var(--br)}.etab>span>b{font:700 26px/32px var(--pj);letter-spacing:-.5px}
+.pass{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:16px;background:#ecfdf5;border:1px solid #d1fae5}
+.pass>span:first-child{width:36px;height:36px;flex:none;border-radius:50%;background:#fff;display:grid;place-items:center}
+.pass b{display:block;font:700 14px/20px var(--in);color:var(--navy)}.pass small{font:400 12px/16px var(--in);color:var(--mu)}
+.tsh .tl{filter:none;padding:0;margin:0}
+.proofs{display:flex;gap:12px}
+.prf{flex:1;min-width:0;padding:8px;text-align:left}
+.prph{height:112px;border-radius:12px;background:var(--pe);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;margin-bottom:8px}
+.prph small{font:500 11px/14px var(--in);color:var(--br)}
+.prph.sig{background:#f8fafc}.prph svg{width:100%;height:96px}
+.prf>b{display:block;font:600 12px/16px var(--in);color:var(--navy)}.prf>small{font:400 11px/14px var(--in);color:var(--mu)}
+.rprof{padding:20px 16px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px}
+.av72{position:relative;width:72px;height:72px;border-radius:50%;overflow:hidden;background:var(--pe3)}
+.av72 img{position:absolute;left:0;top:-39.51%;width:100%;height:179.02%}
+.rprof h2{font:700 18px/24px var(--pj);color:var(--ink)}.rprof p{font:400 12px/16px var(--in);color:var(--mu)}
+.rcard{padding:20px 16px;margin-top:16px;text-align:center}
+.rcard h3{font:700 16px/24px var(--pj);color:var(--ink)}
+.rcard .fl,.rcard .ta{text-align:left}
+.chipg{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:12px}
+.chipg.l{justify-content:flex-start;margin-top:0}
+.chp{padding:8px 14px;border-radius:9999px;border:1px solid var(--ln);background:#fff;font:600 12px/16px var(--in);color:var(--mu)}
+.chp.on{background:var(--pe);border-color:var(--or);color:var(--or)}
+.chipr{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-left:-16px;margin-right:-16px;padding:0 16px}
+.chipr::-webkit-scrollbar{display:none}
+.chipr .chp{flex:none}
+.ol{margin-top:16px}
+.ol>*+*{margin-top:12px}
+.subh{display:flex;justify-content:space-between;align-items:center;margin:8px 0 12px}
+.more{font:700 18px/1 var(--in);color:var(--navy);background:#fff;border:1px solid var(--ln)}
+.boh{display:flex;flex-wrap:wrap;align-items:center;gap:12px;width:100%;padding:16px;text-align:left}
+.mbar{flex-basis:100%;height:6px;border-radius:6px;background:var(--pe);overflow:hidden}
+.mbar i{display:block;height:100%;border-radius:6px;background:var(--grad)}
+.secc{padding:16px;margin-top:16px}
+.secc h2{font:700 15px/22px var(--pj);color:var(--navy)}
+.shr{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.mini{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.mi{display:flex;gap:12px;align-items:center}
+.mi>i{width:12px;height:12px;flex:none;border-radius:50%;background:var(--bl2)}
+.mi.d>i{background:var(--or)}.mi.c>i{background:#fff;border:3px solid var(--or)}
+.mi b{display:block;font:600 13px/18px var(--in);color:var(--navy)}.mi small{font:400 11px/14px var(--in);color:var(--mu)}
+.mi:not(.d):not(.c) b{color:var(--mu)}
+.prow{display:flex;gap:12px;align-items:center;margin-top:12px}
+.thumbs{width:44px;height:44px;flex:none;border-radius:12px;background:var(--pe);display:grid;place-items:center}
+.hint2{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:16px;padding:10px 10px 10px 16px;border-radius:9999px;background:var(--bl);font:600 13px/18px var(--in);color:var(--ink)}
+.bsum{padding:16px}.bsum p{font:400 12px/16px var(--in);color:var(--mu);margin-top:6px}
+.wp{display:flex;gap:12px;margin-top:14px;text-align:left}
+.wp>i{width:12px;height:12px;flex:none;margin-top:4px;border-radius:50%;border:3px solid var(--or);background:#fff}.wp>i.o{background:var(--or)}
+.wp small{display:block;font:600 10px/14px var(--in);letter-spacing:.5px;text-transform:uppercase;color:var(--mu)}
+.wp b{display:block;font:700 14px/20px var(--in);color:var(--navy)}.wp span>span{font:400 12px/16px var(--in);color:var(--mu)}
+.pcg{display:flex;gap:10px;margin-top:12px}
+.pcg>div{flex:1;padding:12px;border-radius:12px;background:var(--bl)}
+.pcg small{display:block;font:500 11px/14px var(--in);color:var(--mu)}.pcg b{font:700 15px/22px var(--pj);color:var(--navy)}.pcg b.or{color:var(--or)}
+.badge2{display:flex;gap:6px;align-items:center;margin-top:12px;padding:8px 12px;border-radius:9999px;background:#ecfdf5;font:600 12px/16px var(--in);color:#047857}
+.half{display:flex;gap:10px}.half .sec{flex:1}
+.rcpt{position:relative;width:56px;height:68px;border-radius:8px;background:#fff;box-shadow:0 8px 16px -6px rgba(255,75,11,.3);display:flex;flex-direction:column;gap:6px;padding:12px 10px}
+.rcpt i{height:4px;border-radius:2px;background:var(--pe3)}.rcpt i:first-child{background:var(--or);width:60%}
+.rcpt b{margin-top:auto;height:8px;background:repeating-linear-gradient(90deg,var(--navy) 0 2px,transparent 2px 4px)}
+.stamp{margin-top:16px;padding:12px;border-radius:12px;border:1px dashed var(--gr);font:600 12px/16px var(--in);color:#047857}
+.sdc{display:flex;align-items:center;gap:12px;width:100%;padding:16px;text-align:left}
+.sdt{flex:none;width:76px;padding:8px 4px;border-radius:12px;background:var(--pe);text-align:center}
+.sdt b{display:block;font:700 12px/16px var(--pj);color:var(--or)}.sdt small{font:500 10px/14px var(--in);color:var(--br)}
+.rpill{flex:none;padding:4px 10px;border-radius:9999px;background:var(--bl);font:600 11px/14px var(--in);color:#3b5b8a}
+.ovh{display:flex;align-items:center;gap:12px;padding:16px;text-align:left}
+.slots2{padding:0 16px 16px}
+.dmap.sm{height:144px;margin-top:0}
+.dmap.sm .dfrom{top:12px;left:12px;transform:none}.dmap.sm .dsel{bottom:12px;right:auto;left:12px}
+.recb{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding:12px;border-radius:12px;background:var(--pe)}
+.recb small{display:block;font:500 11px/14px var(--in);color:var(--br)}.recb b{font:700 14px/20px var(--in);color:var(--navy)}
+.nt{display:flex;gap:12px;padding:16px;text-align:left}
+.nt.un{border-color:var(--pe2);background:#fffaf6}
+.nt .lrt p{font:400 12px/18px var(--in);color:var(--br);margin:2px 0}
+.nt.un .lrt b::after{content:'';display:inline-block;width:8px;height:8px;margin-left:6px;border-radius:50%;background:var(--or);vertical-align:middle}
+.hb44.bell{position:relative}.hb44.bell i{position:absolute;top:10px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--or);border:1px solid #fff}
+.adc{display:flex;gap:12px;align-items:flex-start;padding:16px;text-align:left}
+.adl{font:500 13px/18px var(--in);color:var(--navy)}
+.ada{display:flex;gap:6px;flex:none}
+.ib36{width:36px;height:36px;border-radius:50%;background:var(--bl);display:grid;place-items:center;font:600 14px/1 var(--in);color:var(--navy)}
+.ib36.r{background:#fef3f2;color:var(--rd)}
+.atype{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.at{height:82px;border-radius:16px;border:1px solid var(--ln);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:600 12px/16px var(--in);color:var(--mu)}
+.at>span{width:32px;height:32px;border-radius:50%;background:var(--pe);display:grid;place-items:center}
+.at.on{border:2px solid var(--or);background:var(--pe);color:var(--or)}.at.on>span{background:#fff}
+.sw{position:relative;width:48px;height:28px;flex:none;border-radius:9999px;background:var(--ln);transition:background .2s}
+.sw i{position:absolute;left:3px;top:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .2s}
+.sw.on{background:var(--or)}.sw.on i{left:23px}
+.phc{padding:24px 16px 16px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.avh{position:relative;width:92px;height:92px;border-radius:50%;background:var(--pe2);padding:6px}
+.avh>span{width:80px;height:80px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font:700 32px var(--pj)}
+.avh.lg{margin:8px auto 0}
+.avb{position:absolute;right:0;bottom:2px;width:28px;height:28px;border-radius:50%;background:#fff;border:1px solid var(--ln);display:grid;place-items:center;font:600 13px/1 var(--in);color:var(--or)}
+.phc h2{font:700 18px/24px var(--pj);color:var(--navy);margin-top:12px;display:flex;align-items:center;gap:6px}
+.vbd2{width:18px;height:18px;border-radius:50%;background:var(--gr);color:#fff;font:800 10px/18px var(--in);font-style:normal;text-align:center}
+.phc p{font:400 12px/16px var(--in);color:var(--mu);margin-top:4px}
+.bento3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:16px}
+.bento3>div{padding:12px 8px;border-radius:16px;background:var(--bl)}
+.bento3 b{display:block;font:700 16px/22px var(--pj);color:var(--navy)}.bento3 small{font:500 11px/14px var(--in);color:var(--mu)}
+.rpct{flex:none;padding:4px 10px;border-radius:9999px;background:var(--pe);font:700 11px/14px var(--in);color:var(--or)}.rpct.g{background:#ecfdf5;color:var(--gr)}
+.pol{list-style:none;padding:0;margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.pol li{position:relative;padding-left:16px;font:400 12px/16px var(--in);color:var(--mu)}
+.pol li::before{content:'';position:absolute;left:0;top:5px;width:6px;height:6px;border-radius:50%;background:#d1d5db}
+.pol li.on{color:var(--navy);font-weight:600}.pol li.on::before{background:var(--or)}
+.rad2{display:flex;gap:10px;align-items:center;margin-top:12px;font:500 13px/18px var(--in);color:var(--navy);cursor:pointer}
+.rad2 input{width:18px;height:18px;accent-color:var(--or);flex:none}
+.rad2.big{align-items:flex-start;padding:12px;border-radius:12px;border:1px solid var(--ln)}
+.rad2.big:has(input:checked){border-color:var(--or);background:var(--pe)}
+.rad2 b{display:block;font:700 14px/20px var(--in)}.rad2 small{font:400 12px/16px var(--in);color:var(--mu)}
+.frs{display:block;font:700 16px/22px var(--pj);color:var(--navy);margin-top:2px}
+.rdc{color:var(--rd)}
+.idp{margin:-8px 0 16px}
+.tls.x .tli b{background:#fee4e2;color:var(--rd);font:800 13px/1 var(--in)}
+.tls.x .tlt b{color:var(--rd)}
+.prev{display:flex;gap:12px;align-items:center;padding:12px;border-radius:16px;background:var(--bl);text-align:left}
+.h3d{font:700 18px/24px var(--pj);color:var(--navy);margin-top:4px}
+.note0{font:400 12px/18px var(--in);color:var(--mu);margin:4px 0 12px}
+.lnk.mid{display:flex;justify-content:center;width:100%;padding:4px 0}
+
 /* sheet + toast */
 .ov{position:absolute;inset:0;z-index:20;background:rgba(1,29,53,.45);display:flex;align-items:flex-end;animation:fd .2s}
 .sh{width:100%;background:#fff;border-radius:32px 32px 0 0;padding:12px 24px 28px;text-align:center;display:flex;flex-direction:column;gap:12px;animation:up .25s ease-out}
@@ -516,7 +712,7 @@ select.inp{appearance:auto}
 @keyframes rot{to{transform:rotate(360deg)}}
 @keyframes fd{from{opacity:0}}
 @keyframes up{from{transform:translateY(40px);opacity:0}}
-#toast{position:absolute;left:50%;bottom:104px;z-index:30;transform:translateX(-50%) translateY(8px);max-width:320px;padding:10px 16px;border-radius:12px;background:var(--ink);color:#fff;font:500 13px/18px var(--in);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+#toast{position:absolute;left:50%;bottom:176px;z-index:30;transform:translateX(-50%) translateY(8px);max-width:320px;padding:10px 16px;border-radius:12px;background:var(--ink);color:#fff;font:500 13px/18px var(--in);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
 #toast.show{opacity:1;transform:translateX(-50%)}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
 
@@ -538,6 +734,7 @@ select.inp{appearance:auto}
   <p id="dstate">No booking yet</p>
   <button data-act="advance">Next delivery step</button>
   <button data-act="noAgent">No partner found</button>
+  <button data-act="failDel">Delivery fails</button>
   <button data-act="failPay" id="fp" aria-pressed="false">Fail next payment</button>
   <button data-act="reset">Reset prototype</button>
  </aside>
@@ -551,8 +748,13 @@ const TIERS={sched:{n:'Scheduled',b:20,k:1.2,m:30,d:'For high-volume merchants w
  express:{n:'Express',b:60,k:3,m:75,d:'Urgent delivery (immediate solo agent)',ic:['tier/f04a5.svg',16,20]}};
 const VEH={'2W':['2 Wheeler','Optimized for swift city delivery'],'3W':['3 Wheeler','For bulky parcels · +40% fare']};
 const WT=['< 1 kg','1 - 5 kg','5 - 10 kg','10+ kg'],SLOTS=['9–11 AM','11 AM–1 PM','2–4 PM','4–6 PM'];
-const PM=[['upi','UPI','Google Pay, PhonePe, Paytm'],['card','Credit / Debit card','Visa, Mastercard, RuPay'],['nb','Net banking','All major banks']];
-const ST={confirmed:['Finding partner','b'],scheduled:['Scheduled','b'],assigned:['Partner assigned','o'],picked:['In Transit',''],arriving:['Arriving',''],delivered:['Delivered',''],cancelled:['Cancelled','r']};
+const PM=[['upi','UPI','Google Pay, PhonePe, Paytm','Recommended'],['card','Credit / Debit Card','Visa, Mastercard, RuPay',''],['nb','Net Banking','All major Indian banks','']],PMN={upi:'UPI',card:'Card',nb:'Net Banking'};
+const ST={confirmed:['Finding partner','b'],scheduled:['Scheduled','b'],assigned:['Partner assigned','o'],atpickup:['At pickup','o'],picked:['In Transit',''],arriving:['Arriving',''],delivered:['Delivered',''],failed:['Delivery failed','r'],reattempt:['Reattempt','o'],rts:['Returning','r'],returned:['Returned','r'],cancelled:['Cancelled','r']};
+const DONE=['delivered','cancelled','returned'];
+// order state -> the live screen that shows it (Untitled 21, 22, 25, 26, 27, 42, 43, 44)
+const LS={confirmed:'confirmed',scheduled:'confirmed',assigned:'assigned',atpickup:'pickotp',picked:'transit',arriving:'arriving',failed:'dfailed',reattempt:'reattempt',rts:'rts'};
+const LIVESCR=[...new Set(Object.values(LS))];
+const INS=['Call first','Leave with security','Don\'t ring bell'];
 const OUT='Sorry, Loopit currently picks up from SP Road and Kalasipalya only. We are expanding soon.';
 const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -564,14 +766,20 @@ const pl=id=>PICK.find(p=>p.id===id),dr=id=>DROP.find(d=>d.id===id);
 const clock=d=>{let h=d.getHours();const ap=h<12?'AM':'PM';h=h%12||12;return `${h}:${String(d.getMinutes()).padStart(2,'0')} ${ap}`};
 const stamp=(d=new Date())=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}, ${clock(d)}`;
 const later=m=>clock(new Date(Date.now()+m*6e4));
-const otp4=()=>String(1000+Math.floor(Math.random()*9000));
-const act=()=>S.o&&!['delivered','cancelled'].includes(S.o.st)?S.o:null;
-const refundPct=o=>['confirmed','scheduled'].includes(o.st)?100:o.st==='assigned'?50:0;
+const otp4=()=>String(1000+Math.floor(Math.random()*9000)),otp6=()=>String(100000+Math.floor(Math.random()*900000));
+const act=()=>S.o&&!DONE.includes(S.o.st)?S.o:null;
+const ord=()=>S.orders.find(x=>x.id===S.sel)||S.o;
+const refundPct=o=>['confirmed','scheduled'].includes(o.st)?100:['assigned','atpickup'].includes(o.st)?50:0;
 
 const freshForm=(tier='shared')=>({pick:'',drop:'',desc:'',qty:1,wt:'< 1 kg',photos:0,rn:'',rp:'',veh:'2W',decl:false,tier,day:'Tomorrow',slot:''});
-const fresh=()=>({scr:'splash',ph:'',otp:'',err:'',q:'',qd:'',recent:['sp','kl'],f:freshForm(),o:null,pm:'upi',bd:false,det:false,rate:0,sheet:null,failNext:false,al:'',aa:'',az:'sp',
- orders:[{id:'LP248620',pick:'kl',drop:'ind',tier:'shared',qty:1,veh:'2W',amt:40,st:'delivered',when:'12 Sep 2026, 11:20 AM'}],
- ad:[{l:'Shop',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}]});
+const fresh=()=>({scr:'splash',ph:'',otp:'',err:'',q:'',qd:'',recent:['sp','kl'],f:freshForm(),o:null,pm:'upi',bd:false,rate:0,tags:[],cmt:'',tip:0,sheet:null,failNext:false,
+ sel:null,ssel:null,rs2:0,cr:'0',ca:'cancel',of:'all',nf:'all',sf:'up',ed:-1,af:null,pf:null,pk:0,txn:'',
+ user:{n:'Rahul Sharma',e:'rahul.sharma@gmail.com'},
+ orders:[{id:'LP248620',pick:'kl',drop:'ind',tier:'shared',veh:'2W',desc:'Documents',qty:1,wt:'< 1 kg',photos:0,rn:'Anita Rao',rp:'9876500000',amt:40,st:'delivered',when:'12 Sep 2026, 11:20 AM',
+  t:{confirmed:'12 Sep 2026, 10:05 AM',assigned:'12 Sep 2026, 10:09 AM',picked:'12 Sep 2026, 10:31 AM',delivered:'12 Sep 2026, 11:20 AM'}}],
+ sched:[{id:'LP248790',pick:'sp',drop:'kor',day:'Tomorrow',slot:'9–11 AM',rec:'Daily',amt:30},{id:'LP248791',pick:'kl',drop:'ind',day:'Mon, 15 Sep',slot:'2–4 PM',rec:'Weekly',amt:30}],
+ ad:[{t:'Home',a:'12, MG Road, Bangalore',lm:'',ph:'',ins:[],def:1},{t:'Office',a:'4th Floor, Prestige Tech Park, Bangalore',lm:'',ph:'',ins:[]},{t:'Warehouse',a:'SP Road, Bangalore',lm:'Heavy parcel loading dock ready',ph:'',ins:[]},{t:'Shop',a:'Koramangala, Bangalore',lm:'',ph:'',ins:[]}],
+ notes:[['f','Save 35% with Shared Standard','Share the route with nearby parcels this week.','11 Sep 2026'],['o','Parcel Delivered','Your parcel #LP248745 has been delivered successfully.','12 Sep 2026'],['o','Out for Delivery','Rohit Kumar is on the way with your parcel #LP248745.','12 Sep 2026'],['o','Parcel Collected','Your parcel has been picked up from SP Road Hub.','12 Sep 2026'],['o','Agent Assigned','Rohit Kumar has been assigned to your order.','12 Sep 2026'],['o','Booking Confirmed','Your booking #LP248745 is confirmed.','12 Sep 2026']].map(([k,t,m,d])=>({k,t,m,d,r:1}))});
 let S=fresh(),T={};
 
 // ponytail: flat fare formula from the old prototype; swap for the admin-configured pricing API
@@ -581,9 +789,9 @@ function fare(f=S.f){const t=TIERS[f.tier],km=dr(f.drop)?.km||0,per=Math.round(M
 const WIFI=[['home/292fa','60.71% 40.63% 17.86% 40.63%'],['home/87e9f','21.43% 19.06% 56.35% 19.06%'],['home/a4e12','42.86% 32.32% 41.2% 32.32%']];
 const SB=`<div class="sb" aria-hidden="true"><span>9:41</span><span class="sbi">${im('home/04143.svg',16,14)}${cmp(WIFI,'wifi')}<span class="bat"></span></span></div>`;
 const HD=(t,back)=>`<header class="hd">${SB}<div class="hdr"><button class="back" data-go="${back}" aria-label="Go back">${im('tier/a7047.svg',13.333,13.333)}</button><h1 class="ht">${t}</h1><span class="sp"></span></div></header>`;
-const HT=(t,back)=>`<header class="hd t">${SB}<div class="hdr"><span class="hrow">${back?`<button class="hb44" data-go="${back}" aria-label="Go back">${im('assigned/b7c55.svg',16,16)}</button>`:''}<h1 class="ht">${t}</h1></span><button class="hb44" data-act="toast" data-m="Support chat opens here" aria-label="Help and support">${im('assigned/dc40c.svg',18.333,16.5)}</button></div></header>`;
+const HT=(t,back,r)=>`<header class="hd t">${SB}<div class="hdr"><span class="hrow">${back?`<button class="hb44" data-go="${back}" aria-label="Go back">${im('assigned/b7c55.svg',16,16)}</button>`:''}${t?`<h1 class="ht">${t}</h1>`:''}</span>${r==='bell'?`<button class="hb44 bell" data-go="notifications" aria-label="Notifications">${im('home/cb675.svg',24,24)}${S.notes.some(n=>!n.r)?'<i></i>':''}</button>`:`<button class="hb44" data-act="toast" data-m="Support chat opens here" aria-label="Help and support">${im('assigned/dc40c.svg',18.333,16.5)}</button>`}</div></header>`;
 const STEP=['Pickup','Drop','Details','Review'];
-const steps=n=>`<div class="stp" aria-label="Step ${n} of 4"><div class="stpl"><i style="width:${(n-1)/3*100}%"></i></div>${STEP.map((l,i)=>{const k=i+1,c=k<n?'done':k===n?'cur':'';return `<div class="st ${c}"><b>${k<n?im('review/59a43.svg',11.933,9.1):k}</b><span>${l}</span></div>`}).join('')}</div>`;
+const steps=n=>`<div class="stp" aria-label="Step ${n} of 4"><div class="stpl"><i style="width:${Math.min(n-1,3)/3*100}%"></i></div>${STEP.map((l,i)=>{const k=i+1,c=k<n?'done':k===n?'cur':'';return `<div class="st ${c}"><b>${k<n?im('review/59a43.svg',11.933,9.1):k}</b><span>${l}</span></div>`}).join('')}</div>`;
 const cta=(l,a,c='')=>`<button class="cta ${c}" ${a}>${l}${im('tier/77060.svg',13.333,13.333)}</button>`;
 const flow=(t,back,n,body,foot,hdr)=>`<div class="scr">${hdr||HD(t,back)}<main class="bd${n?'':' pt'}">${n?steps(n):''}${body}${S.err?`<p class="ferr" role="alert">${S.err}</p>`:''}</main>${foot?`<footer class="ft">${foot}</footer>`:''}</div>`;
 const HP=(t,back,ic)=>`<header class="hp">${SB}<div class="hpr"><button class="hpb" data-go="${back}" aria-label="Go back">${im(ic,24,24)}</button><h1>${t}</h1></div></header>`;
@@ -605,15 +813,28 @@ const rowsFor=(o,edit)=>{const P=pl(o.pick),D=dr(o.drop),t=TIERS[o.tier];return 
  +rvRow(tierIc(o.tier),'Delivery Type',`${t.n} (₹${fare(o).per}/parcel)`,o.tier==='sched'?`${o.day}, ${o.slot}`:t.d,edit&&'tier')};
 const partnerHead=(bento,noBtns)=>`<div class="who"><span class="whol"><span class="av"><span class="ph">${bento?`<img class="fit" src="${A}track/7d9b8.png" alt="">`:`<img src="${A}assigned/7ee4a.png" alt="">`}</span>${bento?'':'<i></i>'}</span><span><span class="nm">Rohit Kumar${bento?im('track/29f5e.svg',16.5,15.75):''}</span><span class="rtg">${bento?im('track/60e79.svg',13.333,12.667):im('assigned/5e613.svg',12.5,11.875)}4.8 <em class="${bento?'':'gt'}">(320 deliveries)</em></span></span></span>
  ${noBtns?'':`<span class="cbs"><button class="cb" data-act="toast" data-m="Calling Rohit… (demo)" aria-label="Call Rohit Kumar">${im('assigned/39624.svg',15,15)}</button></span>`}</div>`;
-const MAP={assigned:[128,148],picked:[165,200],arriving:[205,246]};
-const mapBlock=o=>{const [l,t]=MAP[o.st]||[233,275];return `<div class="map"><img class="mimg" src="${A}track/a3ff0.png" alt="Map of the delivery route">
+const MAP={assigned:[128,148],atpickup:[118,78],picked:[165,200],arriving:[205,246]};
+const mapBlock=(o,z)=>{const [l,t]=MAP[o.st]||[233,275];return `<div class="map${z?' big':''}"><img class="mimg" src="${A}track/a3ff0.png" alt="Map of the delivery route">
   <div class="route" aria-hidden="true"><i class="v" style="inset:-1.63% -3.04%"><img src="${A}track/69db0.svg" alt=""></i><i class="v" style="inset:-1.05% -1.96%"><img src="${A}track/50258.svg" alt=""></i></div>
   <div class="mpb"><span class="dot24"></span><span><small>Pickup location</small><b>${pl(o.pick).n}, Bangalore</b></span></div>
-  <div class="rail"><button data-act="toast" data-m="Map recentred" aria-label="Recenter map">${im('track/ba50e.svg',18.25,18.25)}</button><button data-act="toast" data-m="Map layers open here" aria-label="Toggle layers">${im('track/142cf.svg',15,15.875)}</button></div>
+  <div class="rail"><button data-act="toast" data-m="Map recentred" aria-label="Recenter map">${im('track/ba50e.svg',18.25,18.25)}</button>${z?'<button class="zt" data-act="toast" data-m="Zoomed in" aria-label="Zoom in">+</button><button class="zt" data-act="toast" data-m="Zoomed out" aria-label="Zoom out">−</button>':`<button data-act="toast" data-m="Map layers open here" aria-label="Toggle layers">${im('track/142cf.svg',15,15.875)}</button>`}</div>
   <div class="rider" style="left:${l}px;top:${t}px"><b>${im('track/03b00.svg',22,12.833)}</b></div>
   <div class="mdrop"><span class="pin24">${im('track/ee6a1.svg',10,12.5)}</span><span><small>Drop Location</small><b>${dr(o.drop).n}, Bangalore</b></span></div></div>`};
-const otpCard=o=>o.st==='assigned'?`<div class="etac"><span class="c44">${im('track/24de4.svg',14.167,14.167)}</span><span><small>Pickup OTP</small><b style="font-size:14px;line-height:20px">Share with Rohit at pickup</b></span><span class="otpv">${o.pOtp}</span></div>`
- :o.st==='arriving'?`<div class="etac"><span class="c44">${im('track/3a021.svg',14.167,14.167)}</span><span><small>Delivery OTP</small><b style="font-size:14px;line-height:20px">Receiver shares after proof photo</b></span><span class="otpv">${o.dOtp}</span></div>`:'';
+const DML=[['SHIVAJINAGAR','left:calc(38.54% - .23px);top:16px'],['Shivajinagar','right:28px;top:64px'],['Indiranagar','right:20px;top:0'],['Jaya Nagar','left:20px;bottom:40px'],['Koramangala','right:64px;bottom:44px'],['BTM Layout','right:80px;bottom:12px']].map(([t,st])=>`<span class="dml" style="${st}">${t}</span>`).join('');
+const dmapH=(from,lbl,c='')=>`<div class="dmap ${c}"><span aria-hidden="true">${DML}<i class="v"><img src="${A}drop/56522.svg" alt=""></i></span><div class="dfrom"><i></i><span><small>From</small><b>${from}</b></span></div><div class="dsel">${im('drop/261e1.svg',14,14)}<b>${lbl}</b></div><button class="drc" data-act="toast" data-m="Map recentred" aria-label="Re-center location">${im('drop/25a6b.svg',16,16)}</button></div>`;
+const CK=im('assigned/09465.svg',10.867,8.017),CKL=im('assigned/09465.svg',16.3,12);
+const ERR=()=>S.err?`<p class="ferr" role="alert">${S.err}</p>`:'';
+const BOX=s=>`<span class="hbox" style="width:${s+24}px;height:${s+24}px">${im('home/2fb53.svg',s,s)}</span>`;
+const tline=(L,cur,h,fail=-1)=>`<div class="tl">${h?`<h3>${h}</h3>`:''}${L.map(([n,s],i)=>{const c=i===fail?'x':i<cur?'d':i===cur?'c':'p',ln=i<cur-1?'d':i===cur-1?'n':'';return `<div class="tls ${c}"><div class="tli"><b>${c==='d'?CK:c==='x'?'!':''}</b><i class="${ln}"></i></div><div class="tlt"><b><span class="${c==='c'?'gt':''}">${n}</span>${c==='c'?'<span class="now">NOW</span>':''}</b><small>${s||''}</small></div></div>`}).join('')}</div>`;
+const hero=(ic,bd,tone,t,s)=>`<div class="hro"><div class="hpod">${ic}${bd?`<i class="hbg ${tone}">${bd}</i>`:''}</div><h2 class="bigt">${t}</h2>${s?`<p class="sub">${s}</p>`:''}</div>`;
+const SPK='<i class="spk a">✦</i><i class="spk b">✦</i>';
+const idCard=o=>`<div class="card idc"><span><small>Booking ID</small><b>#${o.id}</b></span><button class="cpy" data-act="copy" data-v="${o.id}" data-m="Booking ID copied">Copy</button></div>`;
+const AV=`<span class="av"><span class="ph"><img src="${A}assigned/7ee4a.png" alt=""></span><i></i></span>`;
+const courier=(o,msg,flat)=>`<div class="${flat?'cour flat':'card cour'}">${AV}<span class="lrt"><b>Rohit Kumar</b><small>${VEH[o.veh][0]} · KA 05 AB 1234 · ★ 4.8</small></span><button class="cb" data-act="toast" data-m="Calling Rohit… (demo)" aria-label="Call Rohit Kumar">${im('assigned/39624.svg',15,15)}</button>${msg?`<button class="cb" data-act="toast" data-m="Chat with Rohit opens here" aria-label="Message Rohit Kumar">${im('assigned/ff469.svg',16.667,16.667)}</button>`:''}</div>`;
+const chip=(t,on,a,v)=>`<button class="chp${on?' on':''}" aria-pressed="${!!on}" data-act="${a}" data-v="${esc(v??t)}">${t}</button>`;
+const fbCard=(fb,id='')=>`<div class="card fbd"${id?` id="${id}"`:''}><h3>Estimated Breakdown</h3><div class="fbl"><div><span>Delivery Base Fare</span><span>₹${fb.base.toFixed(2)}</span></div>${fb.fee?`<div><span>Slot Booking Fee</span><span>₹${fb.fee.toFixed(2)}</span></div>`:''}<div class="fbt"><span><b>Total Fare</b><small>All taxes included</small></span><b>₹${fb.total.toFixed(2)}</b></div></div></div>`;
+const wp=(o)=>{const P=pl(o.pick),D=dr(o.drop);return `<div class="wp"><i class="o"></i><span><small>Pickup</small><b>${P.n}, Bangalore</b><span>${P.a}</span></span></div><div class="wp"><i></i><span><small>Drop location</small><b>${D.n}, Bangalore</b><span>${D.a}</span></span></div>`};
+const ATI={Home:im('home/4aa7f.svg',16.667,14.167),Office:im('assigned/ac90e.svg',14.167,14.167),Warehouse:im('home/8f963.svg',20,20),Shop:im('review/2499a.svg',13.333,16.667)};
 const NV=[['home','Home',[['home/4aa7f','12.5% 8.33% 16.67% 8.33%']]],
  ['orders','My Orders',[['home/4b680','8.33% 16.67%','-4.5% -5.63%'],['home/ea136','8.33% 16.67% 66.67% 58.33%','-15%'],['home/a4443','54.17% 33.33% 45.83% 33.33%','-0.75px -11.25%'],['home/a4443','70.83% 33.33% 29.17% 33.33%','-0.75px -11.25%'],['home/c1688','37.5% 58.33% 62.5% 33.33%','-0.75px -45%']]],
  null,['schedule','Schedule',[['home/1d9ec','8.33%','-4.5%']]],
@@ -659,7 +880,7 @@ notify:()=>`<div class="scr ntf">${SB}<main class="ntm"><div class="nring" aria-
  <div class="ntb"><button class="cta" data-act="permAllow">Allow</button><button class="nn2" data-go="home">Not Now</button><div class="homeind"></div></div></div>`,
 
 home:()=>{const o=act();return `<div class="scr">${SB}
- <div class="nh"><img src="${A}home/b0b9c.png" width="62.28" height="32" alt="Loopit"><button class="bell" data-act="toast" data-m="No new notifications" aria-label="Notifications">${im('home/cb675.svg',24,24)}<i></i></button></div>
+ <div class="nh"><img src="${A}home/b0b9c.png" width="62.28" height="32" alt="Loopit"><button class="bell" data-go="notifications" aria-label="Notifications">${im('home/cb675.svg',24,24)}${S.notes.some(n=>!n.r)?'<i></i>':''}</button></div>
  <section class="hero"><div><h1>More Deliveries.<br><b>Lower Costs.</b></h1><p>Shared-route delivery for<br>businesses and individuals.</p></div>${im('home/90178.svg',145.83,112)}</section>
  <button class="pac" data-act="book"><span class="ib48">${im('home/2fb53.svg',24,24)}</span><span><b>Book a New Delivery</b><small>Send parcels across Bangalore with lower costs.</small></span>${im('home/58496.svg',20,20)}</button>
  <div class="types">${[['sched','Scheduled','home/23832.svg'],['shared','Shared<br>Standard','home/659a7.svg'],['express','Express','home/1c02e.svg']].map(([k,n,s])=>`<button data-act="book" data-tier="${k}"><span class="ib40">${im(s,20,20)}</span>${n}</button>`).join('')}</div>
@@ -672,9 +893,7 @@ pickup:()=>flow('Pickup Location','home',1,`${srch('q','Search pickup location')
  <div id="plist">${pickLists()}</div>`,'',HP('Pickup Location','home','pickup/86b6f.svg')),
 
 drop:()=>flow('Drop Location','pickup',2,`${srch('qd','Search drop location',1)}
- <div class="dmap"><span aria-hidden="true">${[['SHIVAJINAGAR','left:calc(38.54% - .23px);top:16px'],['Shivajinagar','right:28px;top:64px'],['Indiranagar','right:20px;top:0'],['Jaya Nagar','left:20px;bottom:40px'],['Koramangala','right:64px;bottom:44px'],['BTM Layout','right:80px;bottom:12px']].map(([t,st])=>`<span class="dml" style="${st}">${t}</span>`).join('')}<i class="v"><img src="${A}drop/56522.svg" alt=""></i></span>
- <div class="dfrom"><i></i><span><small>From</small><b>${pl(S.f.pick).n}, Bangalore</b></span></div><div class="dsel">${im('drop/261e1.svg',14,14)}<b>Select Drop Location</b></div>
- <button class="drc" data-act="toast" data-m="Map recentred" aria-label="Re-center location">${im('drop/25a6b.svg',16,16)}</button></div>
+ ${dmapH(`${pl(S.f.pick).n}, Bangalore`,'Select Drop Location')}
  <h2 class="lh sm">Popular Locations</h2><div id="dlist">${dropList()}</div>`,'',HP('Drop Location','pickup','drop/4aebe.svg')),
 
 vehicle:()=>{const f=S.f;return flow('Vehicle Selection','drop',0,`<div class="card stpc">${steps(3)}</div>
@@ -683,10 +902,9 @@ vehicle:()=>{const f=S.f;return flow('Vehicle Selection','drop',0,`<div class="c
  <div class="vinfo"><span>${im('vehicle/4a280.svg',15,15)}</span><p>Vehicle will be assigned automatically based on real-time driver availability and your selected option.</p></div>`,
  `${cta('Continue','data-go="parcel"','v56')}<p class="vsafe">${im('vehicle/f2a9f.svg',10.667,13.333)}Safe &amp; certified driver partner dispatch</p>`)},
 
-receiver:()=>{const f=S.f;return flow('Receiver Details','parcel',3,`<section class="card pc"><h2>Receiver Information</h2>
- <label class="fl" for="rn">Receiver name <em>*</em></label><input class="inp" id="rn" data-f="f.rn" autocomplete="name" placeholder="Full name" value="${esc(f.rn)}">
- <label class="fl" for="rp">Receiver mobile <em>*</em></label><input class="inp" id="rp" data-f="f.rp" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${esc(f.rp)}"></section>
- <label class="decl"><input type="checkbox" data-f="f.decl" ${f.decl?'checked':''}>I confirm this parcel has no prohibited items.</label>`,cta('Continue','data-act="toTier"'))},
+receiver:()=>{const f=S.f;return flow('Receiver Details','parcel',3,`<h2 class="stt mb16">Receiver Information</h2>
+ <label class="fl" for="rn">Full Name <em>*</em></label><input class="inp tall" id="rn" data-f="f.rn" autocomplete="name" placeholder="Enter receiver full name" value="${esc(f.rn)}">
+ <label class="fl" for="rp">Mobile Number <em>*</em></label><div class="phrow"><span class="ccp">🇮🇳 +91</span><input class="inp tall" id="rp" data-f="f.rp" inputmode="numeric" maxlength="10" placeholder="Enter mobile number" value="${esc(f.rp)}"></div>`,cta('Continue','data-act="toTier"'))},
 
 parcel:()=>{const f=S.f;return flow('Parcel Details','vehicle',3,`<section class="card pc"><h2>Parcel Information</h2>
  <label class="fl" for="pd">What are you sending? <em>*</em></label><div class="ta"><textarea id="pd" data-f="f.desc" maxlength="100" placeholder="e.g. Electronics, Documents, Clothes, etc.">${esc(f.desc)}</textarea><span id="cnt">${f.desc.length}/100</span></div>
@@ -704,65 +922,202 @@ tier:()=>{const f=S.f;return flow('Delivery Type Selection','receiver',3,`<h2 cl
 review:()=>{const f=S.f,P=pl(f.pick),D=dr(f.drop),fb=fare();return flow('Booking Review &amp; Confirmation','tier',4,`
  <div class="card rs"><span class="ic36">${im('review/7e7c7.svg',15,15)}</span><span class="grow"><span class="cap">Route summary</span><b>${P.n} to ${D.n}</b></span><span class="kmp">${im('review/601ad.svg',8.167,11.667)}${D.km} km</span></div>
  <div class="card rv">${rowsFor(f,1)}</div>
- ${S.bd?`<div class="card fbd" id="bdn"><h3>Estimated Breakdown</h3><div class="fbl"><div><span>Delivery Base Fare</span><span>₹${fb.base.toFixed(2)}</span></div>${fb.fee?`<div><span>Slot Booking Fee</span><span>₹${fb.fee.toFixed(2)}</span></div>`:''}<div class="fbt"><span><b>Total Fare</b><small>All taxes included</small></span><b>₹${fb.total.toFixed(2)}</b></div></div></div>`:''}`,
+ ${S.bd?fbCard(fb,'bdn'):''}`,
  `<div class="fare"><span><small>Estimated Fare</small><b>₹${fb.total}</b></span><button class="lnk" data-act="bd" aria-expanded="${S.bd}" aria-controls="bdn">View Breakdown ${im('review/108d2.svg',9,5.55,S.bd?'':'flip')}</button></div>${cta('Proceed to Payment','data-go="payment"')}`)},
 
-payment:()=>{const fb=fare(),f=S.f;return flow('Payment','review',0,`<div class="card amt"><span class="cap">Amount to pay</span><b>₹${fb.total}</b><span>${TIERS[f.tier].n} · ${f.qty} parcel${f.qty>1?'s':''} · ${pl(f.pick).n} → ${dr(f.drop).n}</span></div>
- <h2 class="h2s">Payment method</h2><div class="card list" role="radiogroup" aria-label="Payment method">${PM.map(([k,n,d])=>`<button class="lr ${S.pm===k?'sel':''}" role="radio" aria-checked="${S.pm===k}" data-act="pm" data-v="${k}"><span class="lrt"><b>${n}</b><small>${d}</small></span><span class="rad"></span></button>`).join('')}</div>
- <p class="note">Payments are processed by Razorpay. A failed payment is never charged and can be retried.</p>`,cta(`Pay ₹${fb.total}`,'data-act="pay"'))},
+payment:()=>{const fb=fare();return flow('Payment Method','review',0,`${steps(5)}
+ <div class="psh"><h2 class="stt">Choose Payment Method</h2><span class="osp">₹${fb.total}</span></div>
+ <div class="popt" role="radiogroup" aria-label="Payment method">${PM.map(([k,n,d,tag])=>`<button class="po${S.pm===k?' on':''}" role="radio" aria-checked="${S.pm===k}" data-act="pm" data-v="${k}"><span class="poi">${k==='nb'?'BANK':k.toUpperCase()}</span><span class="lrt"><b>${n}${tag?`<i class="rec">${tag}</i>`:''}</b><small>${d}</small></span><span class="rad"></span></button>`).join('')}</div>
+ <div class="trust"><span class="ic40">${im('vehicle/f2a9f.svg',10.667,13.333)}</span><span><b>100% Safe &amp; Secure Payments</b><small>Encrypted and processed by Razorpay. A failed payment is never charged.</small></span></div>`,cta(`Pay ₹${fb.total}`,'data-act="pay"'))},
 
-confirmed:()=>{const o=S.o,P=pl(o.pick),sch=o.st==='scheduled';return `<div class="scr">${HT(sch?'Delivery Scheduled':'Booking Confirmed','home')}<main class="bd cen">
- <div class="okc">${im('assigned/09465.svg',32.6,24.05)}</div><h2 class="bigt">${sch?'Delivery Scheduled!':'Booking Confirmed!'}</h2><p class="sub">Booking #${o.id} · Paid ₹${o.amt}</p>
- ${o.st==='confirmed'?`<div class="card find" aria-live="polite"><b>Finding a delivery partner</b><small>Usually under a minute near ${P.n}</small><div class="bar"><i></i></div></div>`:''}
- ${sch?`<div class="etac"><span class="c44">${im('assigned/6ad90.svg',18.333,18.333)}</span><span><small>Pickup slot</small><b>${o.day}, ${o.slot}</b></span></div>`:''}
- <div class="card rv">${rowsFor(o)}</div></main>
- <footer class="ft">${cta('Go to Home','data-go="home"')}${refundPct(o)?`<button class="sec r" data-act="cancelAsk">Cancel booking · 100% refund</button>`:''}</footer></div>`},
+proc:()=>{const fb=fare(),k=S.pk;return `<div class="scr">${HD('Processing Payment','payment')}<main class="bd cen pt">
+ <div class="pst" aria-hidden="true"><div class="pglow">${SPK}<span class="pph"><i></i></span><span class="pcd"><i></i></span></div></div>
+ <h2 class="bigt">Processing your payment</h2><p class="sub">Please don't close the app or press back.</p><span class="osp mt12">₹${fb.total} · ${PMN[S.pm]}</span>
+ <div class="card pchk" aria-live="polite">${['Initiating payment','Verifying payment','Confirming booking','Finalizing your order'].map((t,i)=>`<div class="pci ${i<k?'d':i===k?'c':''}"><b>${i<k?CK:''}</b><span>${t}</span></div>`).join('')}</div>
+ <p class="secb">${im('vehicle/f2a9f.svg',10.667,13.333)}256-bit encrypted · Secured by Razorpay</p>
+ <div class="card hrow2 mt16"><span class="lrt"><b>Taking longer than usual?</b><small>Your money is safe. We'll update you automatically.</small></span><button class="pbtn" data-act="toast" data-m="Support chat opens here">Help</button></div></main></div>`},
 
-assigned:()=>{const o=S.o,cur={assigned:2,picked:3,arriving:3}[o.st]??5;
- const TL=[['Booking Confirmed',o.t.confirmed],['Agent Assigned',o.t.assigned],['Out for Pickup','Parcel will be picked up soon'],['In Transit','On the way to delivery location'],['Delivered','Parcel delivered successfully']];
+payfail:()=>{const fb=fare(),f=S.f;return `<div class="scr">${HT('Payment Method Management','payment')}<main class="bd cen">
+ ${hero('<span class="cardi"><i></i></span>','!','r','Payment Failed',`We couldn't process ₹${fb.total} via ${PMN[S.pm]}.`)}
+ <div class="tip"><b>No money was deducted</b><p>If your account was debited, your bank will automatically refund it within 2-4 business hours.</p></div>
+ <div class="card kv"><div><span>Amount</span><b>₹${fb.total}</b></div><div><span>Payment method</span><b>${PMN[S.pm]}</b></div><div><span>Transaction ID</span><b>${S.txn}<button class="cpy sm" data-act="copy" data-v="${S.txn}" data-m="Transaction ID copied">Copy</button></b></div><div><span>Status</span><b class="rdt">Failed</b></div></div>
+ <div class="card dsum">${BOX(20)}<span class="lrt"><b>${TIERS[f.tier].n} Delivery</b><small>${pl(f.pick).n} → ${dr(f.drop).n}, Bangalore</small></span></div></main>
+ <footer class="ft">${cta('Retry Payment','data-act="pay"')}<button class="sec" data-go="payment">Switch Payment Method</button><button class="lnk mid" data-act="toast" data-m="Support chat opens here">Need help? Contact support</button></footer></div>`},
+
+confirmed:()=>{const o=S.o,sch=o.st==='scheduled';return `<div class="scr">${HT('','home')}<main class="bd cen">
+ ${hero(BOX(48)+SPK,CKL,'g',sch?'Delivery Scheduled!':'Booking Confirmed!',sch?`We'll pick up your parcel on ${o.day}, ${o.slot}.`:`Paid ₹${o.amt}. We're finding the best shared route for your parcel.`)}
+ ${idCard(o)}<div class="lft">${tline([['Booking Confirmed',o.t.confirmed],['Finding Shared Route',sch?`Starts at your slot: ${o.day}, ${o.slot}`:'We are matching with nearby deliveries'],['Agent Assigned','Assigning the best delivery partner'],['Out for Pickup','Parcel will be picked up soon'],['In Transit','On the way to delivery location'],['Delivered','Parcel delivered successfully']],1)}</div></main>
+ <footer class="ft">${cta('View Booking Details','data-go="active"')}</footer></div>`},
+
+assigned:()=>{const o=S.o;
  return `<div class="scr asg">${HT('Agent Assigned','home')}${mapBlock(o)}<main class="bd">
  <h2 class="sr">Your delivery partner is assigned</h2>
  <div class="pcard">${partnerHead()}<div class="meta"><div><span class="w28">${im('assigned/457bc.svg',17,9.917)}</span><span><small class="gt">Vehicle Type</small><b>${VEH[o.veh][0]}</b></span></div><div><span class="w28">${im('assigned/ac90e.svg',14.167,14.167)}</span><span><small class="gt">Vehicle Number</small><b>KA 05 AB 1234</b></span></div></div></div>
  <div class="etac"><span class="c44">${im('assigned/6ad90.svg',18.333,18.333)}</span><span><small>Estimated Pickup Time</small><b>${o.win}</b></span></div>
- ${otpCard(o)}
- <div class="tl"><h3>Delivery Progress</h3>${TL.map(([n,s],i)=>{const c=i<cur?'d':i===cur?'c':'p',ln=i<cur-1?'d':i===cur-1?'n':'';return `<div class="tls ${c}"><div class="tli"><b>${c==='d'?im('assigned/09465.svg',10.867,8.017):''}</b><i class="${ln}"></i></div><div class="tlt"><b><span class="${c==='c'?'gt':''}">${n}</span>${c==='c'?'<span class="now">NOW</span>':''}</b><small>${s}</small></div></div>`}).join('')}</div></main></div>`},
+ ${tline([['Booking Confirmed',o.t.confirmed],['Agent Assigned',o.t.assigned],['Out for Pickup','Parcel will be picked up soon'],['In Transit','On the way to delivery location'],['Delivered','Parcel delivered successfully']],2,'Delivery Progress')}</main></div>`},
 
-track:()=>{const o=S.o,P=pl(o.pick),D=dr(o.drop);
- const M={assigned:['Arriving for Pickup in',8,4.2],picked:['Arriving at Drop in',18,5.1],arriving:['Arriving at Drop in',2,.4]}[o.st]||['Delivered',0,0];
- const ai={assigned:0,picked:2,arriving:2}[o.st]??4;
- const HS=[['On the way to<br>pickup',['track/5a3df.svg',18,10.5]],['Pickup',['track/24de4.svg',14.167,14.167]],['In Transit',['track/51abc.svg',15.583,11.333]],['Delivered',['track/3a021.svg',14.167,14.167]]];
- return `<div class="scr trk">${HT('Live Tracking','home')}
- ${mapBlock(o)}
+pickotp:()=>{const o=S.o;return `<div class="scr">${HT('Pickup Verification','home')}<main class="bd">
+ <div class="card otpd"><span class="otpic">${im('home/2fb53.svg',32,32)}</span><h2>Share this OTP with Rohit</h2><p>Your delivery partner has arrived at pickup. Share the code when you hand over the parcel.</p>
+ <div class="odig" aria-label="Pickup OTP ${[...o.pOtp].join(' ')}">${[...o.pOtp].map(d=>`<b>${d}</b>`).join('')}</div><button class="cpy" data-act="copy" data-v="${o.pOtp}" data-m="OTP copied">Copy OTP</button><small class="vtm">Valid for this pickup only · expires in 10 min</small></div>
+ <h2 class="h2s">Delivery Partner</h2>
+ <div class="card pcard2">${partnerHead()}<div class="chipsr"><span>${VEH[o.veh][0]}</span><span>KA 05 AB 1234</span><span>320 deliveries</span></div><div class="ptile">${im('review/2499a.svg',13.333,16.667)}<span><small>Pickup location</small><b>${pl(o.pick).n}, Bangalore</b></span></div></div>
+ ${tline([['Confirmed',o.t.confirmed],['Agent Assigned',o.t.assigned],['Out for Pickup','Rohit is at your pickup point'],['In Transit','On the way to delivery location'],['Delivered','Parcel delivered successfully']],2,'Delivery Progress')}
+ <div class="card hrow2 mt16"><span class="lrt"><b>Need help at pickup?</b><small>Live assistance &amp; safety support, 24×7</small></span><button class="pbtn" data-act="toast" data-m="Support chat opens here">Help</button></div></main></div>`},
+
+transit:()=>{const o=S.o,D=dr(o.drop);return `<div class="scr">${HT('Parcel In Transit','home')}<main class="bd">
+ <div class="card hcard"><h2 class="bigt">Parcel Collected!</h2><p class="sub">Your parcel is on the way to ${D.n}.</p><div class="illc">${im('home/90178.svg',145.83,112)}<i class="okb">${CK}</i></div></div>
+ <div class="card pcard2 mt16">${partnerHead()}<div class="chipsr"><span>${VEH[o.veh][0]}</span><span>KA 05 AB 1234</span><span>Arriving by ${o.eta}</span></div></div>
+ ${tline([['Confirmed',o.t.confirmed],['Agent Assigned',o.t.assigned],['Picked Up',o.t.picked],['In Transit','On the way to '+D.n],['Delivered','Expected by '+o.eta]],3,'Delivery Progress')}</main>
+ <footer class="ft">${cta('Track on Map','data-go="arriving"')}</footer></div>`},
+
+arriving:()=>{const o=S.o,ar=o.st==='arriving';return `<div class="scr trk">${HT('Live Tracking','home')}${mapBlock(o,1)}
  <div class="tsh"><div class="hdl"></div>
-  <div class="etah" aria-live="polite"><span><small>${M[0]}</small>${M[1]?`<span class="big gt">${M[1]}<span>min</span></span>`:''}</span>${M[2]?`<span class="dist"><span>${im('track/c5054.svg',10.667,12.667)}${M[2]} km</span><small>away from you</small></span>`:''}</div>
+  <div class="etab" aria-live="polite"><span><small>${ar?'Arriving in':'Estimated arrival'}</small><b class="gt">${ar?'2 min':o.eta}</b></span><span class="dist"><span>${im('track/c5054.svg',10.667,12.667)}${ar?'0.4':'5.1'} km</span><small>away from drop</small></span></div>
   <div class="bento">${partnerHead(1)}<div class="vb"><div>${im('track/0fd01.svg',20,11.667)}<span><small>Vehicle</small><b>${VEH[o.veh][0]}</b></span></div><div>${im('track/15065.svg',16.667,13.333)}<span><small>Reg. Number</small><b>KA 05 AB 1234</b></span></div></div></div>
-  ${otpCard(o)}
-  <div class="hst">${HS.map(([l,ic],i)=>{const c=i<ai?'d':i===ai?(i?'a2':'a'):'';return `<div class="hs ${c==='a2'?'a a2':c}"><b>${c==='d'?im('assigned/09465.svg',10.867,8.017):im(...ic)}</b><span class="${c.startsWith('a')?'gt':''}">${l}</span></div>`}).join('')}</div>
-  <button class="vbd" data-act="det" aria-expanded="${S.det}" aria-controls="dets"><span class="gt">${S.det?'Hide':'View'} Booking Details</span>${im('track/1b43d.svg',10,6.167,S.det?'':'flip')}</button>
-  ${S.det?`<div class="dets" id="dets">${rowsFor(o)}${refundPct(o)?`<button class="sec r" data-act="cancelAsk">Cancel booking · ${refundPct(o)}% refund</button>`:'<p class="note">Cancellation after pickup is non-refundable.</p>'}</div>`:''}
- </div></div>`},
+  ${tline([['Picked Up',o.t.picked],['In Transit',ar?'Almost there':'On the way to '+dr(o.drop).n],['Arriving Now',ar?'Courier within 1.2 km of destination':''],['Delivered','']],ar?2:1,'Live Order Status')}
+  ${ar?`<div class="pass"><span>${im('track/3a021.svg',14.167,14.167)}</span><span><b>Handover passcode: ${o.dOtp}</b><small>Share with Rohit only after you receive and check the parcel.</small></span></div>`:''}
+  <button class="sec" data-act="share">Share Route Status</button></div></div>`},
 
-delivered:()=>{const o=S.o,save=o.tier==='express'?0:fare({...o,tier:'express'}).total-o.amt;return `<div class="scr">${HT('Delivery Completed','home')}<main class="bd cen">
- <div class="okc">${im('assigned/09465.svg',32.6,24.05)}</div><h2 class="bigt">Parcel Delivered!</h2><p class="sub">#${o.id} · ${o.t.delivered}</p>
- <div class="etac"><span class="c44">${im('track/3a021.svg',14.167,14.167)}</span><span><small>Delivery proof</small><b>Photo &amp; receiver OTP verified</b></span></div>
- ${save>0?`<div class="eco"><span class="ic40">${im('tier/78e95.svg',15.579,15.576)}</span><span><b>You saved ₹${save} vs Express</b><small>Shared routes also cut carbon emissions.</small></span></div>`:''}
- <div class="card rv">${rowsFor(o)}</div>
- <div class="card rate">${partnerHead(1,1)}<p>How was your delivery with Rohit?</p><div class="stars" role="radiogroup" aria-label="Rate your delivery">${[1,2,3,4,5].map(n=>`<button class="${n<=S.rate?'on':''}" role="radio" aria-checked="${n===S.rate}" data-act="rate" data-v="${n}" aria-label="${n} star${n>1?'s':''}">${im('track/60e79.svg',26.667,25.333)}</button>`).join('')}</div></div></main>
- <footer class="ft">${cta('Submit Rating','data-act="submitRate"')}<button class="sec" data-act="home">Back to Home</button></footer></div>`},
+delivered:()=>{const o=S.o;return `<div class="scr">${HT('Delivery Completed','home')}<main class="bd cen">
+ ${hero(BOX(56)+SPK,CKL,'g','Parcel Delivered!',`Your parcel reached ${esc(o.rn)} in ${dr(o.drop).n}.`)}
+ ${idCard(o)}<div class="lft">${tline([['Booking Confirmed',o.t.confirmed],['Picked Up',o.t.picked],['In Transit','Delivered to '+dr(o.drop).n],['Delivered',o.t.delivered]],4,'Delivery Timeline')}
+ <h2 class="h2s">Delivery Proof</h2><div class="proofs"><div class="card prf"><div class="prph">${BOX(28)}<small>Left at doorstep</small></div><b>Photo of parcel</b><small>${o.t.delivered}</small></div>
+ <div class="card prf"><div class="prph sig"><svg viewBox="0 0 145 96" aria-hidden="true"><path d="M10 66c14-36 26-44 30-26s-8 30 6 18 14-40 24-30-2 34 10 22 18-30 26-18 6 18 18 10 14-12 16-8" fill="none" stroke="#102a43" stroke-width="2.5" stroke-linecap="round"/></svg></div><b>Receiver signature</b><small>Signed by ${esc(o.rn)}</small></div></div>
+ ${courier(o,1)}</div></main>
+ <footer class="ft">${cta('Rate Delivery Partner','data-go="rate"')}<button class="lnk mid" data-act="home">Back to Home</button></footer></div>`},
 
-orders:()=>{const o=act(),all=[...(o?[o]:[]),...S.orders];return `<div class="scr">${HT('My Orders')}<main class="bd pt">${all.length?all.map(ocard).join(''):empty('No orders yet','Your bookings show up here.',cta('Book a delivery','data-act="book"'))}</main>${nav('orders')}</div>`},
+rate:()=>{const o=S.o;return `<div class="scr">${HT('Rate Your Delivery','delivered')}<main class="bd">
+ <div class="card rprof"><span class="av72"><img src="${A}assigned/7ee4a.png" alt=""></span><h2>Rohit Kumar</h2><p>Delivered #${o.id}</p><div class="chipsr c"><span>${VEH[o.veh][0]}</span><span>KA 05 AB 1234</span><span>★ 4.8</span></div></div>
+ <div class="card rcard"><h3>How was your delivery?</h3><div class="stars" role="radiogroup" aria-label="Rating">${[1,2,3,4,5].map(n=>`<button class="${n<=S.rate?'on':''}" role="radio" aria-checked="${n===S.rate}" data-act="rate" data-v="${n}" aria-label="${n} star${n>1?'s':''}">${im('track/60e79.svg',30,28.5)}</button>`).join('')}</div>
+ <div class="chipg">${['On time','Polite','Careful handling','Clear updates','Professional'].map(t=>chip(t,S.tags.includes(t),'tag')).join('')}</div>
+ <span class="cap mt16">What went great?</span><div class="chipg">${['Fast delivery','Handled with care','Friendly'].map(t=>chip(t,S.tags.includes(t),'tag')).join('')}</div>
+ <label class="fl" for="cmt">Add a comment (optional)</label><div class="ta"><textarea id="cmt" data-f="cmt" maxlength="200" placeholder="Write your feedback...">${esc(S.cmt)}</textarea></div></div>
+ <div class="card hrow2 mt16"><span class="lrt"><b>Appreciate Rohit?</b><small>100% of the tip goes to your delivery partner.</small></span><button class="pbtn${S.tip?' on':''}" data-act="tip" aria-pressed="${!!S.tip}">${S.tip?'₹20 added':'Tip ₹20'}</button></div></main>
+ <footer class="ft">${cta('Submit Rating','data-act="submitRate"')}</footer></div>`},
 
-schedule:()=>{const o=act(),s=o&&o.tier==='sched'?[o]:[];return `<div class="scr">${HT('Scheduled Deliveries')}<main class="bd pt">${s.length?s.map(ocard).join(''):empty('No scheduled deliveries','Book a fixed daily slot for regular pickups at a lower price.',cta('Schedule a delivery','data-act="book" data-tier="sched"'))}</main>${nav('schedule')}</div>`},
+orders:()=>{const a=act(),F={all:[...(a?[a]:[]),...S.orders],active:a?[a]:[],done:S.orders.filter(x=>x.st==='delivered'),cx:S.orders.filter(x=>['cancelled','returned'].includes(x.st))}[S.of];
+ return `<div class="scr">${HT('My Orders','home','bell')}<main class="bd pt"><div class="chipr">${[['all','All Orders'],['active','Active'],['done','Completed'],['cx','Cancelled']].map(([k,t])=>chip(t,S.of===k,'of',k)).join('')}</div>
+ <div class="ol">${F.length?F.map(ocard).join(''):empty('No orders here','Orders in this tab show up here.',cta('Book a delivery','data-act="book"'))}</div></main>${nav('orders')}</div>`},
 
-profile:()=>`<div class="scr">${HT('Profile')}<main class="bd pt">
- <div class="card pf"><span class="pfa">P</span><span><b>Priya Traders</b><small>+91 ${esc(S.ph||'98765 43210')}</small></span></div>
- <div class="card list" style="margin-top:16px"><button class="mrow" data-go="addresses">Saved Addresses<small>${S.ad.length}</small>${im('home/58496.svg',20,20)}</button><button class="mrow" data-go="orders">My Orders<small>${S.orders.length+(act()?1:0)}</small>${im('home/58496.svg',20,20)}</button><button class="mrow" data-act="toast" data-m="Support chat opens here">Help &amp; Support${im('home/58496.svg',20,20)}</button><button class="mrow r" data-act="logoutAsk">Log Out</button></div></main>${nav('profile')}</div>`,
+active:()=>{const o=S.o;if(!o)return V.home();const prog={confirmed:10,scheduled:5,assigned:30,atpickup:40,picked:60,arriving:85,failed:85,reattempt:70,rts:90}[o.st]??100;
+ const L=[['Booking Confirmed',o.t.confirmed],['Agent Assigned',o.t.assigned],['Picked Up',o.t.picked],['In Transit',o.t.arriving?'Out for delivery':''],['Delivered',o.t.delivered]],cur=L.findIndex(x=>!x[1]);
+ return `<div class="scr">${HT('','home')}<main class="bd">
+ <div class="subh"><h2 class="stt">Booking Details</h2><button class="hb44 more" data-act="omenu" aria-label="Order actions">⋯</button></div>
+ <button class="card boh" data-act="live"><span class="pod56">${BOX(20)}</span><span class="oci"><span class="ocid">#${o.id} ${badge(o.st)}</span><span class="rt">${pl(o.pick).n}${im('home/e2fc8.svg',13.108,3.696)}<span>${dr(o.drop).n}</span></span><span class="ocs">${o.st==='scheduled'?`${o.day}, ${o.slot}`:DONE.includes(o.st)?o.when:`Arriving by ${o.eta}`}</span></span><i class="mbar"><i style="width:${prog}%"></i></i></button>
+ <div class="card secc"><div class="shr"><h2>Delivery Progress</h2>${act()?'<button class="lnk" data-act="live">Track</button>':''}</div><div class="mini">${L.map(([n,t],i)=>`<div class="mi ${cur<0||i<cur?'d':i===cur?'c':''}"><i></i><span><b>${n}</b><small>${t||'Pending'}</small></span></div>`).join('')}</div></div>
+ <div class="card secc"><h2>Delivery Partner</h2>${o.t.assigned?courier(o,0,1):'<p class="note0">We are assigning the best delivery partner.</p>'}</div>
+ <div class="card secc"><h2>Parcel Details</h2><div class="prow">${BOX(20)}<span class="lrt"><b>${esc(o.desc)}</b><small>${o.qty} item${o.qty>1?'s':''} · ${o.wt} · ${VEH[o.veh][0]}</small></span></div><div class="prow"><span class="thumbs">${im('parcel/c0819.svg',18,18)}</span><span class="lrt"><b>Parcel images</b><small>${o.photos?`${o.photos} photo${o.photos>1?'s':''} added`:'No photos added'}</small></span></div></div>
+ <div class="hint2"><span>Need help with this order?</span><button class="pbtn" data-act="toast" data-m="Support chat opens here">Get Help</button></div></main></div>`},
 
-addresses:()=>flow('Saved Addresses','profile',0,`${S.ad.length?`<div class="card list">${S.ad.map((a,i)=>`<div class="adr"><span class="ic36">${im('review/2499a.svg',13.333,16.667)}</span><span class="lrt"><b>${esc(a.l)}</b><small>${esc(a.a)} · ${pl(a.z).n}</small></span><button class="edit" data-act="delAddr" data-i="${i}" aria-label="Remove ${esc(a.l)}">Remove</button></div>`).join('')}</div>`:empty('No saved addresses','Save places you send from often.')}
- <section class="card pc" style="margin-top:16px"><h2>Add an address</h2>
- <label class="fl" for="al">Label <em>*</em></label><input class="inp" id="al" data-f="al" placeholder="Home, Office, Shop" value="${esc(S.al)}">
- <label class="fl" for="aa">Address <em>*</em></label><input class="inp" id="aa" data-f="aa" placeholder="Street, area" value="${esc(S.aa)}">
- <label class="fl" for="az">Pickup area</label><select class="inp" id="az" data-f="az">${PICK.map(p=>`<option value="${p.id}" ${S.az===p.id?'selected':''}>${p.n}${p.ok?'':' (not serviceable yet)'}</option>`).join('')}</select></section>`,cta('Save Address','data-act="addAddr"'))
+odetail:()=>{const o=ord(),cx=o.st!=='delivered';
+ const L=cx?[['Booking Confirmed',o.t.confirmed],[o.st==='returned'?'Returned to Sender':'Booking Cancelled',o.when]]:[['Booking Confirmed',`${o.t.confirmed} • Order created via mobile app`],['Agent Assigned','Rohit Kumar matched for pickup route'],['Picked Up','Verified with sender OTP'],['In Transit','On the way to delivery location'],['Arriving at Delivery Location','Courier within 1.2 km of destination'],['Delivered',o.when]];
+ return `<div class="scr">${HT('Delivery Details Summary','orders')}<main class="bd">
+ <div class="card bsum"><div class="shr"><span class="ocid">#${o.id} ${badge(o.st)}</span><button class="cpy" data-act="copy" data-v="${o.id}" data-m="Booking ID copied">Copy ID</button></div><p>${TIERS[o.tier].n} · ${o.when}</p></div>
+ ${cx?'':courier(o)}
+ ${tline(L,L.length,'Full Timeline',cx?L.length-1:-1)}
+ <div class="card secc"><h2>Pickup &amp; Delivery</h2>${wp(o)}</div>
+ <div class="card secc"><h2>Parcel &amp; Charges</h2><div class="pcg"><div><small>Contents</small><b>${o.qty} item${o.qty>1?'s':''} • ${o.wt}</b></div><div><small>Total Paid</small><b class="or">₹${o.amt.toFixed(2)}</b></div></div><p class="badge2">${im('vehicle/f2a9f.svg',10.667,13.333)}Protected by Loopit Safe Delivery</p></div>
+ ${fbCard(fare(o))}</main>
+ <footer class="ft">${cta('Book Again','data-act="again"')}<div class="half"><button class="sec" data-go="invoice">Invoice</button><button class="sec" data-act="toast" data-m="Support chat opens here">Get Help</button></div></footer></div>`},
+
+invoice:()=>{const o=ord();return `<div class="scr">${HT('Invoice &amp; Receipt','odetail')}<main class="bd cen">
+ ${hero('<span class="rcpt"><i></i><i></i><i></i><b></b></span>',CKL,'g','Invoice Ready','Your receipt for this delivery.')}
+ <div class="card kv"><div><span>Booking ID</span><b>#${o.id}<button class="cpy sm" data-act="copy" data-v="${o.id}" data-m="Booking ID copied">Copy</button></b></div><div><span>Date</span><b>${o.when}</b></div><div><span>From</span><b>${pl(o.pick).n} → ${dr(o.drop).n}</b></div><div><span>Parcel</span><b>${esc(o.desc)} · ${o.qty} × ${o.wt}</b></div><div class="tot"><span>Total Amount Paid</span><b>₹${o.amt.toFixed(2)}</b></div></div>
+ ${o.st==='delivered'?'<p class="stamp">✓ Handed over &amp; verified by Rohit Kumar</p>':''}</main>
+ <footer class="ft">${cta('Download PDF','data-act="pdf"')}<button class="sec" data-act="shareInv">Share Invoice</button></footer></div>`},
+
+schedule:()=>{const a=act(),up=[...(a&&a.st==='scheduled'?[{...a,rec:'One-time'}]:[]),...S.sched],L={up,rec:S.sched.filter(x=>x.rec!=='One-time'),past:S.orders.filter(x=>x.tier==='sched')}[S.sf];
+ return `<div class="scr">${HT('Scheduled Deliveries','home')}<main class="bd pt"><div class="chipr">${[['up',`Upcoming (${up.length})`],['rec','Recurring'],['past','Completed']].map(([k,t])=>chip(t,S.sf===k,'sf',k)).join('')}</div>
+ <div class="ol">${L.length?L.map(x=>`<button class="card sdc" data-act="${x.when?'open':'sopen'}" data-id="${x.id}"><span class="sdt"><b>${x.day||'Done'}</b><small>${x.slot||x.when}</small></span><span class="lrt"><b>${pl(x.pick).n} → ${dr(x.drop).n}</b><small>#${x.id} · ₹${x.amt}</small></span><span class="rpill">${x.rec||'Completed'}</span></button>`).join(''):empty('Nothing here yet','Scheduled deliveries show up here.')}</div>
+ <div class="tip mt16"><b>Auto-reminder activated</b><p>We'll alert you 1 hour before pickup with courier details and live tracking.</p></div></main>
+ <footer class="ft">${cta('Schedule New Delivery','data-act="book" data-tier="sched"')}</footer></div>`},
+
+sdetail:()=>{const a=act(),x=a&&a.id===S.ssel?{...a,rec:'One-time'}:S.sched.find(s=>s.id===S.ssel);if(!x)return V.schedule();
+ return `<div class="scr">${HT('Schedule Pickup Window','schedule')}<main class="bd">
+ <div class="card ovh"><span class="sdt"><b>${x.day}</b><small>${x.slot}</small></span><span class="lrt"><b>Pickup window confirmed</b><small>#${x.id} · ${TIERS.sched.n} · ₹${x.amt}</small></span>${badge('scheduled')}</div>
+ <div class="card cour"><span class="pod44">${im('assigned/dc40c.svg',18.333,16.5)}</span><span class="lrt"><b>Partner assigned 1 hour before pickup</b><small>You'll get courier details and live tracking.</small></span></div>
+ <span class="cap mt16 mb8">Manage schedule</span>
+ <div class="card list"><button class="mrow" data-act="resched" aria-expanded="${!!S.rs2}">Reschedule<small>${S.rs2?'Choose a slot':'Pick a new slot'}</small>${im('home/58496.svg',20,20)}</button>${S.rs2?`<div class="slots2"><div class="chipg l">${SLOTS.map(t=>chip(t,x.slot===t,'setSlot')).join('')}</div></div>`:''}<button class="mrow r" data-act="cancelSchedAsk">Cancel ${x.rec==='One-time'?'delivery':'recurring slot'}<small>Stops future pickups</small></button></div>
+ <p class="note">Note: Cancelling a recurring slot stops future occurrences and recurring charges. Completed deliveries remain non-refundable.</p>
+ <div class="mt16">${dmapH(`${pl(x.pick).n}, Bangalore`,`To ${dr(x.drop).n}`,'sm')}</div>
+ <div class="card secc"><h2>Route &amp; Schedule</h2>${wp(x)}<div class="recb"><span><small>Recurrence</small><b>${x.rec}</b></span><button class="pbtn" data-act="cycleRec">Edit</button></div></div></main>
+ <footer class="ft">${cta('Done','data-go="schedule"')}</footer></div>`},
+
+notifications:()=>{const un=S.notes.filter(n=>!n.r).length,F=S.notes.filter(n=>S.nf==='all'||n.k===S.nf);return `<div class="scr">${HT('Notifications','home')}<main class="bd pt">
+ <div class="card hrow2"><span class="lrt"><b>${un?`${un} unread update${un>1?'s':''}`:'You are all caught up'}</b><small>Order updates and offers</small></span>${un?'<button class="lnk" data-act="readAll">Mark all read</button>':''}</div>
+ <div class="chipr mt16">${[['all','All'],['o','Order Updates'],['f','Offers']].map(([k,t])=>chip(t,S.nf===k,'nf',k)).join('')}</div>
+ <div class="ol">${F.length?F.map(n=>`<article class="card nt${n.r?'':' un'}"><span class="pod44">${n.k==='f'?im('tier/78e95.svg',15.579,15.576):BOX(14)}</span><span class="lrt"><b>${n.t}</b><p>${n.m}</p><small>${n.d}</small></span></article>`).join(''):empty('No notifications','Updates show up here.')}</div>
+ <div class="card hrow2 mt16"><span class="lrt"><b>Notification preferences</b><small>Choose which updates you receive.</small></span><button class="pbtn" data-act="toast" data-m="Notification settings open here">Adjust</button></div></main></div>`},
+
+profile:()=>{const u=S.user,dl=S.orders.filter(x=>x.st==='delivered'),sv=dl.reduce((a,o)=>a+Math.max(0,fare({...o,tier:'express'}).total-o.amt),0);return `<div class="scr">${HT('Profile','home','bell')}<main class="bd pt">
+ <div class="card phc"><div class="avh"><span>${esc(u.n[0]||'U')}</span><button class="avb" data-go="editprof" aria-label="Edit profile">✎</button></div><h2>${esc(u.n)} <i class="vbd2" aria-label="Verified">✓</i></h2><p>+91 ${fmtPh(S.ph||'9876543210')} · ${esc(u.e)}</p>
+ <div class="bento3"><div><b>${dl.length}</b><small>Deliveries</small></div><div><b>₹${sv}</b><small>Saved</small></div><div><b>4.9</b><small>Rating</small></div></div></div>
+ <div class="card list mt16">${[['Personal Information','editprof'],['Saved Addresses','addresses'],['Notifications','notifications'],['Help & Support',''],['About Loopit','']].map(([t,g])=>`<button class="mrow" ${g?`data-go="${g}"`:`data-act="toast" data-m="${t} opens here"`}>${esc(t)}${im('home/58496.svg',20,20)}</button>`).join('')}<button class="mrow r" data-act="logoutAsk">Log Out</button></div>
+ <div class="eco"><span class="ic40">${im('tier/78e95.svg',15.579,15.576)}</span><span><b>Community Commute Hero</b><small>You've shared routes with 19 local neighbors this month!</small></span></div></main>${nav('profile')}</div>`},
+
+editprof:()=>{const p=S.pf;return `<div class="scr">${HT('Edit Profile','profile','bell')}<main class="bd pt">
+ <div class="avh lg"><span>${esc(p.n[0]||'U')}</span><button class="avb" data-act="toast" data-m="Photo picker opens here" aria-label="Change profile picture">✎</button></div>
+ <section class="card pc mt16"><label class="fl" for="pn">Full Name <em>*</em></label><input class="inp tall" id="pn" data-f="pf.n" autocomplete="name" value="${esc(p.n)}">
+ <label class="fl" for="pm">Mobile Number <em>*</em></label><div class="phrow"><span class="ccp">🇮🇳 +91</span><input class="inp tall" id="pm" value="${fmtPh(S.ph||'9876543210')}" disabled aria-describedby="pmh"></div><small id="pmh" class="note">Your number is verified by OTP and can't be changed here.</small>
+ <label class="fl" for="pe">Email ID <em>*</em></label><input class="inp tall" id="pe" type="email" data-f="pf.e" autocomplete="email" value="${esc(p.e)}"></section>
+ <button class="card hrow2 mt16" data-go="addresses"><span class="lrt"><b>Delivery Preferences</b><small>${S.ad.length} saved places</small></span>${im('home/58496.svg',20,20)}</button>
+ <div class="tip mt16"><b>Your details stay private</b><p>We only share your name and number with your delivery partner during an active delivery.</p></div>
+ ${ERR()}<div class="mt16">${cta('Save Changes','data-act="saveProf"')}</div></main>${nav('profile')}</div>`},
+
+addresses:()=>`<div class="scr">${HT('Saved Places Directory','profile')}<main class="bd pt">
+ <span class="cap">${S.ad.length} saved place${S.ad.length===1?'':'s'}</span>
+ <div class="ol">${S.ad.map((a,i)=>`<div class="card adc"><span class="pod44">${ATI[a.t]}</span><span class="lrt"><b>${a.t}${a.def?'<i class="rec">Default</i>':''}</b><span class="adl">${esc(a.a)}</span>${a.lm?`<small>${esc(a.lm)}</small>`:''}</span><span class="ada"><button class="ib36" data-act="editAddr" data-i="${i}" aria-label="Edit ${a.t} address">✎</button><button class="ib36 r" data-act="delAddr" data-i="${i}" aria-label="Delete ${a.t} address">✕</button></span></div>`).join('')||empty('No saved places','Add places you send from often.')}</div>
+ <div class="tip mt16"><b>Delivery tip</b><p>Drivers prioritize verified pickup points with marked entrance gates or parking spots for 2-minute seamless hand offs.</p></div></main>
+ <footer class="ft">${cta('Add New Address','data-act="editAddr" data-i="-1"')}</footer></div>`,
+
+addr:()=>{const f=S.af;return `<div class="scr">${HT(S.ed>=0?'Edit Address':'Add New Address','addresses')}<main class="bd pt">
+ ${dmapH('Pin your location','Move the map to adjust','sm')}
+ <span class="fl">Address Type</span><div class="atype" role="radiogroup" aria-label="Address type">${Object.keys(ATI).map(t=>`<button class="at${f.t===t?' on':''}" role="radio" aria-checked="${f.t===t}" data-act="atype" data-v="${t}"><span>${ATI[t]}</span>${t}</button>`).join('')}</div>
+ <label class="fl" for="aa">Full Address <em>*</em></label><div class="ta"><textarea id="aa" data-f="af.a" maxlength="160" placeholder="Enter house/flat no., building name, road area...">${esc(f.a)}</textarea></div>
+ <label class="fl" for="alm">Landmark (optional)</label><input class="inp tall" id="alm" data-f="af.lm" placeholder="e.g. Near Indiranagar Metro Station" value="${esc(f.lm)}">
+ <label class="fl" for="aph">Recipient Contact No.</label><div class="phrow"><span class="ccp">🇮🇳 +91</span><input class="inp tall" id="aph" data-f="af.ph" inputmode="numeric" maxlength="10" placeholder="98765 43210" value="${esc(f.ph)}"></div>
+ <span class="fl">Delivery Instructions</span><div class="chipg l">${INS.map(t=>chip(t,f.ins.includes(t),'ains')).join('')}</div>
+ <div class="card hrow2 mt16"><span class="lrt"><b>Set as default address</b><small>Used first when you book.</small></span><button class="sw${f.def?' on':''}" role="switch" aria-checked="${!!f.def}" data-act="adef" aria-label="Set as default address"><i></i></button></div>${ERR()}</main>
+ <footer class="ft">${cta('Save Address','data-act="saveAddr"')}</footer></div>`},
+
+cancel:()=>{const o=S.o,p=refundPct(o),amt=Math.round(o.amt*p/100);return `<div class="scr">${HT('Delivery Cancellation Review','active')}<main class="bd cen">
+ ${hero(BOX(40),'✕','r','Cancel this booking?','Review your refund before you confirm.')}
+ <div class="lft"><div class="card dsum">${BOX(20)}<span class="lrt"><b>#${o.id} · ${TIERS[o.tier].n}</b><small>${pl(o.pick).n} → ${dr(o.drop).n} · Paid ₹${o.amt}</small></span></div>
+ <div class="card secc"><div class="shr"><h2>Refund Eligibility</h2><span class="rpct">${p}% refund · ₹${amt}</span></div><ul class="pol"><li class="${p===100?'on':''}">100% before a partner is assigned</li><li class="${p===50?'on':''}">50% after assignment, before pickup</li><li>No refund after pickup</li></ul></div>
+ <div class="card secc"><h2>Why do you need to cancel?</h2>${['Change of plans','Booked by mistake','Delivery taking too long'].map((r,i)=>`<label class="rad2"><input type="radio" name="cr" data-f="cr" value="${i}" ${S.cr==i?'checked':''}>${r}</label>`).join('')}</div>
+ <div class="card secc"><h2>Select Action</h2><label class="rad2 big"><input type="radio" name="ca" data-f="ca" value="cancel" ${S.ca==='cancel'?'checked':''}><span><b>Cancel Booking</b><small>₹${amt} refunded to your original payment method</small></span></label><label class="rad2 big"><input type="radio" name="ca" data-f="ca" value="keep" ${S.ca==='keep'?'checked':''}><span><b>Keep Booking</b><small>Go back and continue with this delivery</small></span></label></div>
+ ${o.t.assigned?courier(o):''}</div></main>
+ <footer class="ft">${cta('Confirm','data-act="cancelConfirm"')}<p class="note mid">Cancellation is subject to the Fair Use Policy.</p></footer></div>`},
+
+dfailed:()=>{const o=S.o;return `<div class="scr">${HT('Delivery Details Summary','home')}<main class="bd cen">
+ ${hero(BOX(44),'!','r','Delivery Attempt Failed','')}<span class="osp idp">#${o.id}<button class="cpy sm" data-act="copy" data-v="${o.id}" data-m="Booking ID copied">Copy</button></span>
+ <div class="lft"><div class="card secc"><small class="cap rdc">Failure reason</small><b class="frs">Receiver not available</b>${courier(o,0,1)}</div>
+ ${tline([['Booking Confirmed','Order accepted by carrier hub'],['Agent Assigned','Assigned to Rohit Kumar (KA 05 AB 1234)'],['Picked Up',`${pl(o.pick).n}, Bangalore`],['Delivery Attempted (Failed)','Doorstep reached; receiver unreachable']],3,'Journey Progress',3)}
+ <div class="tip mt16"><b>Your parcel is safe</b><p>It's back at the ${pl(o.pick).n} hub. Choose a reattempt or return it to the sender.</p></div></div></main>
+ <footer class="ft">${cta('Schedule Reattempt','data-act="reattempt"')}<button class="sec" data-act="rtsGo">Return to Sender</button></footer></div>`},
+
+reattempt:()=>{const o=S.o;return `<div class="scr">${HT('Order Status Timeline','home')}<main class="bd">
+ <div class="card hcard">${hero(BOX(44),'↻','o','Delivery Reattempt Scheduled','')}<div class="prev">${BOX(20)}<span class="lrt"><b>Standard Box (${o.qty} × ${o.wt})</b><small>Ref: ${o.id} • Safe Transit</small></span></div></div>
+ <div class="card secc"><small class="cap">Next attempt</small><h3 class="h3d">${o.reDay}</h3><p class="note0">Our delivery partner will try to deliver your parcel again during this designated slot.</p><div class="tip"><b>Contact Preference</b><p>The driver will call 10 minutes prior to arrival at your doorstep.</p></div></div>
+ <div class="card secc"><div class="shr"><span class="lrt"><small>Booking ID</small><b>#${o.id}</b></span><button class="cpy" data-act="copy" data-v="${o.id}" data-m="Booking ID copied">Copy</button></div>${wp(o)}</div>
+ <p class="note mid">Need a different time? <button class="lnk" data-act="toast" data-m="Reschedule options open here">Reschedule</button></p></main>
+ <footer class="ft">${cta('Got It','data-go="home"')}</footer></div>`},
+
+rts:()=>{const o=S.o,P=pl(o.pick);return `<div class="scr">${HT('Order Status Timeline','home')}<main class="bd cen">
+ ${hero(BOX(40),'↺','o','Returning to Sender','Your parcel is on its way back to the pickup hub.')}<span class="osp idp">#${o.id}<button class="cpy sm" data-act="copy" data-v="${o.id}" data-m="Tracking ID copied">Copy</button></span>
+ <div class="lft mt16">${dmapH(`${P.n} hub`,'Courier heading back','sm')}${courier(o,1)}
+ <div class="card secc"><small class="cap">Returning to</small><b class="frs">${P.n} Warehouse Hub</b><p class="note0">${P.a}, Bangalore</p></div>
+ ${tline([['Delivery Failed',`${o.t.failed} • Recipient unavailable`],...(o.t.reattempt?[['Reattempt Failed','Door locked & unreached']]:[]),['Returning to Sender','On the way back to origin depot'],['Returned to Sender','Awaiting depot dropoff confirmation']],o.t.reattempt?2:1,'Return Progress')}
+ <div class="tip mt16"><b>Refund on return</b><p>Your refund starts as soon as the parcel reaches the hub.</p></div></div></main>
+ <footer class="ft">${cta('Contact Support','data-act="toast" data-m="Support chat opens here"')}<button class="sec" data-act="home">Back to Home</button></footer></div>`},
+
+returned:()=>{const o=S.o;return `<div class="scr">${HT('Invoice And Receipt View','home')}<main class="bd cen">
+ ${hero(BOX(40),CKL,'g','Returned to Sender','Your parcel is back at the pickup hub.')}
+ <div class="lft"><div class="card cour">${AV}<span class="lrt"><b>Handed over by Rohit Kumar</b><small>${pl(o.pick).n} Warehouse Hub · ${o.when}</small></span></div>
+ ${idCard(o)}
+ <div class="card secc"><div class="shr"><h2>Refund Status</h2><span class="rpct g">Initiated</span></div><div class="tip mt12"><p>₹${o.amt.toFixed(2)} will be credited directly to your UPI/Card account in 24–48 hours.</p></div><div class="kv0"><div><span>Returned</span><b>${o.when}</b></div><div><span>Refund initiated</span><b>${o.when}</b></div></div></div>
+ <div class="card dsum">${BOX(20)}<span class="lrt"><b>${esc(o.desc)}</b><small>Return Reason: Customer Unavailable</small></span></div></div></main>
+ <footer class="ft">${cta('Back to Home','data-act="home"')}<button class="sec" data-act="toInv">View Invoice</button></footer></div>`}
 };
 
 /* ---------- popups ---------- */
@@ -770,12 +1125,11 @@ const CHK=im('assigned/09465.svg',21.7,16);
 const SH={
  badOtp:()=>({x:1,cls:'p02',html:`<div class="gb"></div><button class="shx" data-act="close" aria-label="Close">${im('otp/78b3a.svg',16,16)}</button><div class="p2g">${im('otp/4920a.svg',80,80)}</div><h3 id="sht">Invalid OTP</h3><p>The OTP you entered is incorrect or has expired. Please request a new OTP and try again.</p><button class="p2b" data-act="resend">Resend OTP</button><button class="p2b s" data-act="retryOtp">Try Again</button><div class="homeind"></div>`}),
  outArea:()=>({x:1,ic:im('review/2499a.svg',20,25),t:'Outside service area',p:OUT,b:[['Choose another location','close',1]]}),
- proc:()=>({spin:1,t:'Processing payment',p:`Paying ₹${fare().total} via Razorpay. Please don't close the app.`}),
- payFail:()=>({x:1,tone:'r',ic:'!',t:'Payment failed',p:`₹${fare().total} was not charged. Retry with UPI, card or net banking.`,b:[['Retry Payment','pay',1],['Change method','close']]}),
- cancelAsk:()=>{const o=S.o,p=refundPct(o);return {x:1,ic:'?',t:'Cancel this booking?',p:`You'll get a ${p}% refund (₹${Math.round(o.amt*p/100)}) to your original payment method.${p<100?' A partner has already been assigned.':''}`,b:[['Yes, cancel booking','cancel','r'],['Keep booking','close']]}},
  refund:()=>{const r=S.o.refund;return {tone:'g',ic:CHK,t:'Booking cancelled',p:`Refund of ₹${r.amt} (${r.p}%) has been initiated. It reaches your account in 5–7 working days.`,b:[['Back to Home','home',1]]}},
  noAgent:()=>({ic:im('assigned/dc40c.svg',22,19.8),t:'No delivery partner available',p:`We couldn't find a partner for #${S.o.id}, so it was cancelled. A full refund of ₹${S.o.amt} has been initiated.`,b:[['Back to Home','home',1],['Book again','book']]}),
- logout:()=>({x:1,ic:'?',t:'Log out?',p:'You will need your mobile number and an OTP to log back in.',b:[['Log out','logout','r'],['Stay logged in','close']]})
+ logout:()=>({x:1,ic:'?',t:'Log out?',p:'You will need your mobile number and an OTP to log back in.',b:[['Log out','logout','r'],['Stay logged in','close']]}),
+ omenu:()=>({x:1,ic:'⋯',t:'Order actions',p:`Booking #${S.o.id}`,b:[...(refundPct(S.o)?[['Cancel booking','cancelGo','r']]:[]),['Contact support','supp'],['Close','close']]}),
+ cancelSched:()=>({x:1,ic:'?',t:'Cancel recurring schedule?',p:'Future pickups and recurring charges stop. Completed deliveries remain non-refundable.',b:[['Yes, cancel schedule','cancelSched','r'],['Keep schedule','close']]})
 };
 function sheet(k){S.sheet=k;const el=$('#sheet');if(!k){el.innerHTML='';return}const s=SH[k]();
  const body=s.html||`<div class="hdl"></div>${s.spin?'<div class="spin"></div>':`<div class="shic ${s.tone||''}">${s.ic}</div>`}<h3 id="sht">${s.t}</h3><p>${s.p}</p>${(s.b||[]).map(([l,a,p])=>`<button class="${p?`cta${p==='r'?' red':''}`:'sec'}" data-act="${a}">${l}</button>`).join('')}`;
@@ -785,15 +1139,17 @@ function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');cl
 
 /* ---------- state changes ---------- */
 function render(){$('#app').innerHTML=V[S.scr]()}
-function go(s){S.scr=s;S.err='';S.det=false;if(s==='otp')startResend();render();$('#app').scrollTop=0}
-const LIVE=['home','orders','schedule','confirmed','assigned','track'];
-function refresh(){if(LIVE.includes(S.scr))render();syncDemo()}
+function go(s){S.scr=s;S.err='';if(s==='otp')startResend();if(s==='editprof')S.pf={...S.user};render();$('#app').scrollTop=0}
+// keep the customer on the screen that matches the order's live state
+function refresh(){const o=S.o;if(o&&LIVESCR.includes(S.scr)){const t=DONE.includes(o.st)?{delivered:'delivered',returned:'returned',cancelled:'home'}[o.st]:LS[o.st];if(t!==S.scr&&!(S.scr==='arriving'&&o.st==='picked'))return go(t)}
+ if([...LIVESCR,'home','orders','active','schedule','notifications'].includes(S.scr))render();syncDemo()}
 function syncDemo(){$('#dstate').textContent=S.o?`#${S.o.id}: ${ST[S.o.st][0]}`:'No booking yet';const b=$('#fp');b.setAttribute('aria-pressed',S.failNext);b.textContent=S.failNext?'Next payment will fail':'Fail next payment'}
 function startResend(){S.rs=45;clearInterval(T.rs);T.rs=setInterval(()=>{S.rs--;const e=$('#rs');if(!e||S.scr!=='otp'||S.rs<0)return clearInterval(T.rs);e.innerHTML=rsText()},1000)}
-function placeOrder(){const f=S.f;S.o={...f,id:'LP'+(248700+Math.floor(Math.random()*9000)),amt:fare().total,st:f.tier==='sched'?'scheduled':'confirmed',pOtp:otp4(),dOtp:otp4(),t:{confirmed:stamp()},eta:later(f.tier==='express'?25:45)};
- clearTimeout(T.as);if(S.o.st==='confirmed')T.as=setTimeout(assign,5000);syncDemo()}
-function assign(){const o=act();if(!o||!['confirmed','scheduled'].includes(o.st))return;clearTimeout(T.as);o.st='assigned';o.t.assigned=stamp();o.win=`${later(10)} – ${later(25)}`;if(S.scr==='confirmed')go('assigned');refresh()}
-function closeOrder(o,st){o.st=st;S.orders.unshift({...o,when:stamp()})}
+function note(t,m){S.notes.unshift({k:'o',t,m,d:stamp(),r:0})}
+function placeOrder(){const f=S.f;S.o={...f,id:'LP'+(248700+Math.floor(Math.random()*9000)),amt:fare().total,st:f.tier==='sched'?'scheduled':'confirmed',pOtp:otp6(),dOtp:otp4(),t:{confirmed:stamp()},eta:later(f.tier==='express'?25:45)};
+ note('Booking Confirmed',`Your booking #${S.o.id} is confirmed.`);clearTimeout(T.as);if(S.o.st==='confirmed')T.as=setTimeout(assign,5000);syncDemo()}
+function assign(){const o=act();if(!o||!['confirmed','scheduled'].includes(o.st))return;clearTimeout(T.as);o.st='assigned';o.t.assigned=stamp();o.win=`${later(10)} – ${later(25)}`;note('Agent Assigned','Rohit Kumar has been assigned to your order.');refresh()}
+function closeOrder(o,st){o.st=st;o.when=stamp();S.orders.unshift({...o})}
 
 const ACT={
  sendOtp(){if(!/^\d{10}$/.test(S.ph)){S.err='Enter a valid 10-digit mobile number.';return render()}S.otp='';go('otp');$('.ob').focus()},
@@ -810,31 +1166,69 @@ const ACT={
  veh(el){S.f.veh=el.dataset.v;render()},
  photo(){if(S.f.photos>=5)return toast('Maximum 5 photos');S.f.photos++;render()},
  toRecv(){S.err=S.f.desc.trim()?'':'Tell us what you are sending.';S.err?render():go('receiver')},
- toTier(){const f=S.f;S.err=!f.rn.trim()?'Add the receiver name.':!/^\d{10}$/.test(f.rp)?'Enter a valid 10-digit receiver mobile number.':!f.decl?'Confirm the parcel has no prohibited items.':'';S.err?render():go('tier')},
+ toTier(){const f=S.f;S.err=!f.rn.trim()?'Add the receiver name.':!/^\d{10}$/.test(f.rp)?'Enter a valid 10-digit receiver mobile number.':'';S.err?render():go('tier')},
  tier(el){S.f.tier=el.dataset.v;S.err='';render()},
  day(el){S.f.day=el.dataset.v;render()},
  slot(el){S.f.slot=el.dataset.v;S.err='';render()},
  toReview(){if(S.f.tier==='sched'&&!S.f.slot){S.err='Pick a pickup slot for your scheduled delivery.';return render()}go('review')},
  bd(){S.bd=!S.bd;render()},
  pm(el){S.pm=el.dataset.v;render()},
- pay(){sheet('proc');clearTimeout(T.pay);T.pay=setTimeout(()=>{if(S.failNext){S.failNext=false;syncDemo();return sheet('payFail')}placeOrder();sheet(null);go('confirmed')},1600)},
- open(el){if(S.o&&S.o.id===el.dataset.id&&S.o.st==='delivered')return go('delivered');const o=act();if(o&&o.id===el.dataset.id)return go(o.st==='assigned'?'assigned':['picked','arriving'].includes(o.st)?'track':'confirmed');const h=S.orders.find(x=>x.id===el.dataset.id);toast(`#${h.id} · ${ST[h.st][0]} · ₹${h.amt}`)},
- det(){S.det=!S.det;render()},
- cancelAsk(){sheet('cancelAsk')},
- cancel(){const o=S.o,p=refundPct(o);clearTimeout(T.as);o.refund={p,amt:Math.round(o.amt*p/100)};closeOrder(o,'cancelled');syncDemo();sheet('refund')},
+ // Untitled 20: four-step checklist, then Booking Confirmed (21) or Payment Failed (41)
+ pay(){clearInterval(T.pay);S.pk=0;S.txn='TXN'+String(Date.now()).slice(-8);go('proc');T.pay=setInterval(()=>{if(S.scr!=='proc')return clearInterval(T.pay);
+  if(S.pk===2&&S.failNext){clearInterval(T.pay);S.failNext=false;syncDemo();return go('payfail')}
+  if(++S.pk<4)return render();clearInterval(T.pay);placeOrder();go('confirmed')},700)},
+ open(el){const id=el.dataset.id,a=act();if(a&&a.id===id)return go(S.scr==='home'?LS[a.st]:'active');S.sel=id;go('odetail')},
+ live(){const o=S.o;go(act()?LS[o.st]:o.st==='delivered'?'delivered':(S.sel=o.id,'odetail'))},
+ omenu(){sheet('omenu')},
+ cancelGo(){sheet(null);S.cr='0';S.ca='cancel';go('cancel')},
+ cancelConfirm(){if(S.ca==='keep')return go('active');ACT.cancel()},
+ cancel(){const o=S.o,p=refundPct(o);clearTimeout(T.as);o.refund={p,amt:Math.round(o.amt*p/100)};closeOrder(o,'cancelled');note('Booking Cancelled',`Refund of ₹${o.refund.amt} initiated for #${o.id}.`);syncDemo();sheet('refund')},
+ supp(){sheet(null);toast('Support chat opens here')},
  close(){sheet(null)},
  home(){sheet(null);go('home')},
+ copy(el){navigator.clipboard?.writeText(el.dataset.v).catch(()=>{});toast(el.dataset.m||'Copied')},
+ share(){navigator.clipboard?.writeText(`Track my Loopit parcel #${S.o.id}`).catch(()=>{});toast('Live tracking link copied')},
  rate(el){S.rate=+el.dataset.v;render()},
- submitRate(){if(!S.rate)return toast('Tap a star to rate');toast(`Thanks! You rated Rohit ${S.rate}★`);go('home')},
+ tag(el){const t=el.dataset.v;S.tags=S.tags.includes(t)?S.tags.filter(x=>x!==t):[...S.tags,t];render()},
+ tip(){S.tip=!S.tip;render()},
+ submitRate(){if(!S.rate)return toast('Tap a star to rate');toast(`Thanks! You rated Rohit ${S.rate}★${S.tip?' and tipped ₹20':''}`);go('home')},
+ of(el){S.of=el.dataset.v;render()},
+ nf(el){S.nf=el.dataset.v;render()},
+ sf(el){S.sf=el.dataset.v;render()},
+ readAll(){S.notes.forEach(n=>n.r=1);render()},
+ again(){const o=ord();if(act())return toast('Finish or cancel your active booking first.');S.f={...freshForm(o.tier),pick:o.pick,drop:o.drop,veh:o.veh,desc:o.desc||'',qty:o.qty,wt:o.wt||'< 1 kg',rn:o.rn||'',rp:o.rp||'',slot:o.tier==='sched'?SLOTS[0]:''};S.bd=false;go('review')},
+ pdf(){toast('PDF download starts here (demo)')},
+ shareInv(){const o=ord();navigator.clipboard?.writeText(`Loopit invoice #${o.id} · ₹${o.amt}`).catch(()=>{});toast('Invoice details copied')},
+ toInv(){S.sel=S.o.id;go('invoice')},
+ sopen(el){S.ssel=el.dataset.id;S.rs2=0;go('sdetail')},
+ resched(){S.rs2=!S.rs2;render()},
+ setSlot(el){const a=act(),x=a&&a.id===S.ssel?a:S.sched.find(s=>s.id===S.ssel);x.slot=el.dataset.v;S.rs2=0;toast('Pickup slot updated');render()},
+ cycleRec(){const x=S.sched.find(s=>s.id===S.ssel);if(!x)return toast('One-time deliveries don\'t repeat');x.rec={Daily:'Weekly',Weekly:'One-time','One-time':'Daily'}[x.rec];render()},
+ cancelSchedAsk(){const a=act();if(a&&a.id===S.ssel)return ACT.cancelGo();sheet('cancelSched')},
+ cancelSched(){S.sched=S.sched.filter(s=>s.id!==S.ssel);sheet(null);toast('Schedule cancelled');go('schedule')},
  toast(el){toast(el.dataset.m)},
  logoutAsk(){sheet('logout')},
  logout(){sheet(null);S.ph='';go('login')},
- addAddr(){const l=S.al.trim(),a=S.aa.trim();if(!l||!a){S.err='Add a label and an address.';return render()}S.ad.push({l,a,z:S.az});S.al=S.aa='';S.err='';render();toast('Address saved')},
+ editAddr(el){const i=+el.dataset.i;S.ed=i;S.af=i>=0?{...S.ad[i],ins:[...S.ad[i].ins]}:{t:'Home',a:'',lm:'',ph:'',ins:[],def:0};go('addr')},
+ atype(el){S.af.t=el.dataset.v;render()},
+ ains(el){const t=el.dataset.v,f=S.af;f.ins=f.ins.includes(t)?f.ins.filter(x=>x!==t):[...f.ins,t];render()},
+ adef(){S.af.def=S.af.def?0:1;render()},
+ saveAddr(){const f=S.af;S.err=!f.a.trim()?'Enter the full address.':f.ph&&!/^\d{10}$/.test(f.ph)?'Enter a valid 10-digit contact number.':'';if(S.err)return render();
+  if(f.def)S.ad.forEach(a=>a.def=0);S.ed>=0?S.ad[S.ed]=f:S.ad.push(f);toast('Address saved');go('addresses')},
  delAddr(el){S.ad.splice(+el.dataset.i,1);render()},
+ saveProf(){const p=S.pf;S.err=!p.n.trim()?'Enter your full name.':!/^\S+@\S+\.\S+$/.test(p.e)?'Enter a valid email address.':'';if(S.err)return render();S.user={...p};toast('Profile updated');go('profile')},
+ reattempt(){const o=S.o;o.st='reattempt';o.t.reattempt=stamp();o.reDay='Tomorrow, 10 AM – 1 PM';note('Reattempt Scheduled',`We'll try delivering #${o.id} again tomorrow.`);refresh()},
+ rtsGo(){const o=S.o;o.st='rts';o.t.rts=stamp();note('Returning to Sender',`#${o.id} is on its way back to ${pl(o.pick).n}.`);refresh()},
+ // demo controls (stand in for the partner app + backend)
  advance(){const o=act();if(!o)return toast('No active booking. Book one first.');if(['confirmed','scheduled'].includes(o.st))return assign();
-  const nx={assigned:'picked',picked:'arriving',arriving:'delivered'}[o.st];o.t[nx]=stamp();
-  if(nx==='delivered'){closeOrder(o,'delivered');S.rate=0;syncDemo();return ['track','assigned'].includes(S.scr)?go('delivered'):refresh()}
-  o.st=nx;if(S.scr==='assigned')return go('track');refresh()},
+  const nx={assigned:'atpickup',atpickup:'picked',picked:'arriving',arriving:'delivered',failed:'reattempt',reattempt:'arriving',rts:'returned'}[o.st];o.t[nx]=stamp();
+  if(nx==='reattempt')return ACT.reattempt();
+  if(nx==='picked')note('Parcel Collected',`Your parcel has been picked up from ${pl(o.pick).n}.`);
+  if(nx==='arriving')note('Out for Delivery',`Rohit Kumar is on the way with your parcel #${o.id}.`);
+  if(nx==='delivered'){note('Parcel Delivered',`Your parcel #${o.id} has been delivered successfully.`);S.rate=0;S.tags=[];S.cmt='';S.tip=0;closeOrder(o,'delivered')}
+  else if(nx==='returned'){o.refund={p:100,amt:o.amt};note('Returned to Sender',`#${o.id} is back at ${pl(o.pick).n}. Refund of ₹${o.amt} initiated.`);closeOrder(o,'returned')}
+  else o.st=nx;refresh()},
+ failDel(){const o=act();if(!o||!['arriving','reattempt'].includes(o.st))return toast('Only while the parcel is out for delivery.');o.st='failed';o.t.failed=stamp();note('Delivery Attempt Failed','Receiver not available. Choose a reattempt or return.');refresh()},
  noAgent(){const o=act();if(!o||o.st!=='confirmed')return toast('Only while we are still finding a partner.');clearTimeout(T.as);closeOrder(o,'cancelled');refresh();sheet('noAgent')},
  failPay(){S.failNext=!S.failNext;syncDemo()},
  reset(){Object.values(T).forEach(t=>{clearTimeout(t);clearInterval(t)});T={};S=fresh();sheet(null);go('splash');syncDemo();T.sp=setTimeout(()=>S.scr==='splash'&&go('welcome'),2500)}
@@ -850,8 +1244,8 @@ document.addEventListener('input',e=>{const o=e.target.dataset.o;if(o!==undefine
   e.target.value=v.slice(-1);if(v.length>1)v.slice(0,6-o).split('').forEach((c,j)=>bs[+o+j].value=c);
   S.otp=bs.map(b=>b.value).join('');if(v)bs[Math.min(5,+o+v.length)].focus();return}
  const k=e.target.dataset.f;if(!k)return;let v=e.target.type==='checkbox'?e.target.checked:e.target.value;
- if(['ph','f.rp'].includes(k)&&/\D/.test(v))e.target.value=v=v.replace(/\D/g,'');
- k.startsWith('f.')?S.f[k.slice(2)]=v:S[k]=v;
+ if(['ph','f.rp','af.ph'].includes(k)&&/\D/.test(v))e.target.value=v=v.replace(/\D/g,'');
+ const [a,b]=k.split('.');b?S[a][b]=v:S[a]=v;
  if(k==='f.desc')$('#cnt').textContent=v.length+'/100';
  if(k==='q')$('#plist').innerHTML=pickLists();if(k==='qd')$('#dlist').innerHTML=dropList()});
 document.addEventListener('focusin',e=>{if(e.target.classList.contains('ob'))e.target.select()});
