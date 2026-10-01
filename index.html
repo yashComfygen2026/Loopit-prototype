@@ -1,334 +1,864 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LoopIt prototype</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Loopit Customer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#080C18;--card:#0F1628;--card2:#141E35;--line:#1C2845;--tx:#E8EDF8;--mu:#7D8BAA;--or:#FF5500;--gr:#00C896;--rd:#FF4D5E}
-@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#EEF1F7;--card:#fff;--card2:#F3F5FA;--line:#DCE1EC;--tx:#101830;--mu:#5B6785}}
-:root[data-theme="light"]{--bg:#EEF1F7;--card:#fff;--card2:#F3F5FA;--line:#DCE1EC;--tx:#101830;--mu:#5B6785}
-:root[data-theme="dark"]{--bg:#080C18;--card:#0F1628;--card2:#141E35;--line:#1C2845;--tx:#E8EDF8;--mu:#7D8BAA}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{--bg:#fffcf9;--navy:#102a43;--ink:#011d35;--mu:#667085;--mu2:#627d98;--br:#5c4038;--or:#ff4b0b;--grad:linear-gradient(135deg,#ff4b0b,#ff5a00);--pe:#fff1e8;--pe2:#ffe1cc;--pe3:#ffdbcf;--ln:#e5e7eb;--ln2:#f3f4f6;--bl:#eef4ff;--bl2:#e4efff;--bl3:#dbe9ff;--gr:#10b981;--rd:#d92d20;--pj:'Plus Jakarta Sans',system-ui,sans-serif;--in:'Inter',system-ui,sans-serif;--sh:0 4px 20px -2px rgba(255,75,11,.06),0 2px 6px -1px rgba(16,42,67,.04)}
 *{box-sizing:border-box;margin:0}
-body{background:var(--bg);color:var(--tx);font:14px/1.45 'DM Sans',system-ui,sans-serif;padding:14px}
-h1,h2,h3,.d{font-family:'Outfit',system-ui,sans-serif}
-header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;margin-bottom:12px}
-header h1{font-size:22px}header h1 b{color:var(--or)}
-.demo{display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--mu);font-size:12px}
-.tabs{display:flex;gap:6px;margin-bottom:12px}
-.tabs button{flex:1}
-button{font:inherit;cursor:pointer;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--tx);padding:9px 12px;font-weight:600}
-button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--or);outline-offset:2px}
-button.on,button.p{background:var(--or);border-color:var(--or);color:#fff}
-button.g{background:var(--gr);border-color:var(--gr);color:#04140F}
-button.r{color:var(--rd)}
-button:disabled{opacity:.45;cursor:not-allowed}
-.wrap{display:grid;gap:14px;grid-template-columns:1fr}
-.pane{display:none}.pane.show{display:block}
-@media(min-width:1100px){.tabs{display:none}.wrap{grid-template-columns:390px 390px 1fr;align-items:start}.pane{display:block}}
-.phone{background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;min-height:640px;max-width:420px;margin:auto;width:100%}
-.admin{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px}
-.ttl{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.ttl h2{font-size:18px}
-.tag{font-size:11px;padding:2px 8px;border-radius:8px;background:color-mix(in srgb,var(--or) 16%,transparent);color:var(--or);font-weight:600}
-.tag.g{background:color-mix(in srgb,var(--gr) 16%,transparent);color:var(--gr)}
-.tag.r{background:color-mix(in srgb,var(--rd) 16%,transparent);color:var(--rd)}
-label{display:block;font-size:12px;color:var(--mu);margin:10px 0 4px}
-input,select,textarea{width:100%;background:var(--card2);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:9px 10px;font:inherit}
-.row{display:flex;gap:8px}.row>*{flex:1}
-.tier{border:1px solid var(--line);background:var(--card2);border-radius:14px;padding:10px 12px;margin-top:8px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;width:100%;text-align:left}
-.tier.sel{border-color:var(--or);box-shadow:0 0 0 1px var(--or)}
-.tier s{color:var(--mu);font-size:12px}
-.err{color:var(--rd);background:color-mix(in srgb,var(--rd) 12%,transparent);border-radius:10px;padding:9px 11px;margin-top:10px;font-size:13px}
-.box{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px;margin-top:10px}
-.big{font:800 26px 'Outfit'}
-.bar{height:6px;border-radius:6px;background:var(--line);overflow:hidden;margin-top:10px}
-.bar i{display:block;height:100%;width:40%;background:var(--or);border-radius:6px;animation:mv 1.8s ease-in-out infinite}
+body{background:#f2f4f7;font:14px/20px var(--in);color:var(--navy)}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit}
+a{color:var(--or);text-decoration:none}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,a:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+img{display:block;flex:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.stage{min-height:100vh;display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:center;padding:24px 16px}
+.phone{position:relative;width:390px;height:844px;background:var(--bg);border-radius:44px;overflow:hidden;box-shadow:0 0 0 6px rgba(15,23,42,.1),0 25px 50px -12px rgba(0,0,0,.25);flex:none}
+#app{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none}
+#app::-webkit-scrollbar{display:none}
+.scr{min-height:100%;display:flex;flex-direction:column}
+.grow{flex:1}
+.v{position:absolute}.v img{width:100%;height:100%}
+.ico{position:relative;display:block;width:20px;height:20px;overflow:hidden;flex:none}
+
+/* status bar + headers */
+.sb{display:flex;justify-content:space-between;align-items:center;padding:12px 24px 8px;font:700 14px/20px var(--pj);letter-spacing:-.35px;color:var(--navy)}
+.sbi{display:flex;align-items:center;gap:8px}
+.wifi{position:relative;display:block;width:16px;height:14px}
+.bat{position:relative;width:20px;height:10px;border:1px solid var(--navy);border-radius:2px;padding:2px;display:flex;margin-right:2.5px}
+.bat::before{content:'';flex:1;background:var(--navy);border-radius:1px}
+.bat::after{content:'';position:absolute;right:-3.5px;top:2px;width:2px;height:4px;background:var(--navy)}
+.hd{position:sticky;top:0;z-index:6;background:rgba(255,252,249,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--ln2);box-shadow:0 1px 8px rgba(0,0,0,.03)}
+.hd .sb{padding:6px 16px 0;font:600 11px/14px var(--in);letter-spacing:-.275px;color:var(--ink)}
+.hdr{height:56px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 16px}
+.back{width:44px;height:44px;flex:none;border-radius:50%;background:#fff;box-shadow:0 2px 8px -2px rgba(16,42,67,.06);display:grid;place-items:center}
+.ht{flex:1;min-width:0;text-align:center;font:600 18px/24px var(--pj);color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp{width:44px;flex:none}
+.hd.t{background:rgba(248,249,255,.85);border-bottom:0;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.hd.t .hdr{height:64px}
+.hd.t .ht{text-align:left;letter-spacing:-.45px}
+.hrow{display:flex;align-items:center;gap:8px;min-width:0;padding-left:4px}
+.hb44{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center}
+
+/* shared blocks */
+.bd{flex:1;padding:0 16px 24px}
+.bd.pt{padding-top:16px}
+.ft{position:sticky;bottom:0;z-index:5;padding:13px 16px 20px;background:rgba(255,252,249,.9);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-top:1px solid var(--ln2);display:flex;flex-direction:column;gap:12px}
+.cta{position:relative;width:100%;height:52px;flex:none;border-radius:9999px;background:var(--grad);color:#fff;font:700 14px/20px var(--in);display:flex;gap:8px;align-items:center;justify-content:center;box-shadow:0 10px 25px -5px rgba(255,75,11,.4)}
+.cta.sq{height:48px;border-radius:12px;letter-spacing:.35px;box-shadow:0 6px 8px rgba(255,75,11,.28)}
+.cta.lg{font:600 18px/24px var(--pj);margin-top:24px;box-shadow:0 8px 12px rgba(215,59,0,.36)}
+.cta.red{background:var(--rd);box-shadow:none}
+.sec{width:100%;height:48px;flex:none;border-radius:9999px;border:1px solid var(--ln);background:#fff;font:600 14px/20px var(--in);color:var(--ink);display:flex;align-items:center;justify-content:center}
+.sec.r{color:var(--rd)}
+.lnk{font:700 12px/16px var(--in);color:var(--or);display:inline-flex;align-items:center;gap:2px}
+.stt{font:700 18px/24px var(--pj);color:var(--ink)}
+.sts{font:400 12px/16px var(--in);color:var(--br);margin:2px 0 16px}
+.cap{display:block;font:600 11px/14px var(--in);letter-spacing:.55px;text-transform:uppercase;color:var(--mu)}
+.mb8{margin-bottom:8px}
+.h2s{font:700 14px/21px var(--pj);color:var(--navy);padding:0 4px;margin:20px 0 8px}
+.card{background:#fff;border:1px solid var(--ln);border-radius:16px;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.ic36,.ic40,.ic44,.ic48{flex:none;border-radius:50%;background:var(--pe);display:grid;place-items:center}
+.ic36{width:36px;height:36px}.ic40{width:40px;height:40px}.ic48{width:48px;height:48px}
+.rad{flex:none;width:24px;height:24px;border-radius:50%;border:2px solid var(--ln);background:#fff;display:grid;place-items:center}
+.on>.rad,.sel>.rad{background:var(--or);border-color:var(--or);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.on>.rad::after,.sel>.rad::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.ferr{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fef3f2;color:#b42318;font:500 12px/18px var(--in)}
+.note{font:400 12px/18px var(--in);color:var(--mu);margin:12px 4px 0}
+.gt{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.homeind{height:4px;width:128px;border-radius:9999px;background:rgba(16,42,67,.8)}
+
+/* step indicator */
+.stp{position:relative;display:flex;justify-content:space-between;max-width:320px;margin:16px auto 24px;padding:0 3px}
+.stpl{position:absolute;left:17px;right:17px;top:14px;height:3px;background:var(--ln);border-radius:9999px}
+.stpl i{display:block;height:100%;background:var(--or);border-radius:9999px}
+.st{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;font:500 11px/14px var(--in);letter-spacing:.22px;color:#9ca3af}
+.st b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--ln);color:#6b7280;font:500 12px/16px var(--in)}
+.st.done,.st.cur{color:var(--or);font-weight:600}
+.st.done b,.st.cur b{background:var(--or);color:#fff;font-weight:700;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.st.cur b{box-shadow:0 0 0 3px var(--pe2)}
+.st.cur{font-weight:700}
+
+/* splash + login */
+.splash{justify-content:space-between;cursor:pointer}
+.brand{display:flex;flex-direction:column;align-items:center;padding-top:32px}
+.appic{width:96px;height:96px;border-radius:24px;background:linear-gradient(#ff5a00,#ff4b0b);box-shadow:0 16px 36px -6px rgba(255,75,11,.35);display:grid;place-items:center;font-size:44px;line-height:1.29}
+.logo{font:800 36px/36px var(--pj);letter-spacing:-.9px;color:var(--navy);margin-top:28px}
+.logo b,.lname b{color:var(--or);font-weight:inherit}
+.brand p{font:500 14px/20px var(--pj);letter-spacing:-.35px;color:var(--mu);margin-top:12px}
+.sill{position:relative;height:260px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden}
+.scene{position:relative;width:340px;height:220px}
+.dots{position:relative;display:flex;gap:6px;padding:12px 0 24px}
+.dots i{width:6px;height:6px;border-radius:9999px;background:rgba(102,112,133,.3)}
+.dots i.on{width:20px;background:var(--or)}
+.sill .homeind{position:relative;width:144px;background:rgba(16,42,67,.2);margin-bottom:8px}
+.login{position:relative}
+.lback{position:absolute;left:18px;top:40px;padding:6px}
+.lhead{display:flex;flex-direction:column;align-items:center;margin-top:32px;text-align:center}
+.lmark{display:flex;align-items:center;gap:8px}
+.lbox{width:32px;height:32px;border-radius:12px;background:linear-gradient(#ff5a00,#ff4b0b);display:grid;place-items:center;font-size:20px;line-height:1;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.lname{font:700 24px/32px var(--pj);letter-spacing:-.6px;color:var(--navy)}
+.lhead h1{font:700 24px/32px var(--pj);letter-spacing:-.6px;color:var(--navy);margin-top:20px}
+.lhead p{font:400 13.5px/20.25px var(--pj);color:var(--mu);margin-top:3px}
+.lform{padding:0 24px;margin-top:84px;display:flex;flex-direction:column;gap:16px}
+.phin{display:flex;align-items:center;background:#fff;border:1px solid var(--ln);border-radius:12px;padding:13px 15px;box-shadow:0 2px 2px rgba(0,0,0,.02)}
+.phin:focus-within{border-color:var(--or)}
+.cc{display:flex;align-items:center;gap:6px;font:700 12px/16px var(--pj);letter-spacing:-.3px;padding-right:10px}
+.phin>i{width:.73px;height:20px;background:var(--ln);margin-right:8px}
+.phin input,.otpin{flex:1;min-width:0;border:0;background:none;font:400 14px/20px var(--pj);color:var(--navy)}
+.phin input:focus{outline:none}
+.otpin{height:56px;border:1px solid var(--ln);border-radius:12px;background:#fff;text-align:center;font:700 24px var(--pj);letter-spacing:16px;padding-left:16px}
+.otpin:focus{border-color:var(--or);outline:none}
+.alt{text-align:center;font:400 12px/16px var(--pj);color:#000;margin-top:12px}
+.alt button{font-weight:600;color:#fe5801}
+.lform .ferr{margin:0}
+.terms{text-align:center;font:400 11.5px/18.69px var(--pj);color:var(--mu);padding:0 40px;margin-bottom:16px}
+.waves{position:relative;height:96px;flex:none}
+.waves .homeind{position:absolute;bottom:13px;left:50%;transform:translateX(-50%);background:rgba(15,23,42,.8)}
+
+/* onboarding (Untitled 9:96 welcome, 9:281 otp, 9:366 permissions, 3:7521 P02) */
+.wel{position:relative}
+.welbg{inset:0}
+.wel>*{position:relative}.wel>.welbg{position:absolute}
+.welh{text-align:center;margin-top:118px;padding:0 24px}
+.welh h1{font:700 28px/35px var(--pj);letter-spacing:-.7px;color:var(--navy)}
+.welh p{font:400 14px/22.75px var(--pj);color:var(--mu);margin-top:7.4px}
+.welill{width:calc(100% - 50px);max-width:340px;height:190px;margin:60px auto 0}
+.welill>.v{inset:0}
+.wpin{position:absolute;top:78px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.wpin.l{left:28px}.wpin.r{right:28px}
+.wpin b{width:32px;height:32px;border-radius:50%;background:#fff0e6;display:grid;place-items:center}
+.wpin i{width:12px;height:4px;border-radius:9999px;background:rgba(255,75,11,.2);filter:blur(.25px)}
+.wrider{position:absolute;left:50%;top:34.2px;transform:translateX(-50%) scale(1.05);transform-origin:top center;display:flex;flex-direction:column;align-items:center}
+.wrider i{width:96px;height:8px;margin-top:-8px;border-radius:9999px;background:rgba(16,42,67,.1);filter:blur(1px)}
+.props{display:flex;gap:12px;padding:8px 24px}
+.props div{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px}
+.props span{width:48px;height:48px;border-radius:16px;background:#fff0e6;border:1px solid rgba(255,225,204,.5);display:grid;place-items:center;filter:drop-shadow(0 1px 1px rgba(0,0,0,.05))}
+.props b{font:700 12px/15px var(--pj);color:var(--navy);text-align:center}
+.welf{padding:16px 24px 4px}
+.welf .cta.tall{font:700 16px/24px var(--pj);letter-spacing:.4px;padding:16px 24px;box-shadow:0 8px 24px -4px rgba(255,75,11,.38)}
+.welf .homeind{margin:24px auto 0;background:rgba(16,42,67,.2)}
+.otpv2 .lhead,.otpv2 .lform{position:relative;z-index:1}
+.otpv2 .lhead{margin-top:72px}
+.vt{font:700 26px/32.5px var(--pj);letter-spacing:-.65px;color:var(--navy);margin-top:40px}
+.otpv2 .lhead p{font:400 14px/22.75px var(--pj);margin-top:7.4px}
+.otpv2 .lhead p b{font-weight:400;color:var(--navy);letter-spacing:.35px}
+.otpv2 .lform{margin-top:32px;gap:20px}
+.otpb{display:flex;justify-content:space-between;width:100%;max-width:326px;margin:0 auto}
+.ob{width:44px;height:48px;border:1px solid var(--ln);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05);text-align:center;font:700 20px/23px var(--pj);color:var(--navy)}
+.ob:focus{outline:none;border-color:var(--or);box-shadow:0 0 0 1px var(--or),0 1px 2px rgba(0,0,0,.05)}
+.rsn{text-align:center;font:400 13px/19.5px var(--in);color:var(--mu)}
+.rsn .tm{letter-spacing:.325px}
+.cta.tall{height:auto;padding:14px 24px;font:400 15px/22.5px var(--pj);letter-spacing:.375px;box-shadow:0 8px 20px -4px rgba(255,75,11,.35)}
+.otpv2 .cta{margin-top:20px}
+.chg{align-self:center;font:400 14px/20px var(--pj);color:var(--or);padding:2px 0}
+.owave{position:absolute;left:0;right:0;bottom:0;height:176px}
+.owave .v{inset:0}
+.owave .homeind{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:144px;background:rgba(0,0,0,.8)}
+.ntf{background:radial-gradient(491px 252px at 50% 100%,#fff1e8 0,rgba(255,241,232,.4) 60%,rgba(255,241,232,0) 80%) bottom/100% 280px no-repeat,radial-gradient(450px 126px at 50% 100%,rgba(255,225,204,.55) 0,rgba(255,225,204,.17) 55%,rgba(255,225,204,0) 75%) bottom/136% 180px no-repeat,var(--bg)}
+.ntm{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 24px;text-align:center}
+.nring{width:192px;height:192px;border-radius:50%;background:rgba(255,241,232,.6);display:grid;place-items:center;margin-bottom:36px}
+.nring>div{width:144px;height:144px;border-radius:50%;background:rgba(255,225,204,.8);box-shadow:inset 0 2px 4px rgba(0,0,0,.05);display:grid;place-items:center}
+.nring>div>div{width:96px;height:96px;border-radius:50%;background:#fff5ee;filter:drop-shadow(0 1px 1px rgba(0,0,0,.05));display:grid;place-items:center}
+.ico.gear{width:48px;height:48px}
+.ntt{display:flex;flex-direction:column;align-items:center;max-width:300px}
+.ntt h1{font:700 24px/32px var(--pj);letter-spacing:-.6px;color:var(--navy)}
+.ntt h1+p{font:400 14.5px/19px var(--in);color:var(--mu)}
+.ntt p+h1{margin-top:15px}
+.ntt p:last-child{font-size:14px}
+.ntb{padding:0 24px 8px;display:flex;flex-direction:column;gap:12px}
+.ntb .cta{height:48px;font:400 15px/22.5px var(--pj);letter-spacing:.375px;box-shadow:0 8px 20px -4px rgba(255,75,11,.45)}
+.nn2{height:48px;border-radius:9999px;background:#f3f4f6;font:400 15px/22.5px var(--pj);letter-spacing:.375px;color:var(--mu);text-align:center}
+.ntb .homeind{width:144px;margin:12px auto 0}
+.shx{position:absolute;top:16px;right:20px;width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
+.sh.p02{position:relative;padding:28px 24px 4px;gap:0}
+.gb{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:40px;height:4px;border-radius:9999px;background:#e2e8f0}
+.p2g{position:relative;width:96px;height:96px;margin:16px auto;display:grid;place-items:center}
+.p2g::before{content:'';position:absolute;inset:-4.8px;border-radius:50%;background:#fff5f2}
+.p2g img{position:relative}
+.p02 h3{font:700 20px/26px var(--pj);color:var(--navy);margin-bottom:8px}
+.p02 p{font:400 14px/20px var(--pj);color:var(--mu);max-width:268px;margin:0 auto 28px}
+.p2b{height:48px;border-radius:25px;background:#ff4b0b;color:#fff;font:700 15px/22.5px var(--pj);text-align:center;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.p2b.s{background:var(--pe);color:var(--navy);box-shadow:none;margin-top:10px}
+.p02 .homeind{width:128px;margin:24px auto 4px;background:rgba(0,0,0,.2)}
+
+/* home */
+.nh{display:flex;justify-content:space-between;align-items:center;padding:8px 20px 4px}
+.bell{position:relative;padding:8px;border-radius:50%}
+.bell i{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--or);border:1px solid #fff}
+.hero{display:flex;align-items:center;justify-content:space-between;padding:12px 20px 0;background:radial-gradient(341px at 331px 81px,#fff1e8 0,rgba(255,241,232,.3) 60%,rgba(255,241,232,0) 100%)}
+.hero h1{font:800 20px/25px var(--pj);color:var(--navy)}
+.hero h1 b{color:var(--or);font-weight:800}
+.hero p{font:500 12px/19.5px var(--pj);color:var(--mu);margin-top:6px}
+.pac{display:flex;align-items:center;gap:14px;margin:16px 20px 0;width:calc(100% - 40px);padding:15px;background:#fff;border:1px solid var(--pe2);border-radius:16px;box-shadow:var(--sh)}
+.ib48,.ib44,.ib40{flex:none;border-radius:12px;background:var(--pe);display:grid;place-items:center}
+.ib48{width:48px;height:48px}.ib44{width:44px;height:44px}.ib40{width:40px;height:40px}
+.pac>span+span{flex:1}
+.pac b{display:block;font:700 14px/19.25px var(--pj);color:var(--navy)}
+.pac small{display:block;font:500 11px/13.75px var(--pj);color:var(--mu);margin-top:1.4px}
+.types{display:flex;gap:12px;padding:0 20px;margin-top:12px}
+.types button{flex:1;height:102px;background:#fff;border:1px solid var(--ln2);border-radius:12px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.05));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:600 12px/15px var(--pj);color:var(--navy);text-align:center}
+.shd{display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px}
+.shd h2{font:700 14px/20px var(--pj);letter-spacing:-.35px;color:var(--navy)}
+.shd button{font:700 12px/16px var(--pj);color:var(--or)}
+.px20{padding:0 20px}
+.oc{display:flex;align-items:center;gap:12px;width:100%;padding:15px;background:#fff;border:1px solid var(--ln2);border-radius:16px;box-shadow:var(--sh)}
+.oc+.oc{margin-top:10px}
+.oci{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.ocid{display:flex;align-items:center;gap:8px;font:700 12px/16px var(--pj);color:var(--navy)}
+.bdg{font:600 10px/15px var(--pj);padding:2px 8px;border-radius:9999px;border:1px solid #d1fae5;background:#ecfdf5;color:var(--gr);white-space:nowrap}
+.bdg.o{background:var(--pe);border-color:var(--pe2);color:var(--or)}
+.bdg.b{background:var(--bl);border-color:var(--bl2);color:#3b5b8a}
+.bdg.r{background:#fef3f2;border-color:#fee4e2;color:var(--rd)}
+.rt{display:flex;align-items:center;padding-top:3px;font:500 12px/16px var(--pj);color:var(--navy);white-space:nowrap}
+.rt span{padding-left:4px}
+.ocs{font:400 11px/16.5px var(--pj);color:var(--mu)}
+.oc>img{margin-left:4px}
+.bn{position:sticky;bottom:0;z-index:5;display:grid;grid-template-columns:repeat(5,1fr);padding:0 8px;background:#fff;border-top:1px solid var(--ln2);box-shadow:0 -4px 20px -2px rgba(16,42,67,.05)}
+.bn>button{height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;font:500 10px/15px var(--pj);letter-spacing:-.25px;color:var(--mu)}
+.bn .ico{margin-bottom:2px}
+.bn .on{color:var(--or);font-weight:700}
+.bn .bk{position:relative;justify-content:flex-end;padding-bottom:13px}
+.bn .bk i{position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:48px;height:48px;border:4px solid #fff;border-radius:50%;background:linear-gradient(45deg,#ff4b0b,#ff5a00);display:grid;place-items:center;box-shadow:0 6px 16px -2px rgba(255,75,11,.45)}
+.bn .homeind{grid-column:1/-1;justify-self:center;background:#d1d5db;margin:2px 0 4px}
+.empty{text-align:center;padding:40px 16px}
+.empty b{display:block;font:700 16px/24px var(--pj);color:var(--navy);margin-top:12px}
+.empty p{font:400 13px/20px var(--in);color:var(--mu);margin:4px 0 20px}
+.empty .ib48{margin:0 auto}
+
+/* booking flow: pickup 9:649, drop 9:823, vehicle 9:993 */
+.hp{position:sticky;top:0;z-index:6;background:var(--bg)}
+.hpr{position:relative;height:56px;display:flex;align-items:center;justify-content:center;padding:0 56px}
+.hpb{position:absolute;left:20px;top:50%;transform:translateY(-50%);padding:4px;border-radius:50%}
+.hpr h1{font:700 19px/28.5px var(--pj);color:var(--navy);white-space:nowrap}
+.srch{position:relative;display:block}
+.srch input{width:100%;height:48px;border:1px solid var(--ln);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.05);padding:0 40px 0 45px;font:400 14px var(--pj);color:var(--navy)}
+.srch input:focus{outline:none;border-color:var(--or)}
+.srch input::placeholder{color:var(--mu)}
+.sic{position:absolute;left:14px;top:50%;transform:translateY(-50%)}
+.clr{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:16px;height:16px;border-radius:50%;background:#cbd5e1;color:#fff;font:600 10px/16px var(--in);display:grid;place-items:center}
+.srch input:placeholder-shown~.clr{display:none}
+.srch.sm input{height:44px;padding:0 37px 0 41px;box-shadow:none}
+.srch.sm .clr{right:12px;width:20px;height:20px;background:var(--ln)}
+.curl{display:flex;align-items:center;gap:14px;width:100%;margin-top:16px;padding:15px;background:#fff;border:1px solid var(--ln);border-radius:12px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.05));text-align:left}
+.curl .lrt b,.lrw .lrt b{font:700 14px/19.25px var(--pj)}
+.curl .lrt small,.lrw .lrt small{font:400 12px/18px var(--pj)}
+.lrw .lrt b{line-height:17.5px}.lrw .lrt small{margin-top:2px}
+.lh{font:700 16px/24px var(--pj);color:var(--navy);margin:24px 0 8px}
+.lh.sm{font:700 14px/20px var(--in);margin:16px 0 8px}
+.lcard{background:#fff;border:1px solid var(--ln);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.05);overflow:hidden}
+.lrw{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;text-align:left}
+.lrw+.lrw{border-top:1px solid var(--ln2)}
+.lrw.sel,.drw.sel{background:var(--pe)}
+.lc{width:32px;height:32px;border-radius:50%;background:var(--pe);display:grid;place-items:center;flex:none}
+.lc.g{background:#f1f5f9}
+.dmap{position:relative;height:220px;margin-top:12px;border:1px solid rgba(229,231,235,.6);border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.05);background:linear-gradient(90deg,rgba(220,228,224,.4) 2.08%,transparent 2.08%),linear-gradient(180deg,rgba(220,228,224,.4) 2.08%,transparent 2.08%),#f4f7f6}
+.dmap .v{inset:0}
+.dml{position:absolute;font:700 10px/15px var(--in);letter-spacing:.5px;color:#9ca3af;white-space:nowrap}
+.dfrom{position:absolute;top:40px;left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:center;padding:7px 13px;background:rgba(255,255,255,.95);border:1px solid rgba(229,231,235,.6);border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.05);white-space:nowrap}
+.dfrom i{width:10px;height:10px;border-radius:50%;background:var(--or);box-shadow:0 0 0 2px var(--pe2)}
+.dfrom small{display:block;font:700 9px/11.25px var(--in);letter-spacing:.225px;text-transform:uppercase;color:var(--mu)}
+.dfrom b{display:block;font:700 11px/13.75px var(--in);color:var(--navy)}
+.dsel{position:absolute;right:40px;bottom:56px;display:flex;align-items:center;gap:6px;padding:7px 13px;background:rgba(255,255,255,.95);border:1px solid rgba(229,231,235,.8);border-radius:12px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
+.dsel b{font:700 12px/16px var(--in);letter-spacing:-.3px;color:var(--navy)}
+.drc{position:absolute;right:12px;bottom:12px;width:36px;height:36px;border-radius:50%;background:#fff;border:1px solid var(--ln);display:grid;place-items:center;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
+.drw{display:flex;align-items:center;gap:14px;width:100%;padding:10px 4px;border-radius:8px;text-align:left}
+.drw+.drw{margin-top:2px}
+.drw .lrt b{font:700 14px/19.25px var(--in)}.drw .lrt small{font:400 12px/15px var(--in)}
+.stpc{padding:17px;border-color:var(--ln2);margin-top:4px}
+.stpc .stp{margin:0;max-width:none;padding:0}
+.vst{display:flex;justify-content:space-between;align-items:center;padding:0 4px;margin:24px 0}
+.vst h2{font:700 20px/28px var(--in);color:var(--navy)}
+.vst p{font:400 12px/16px var(--in);color:var(--mu);margin-top:2px}
+.vopts{display:flex;flex-direction:column;gap:16px}
+.vo{display:flex;gap:16px;align-items:flex-start;width:100%;padding:17px;background:#fff;border:1px solid var(--ln);border-radius:16px;box-shadow:0 1px 2px rgba(0,0,0,.05);text-align:left}
+.vo.on{padding:18px;background:var(--pe);border:2px solid var(--or)}
+.vic{width:96px;height:96px;flex:none;border-radius:48px;background:#f9fafb;border:1px solid var(--ln2);display:grid;place-items:center;box-shadow:0 1px 2px rgba(0,0,0,.05);overflow:hidden}
+.vo.on .vic{background:#fff;border-color:#ffedd5}
+.vimg{transform:scaleX(-1);object-fit:cover}
+.vtx{flex:1;min-width:0;display:flex;flex-direction:column;padding-right:4px}
+.vn{display:flex;justify-content:space-between;align-items:center;font:700 18px/28px var(--in);color:var(--navy)}
+.vr{width:20px;height:20px;flex:none;border-radius:50%;border:2px solid var(--ln);background:#fff;display:grid;place-items:center}
+.vo.on .vr{border:0;background:var(--or);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.vo.on .vr::after{content:'';width:8px;height:8px;border-radius:50%;background:#fff}
+.vt{font:600 12px/16px var(--in);color:var(--mu);margin-top:4px}
+.vo.on .vt{color:var(--or)}
+.vli{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.vli>span{display:flex;gap:8px;align-items:center;font:400 12px/16px var(--in);color:var(--mu)}
+.vli i{width:6px;height:6px;border-radius:50%;background:#d1d5db;flex:none}
+.vo.on .vli i{background:var(--or)}
+.vli b{font-weight:700;color:var(--navy)}
+.vinfo{display:flex;gap:12px;align-items:flex-start;margin-top:24px;padding:15px;background:#fff6f2;border:1px solid #ffe2d5;border-radius:48px}
+.vinfo>span{width:28px;height:28px;flex:none;border-radius:50%;background:#fff;border:1px solid #ffedd5;display:grid;place-items:center}
+.vinfo p{font:400 12px/19.5px var(--in);color:var(--mu);padding-top:2px}
+.cta.v56{height:56px;font:700 16px/24px var(--in)}
+.vsafe{display:flex;gap:6px;align-items:center;justify-content:center;font:500 12px/16px var(--in);color:var(--mu);padding:4px 0;margin-top:-4px}
+
+.list{overflow:hidden}
+.lr{display:flex;align-items:center;gap:12px;width:100%;padding:14px 16px}
+.lr+.lr{border-top:1px solid var(--bl2)}
+.lr.sel{background:var(--pe)}
+.lrt{flex:1;min-width:0;display:flex;flex-direction:column}
+.lrt b{font:700 14px/20px var(--in);color:var(--navy)}
+.lrt small{font:400 12px/16px var(--in);color:var(--mu)}
+.kmp{flex:none;display:inline-flex;align-items:center;gap:4px;background:var(--pe);border-radius:9999px;padding:4px 10px;font:700 11px/14px var(--in);letter-spacing:.22px;color:var(--navy)}
+.pc{display:flex;flex-direction:column;padding:20px 17px 17px;border-color:#f2f4f7;box-shadow:0 2px 4px rgba(16,42,67,.04)}
+.pc+.pc{margin-top:16px}
+.pc h2{font:700 15px/22.5px var(--pj);letter-spacing:-.375px;color:var(--navy)}
+.fl{display:block;font:600 13px/19.5px var(--pj);color:var(--navy);margin:15px 0 6px}
+.fl em{color:var(--or);font-style:normal}
+.ta{position:relative;border:1px solid var(--ln);border-radius:12px;background:#fff;padding-bottom:24px}
+.ta:focus-within,.inp:focus{border-color:var(--or)}
+.ta textarea{display:block;width:100%;height:76px;border:0;resize:none;background:none;padding:11px 12px 0;font:400 13px/21.13px var(--pj);color:var(--navy)}
+.ta textarea:focus,.inp:focus{outline:none}
+.ta span{position:absolute;right:12px;bottom:6px;font:500 11px/16.5px var(--pj);color:var(--mu)}
+.qty{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
+.qty .fl{margin:0}
+.stepper{display:flex;align-items:center;border:1px solid var(--ln);border-radius:8px;overflow:hidden;background:#fff}
+.stepper button{width:32px;height:32px;font:600 16px/24px var(--pj);color:var(--mu);text-align:center}
+.stepper button:first-child{border-right:1px solid var(--ln)}
+.stepper button:last-child{border-left:1px solid var(--ln)}
+.stepper output{width:36px;text-align:center;font:700 13px/19.5px var(--pj);color:var(--navy)}
+.pills{display:flex;gap:8px}
+.pill{flex:1;height:36px;border-radius:8px;border:1px solid var(--ln);background:#fff;font:500 12px/18px var(--pj);color:var(--mu);text-align:center;white-space:nowrap}
+.pill.on{background:var(--pe);border-color:var(--or);color:var(--or);font-weight:700}
+.upl{width:100%;height:144px;border:1px dashed #cbd5e1;border-radius:16px;background:#fcfdfe;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.upl .ub{position:relative;width:48px;height:48px;display:grid;place-items:center;margin-bottom:8px}
+.upl .ub span{width:44px;height:44px;border-radius:16px;background:rgba(255,241,232,.8);display:grid;place-items:center}
+.upl .ub i{position:absolute;top:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:var(--or);color:#fff;font:700 11px/16px var(--pj);font-style:normal;text-align:center}
+.upl b{font:700 13px/19.5px var(--pj);color:var(--navy)}
+.upl small{font:400 11px/16.5px var(--pj);color:var(--mu);margin-top:2px}
+.inp{width:100%;height:44px;border:1px solid var(--ln);border-radius:12px;background:#fff;padding:0 12px;font:400 13px/20px var(--pj);color:var(--navy)}
+.decl{display:flex;gap:10px;align-items:flex-start;margin:16px 4px 0;font:500 12px/18px var(--pj);color:var(--navy);cursor:pointer}
+.decl input{width:18px;height:18px;accent-color:var(--or);flex:none}
+.tiers{display:flex;flex-direction:column;gap:16px}
+.tr{display:flex;align-items:center;gap:16px;width:100%;padding:17px;background:#fff;border:1px solid var(--ln);border-radius:16px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.05))}
+.tr.on{padding:18px;background:var(--pe);border:2px solid var(--or);filter:drop-shadow(0 4px 8px rgba(255,75,11,.12))}
+.tr .ic48{align-self:flex-start;border-radius:43px}
+.tr.on .ic48{background:#fff}
+.trt{flex:1;display:flex;flex-direction:column;align-items:flex-start}
+.trn{display:flex;align-items:center;gap:4px;font:700 18px/24px var(--pj);color:var(--navy)}
+.pop{font:600 11px/14px var(--in);font-style:normal;letter-spacing:.275px;color:#fff;background:var(--or);border-radius:9999px;padding:2px 8px}
+.trp{font:400 12px/16px var(--in);color:var(--mu2);margin-top:2px}
+.trp b{font:700 14px/20px var(--in);color:var(--or);margin-right:4px}
+.tr small{font:400 12px/16.5px var(--in);color:var(--mu2);margin-top:3px}
+.slots{padding:16px;margin-top:16px}
+.slots .pills{flex-wrap:wrap;margin-top:10px}
+.slots .pill{flex:1 1 40%}
+.eco{display:flex;gap:16px;align-items:center;padding:17px;margin-top:24px;background:var(--pe);border:1px solid var(--pe2);border-radius:16px;text-align:left}
+.eco .ic40{background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.eco b{display:block;font:700 12px/16px var(--in);letter-spacing:.12px;color:var(--navy)}
+.eco small{display:block;font:400 12px/16px var(--in);color:#486581}
+.rs{display:flex;align-items:center;gap:8px;padding:17px;box-shadow:0 2px 5px rgba(16,42,67,.04);margin-bottom:16px}
+.rs b{font:700 14px/20px var(--in);color:var(--navy)}
+.rv{overflow:hidden;box-shadow:0 4px 16px rgba(16,42,67,.05)}
+.rvr{display:flex;align-items:center;gap:16px;padding:16px;text-align:left}
+.rvr+.rvr{border-top:1px solid var(--bl2);padding-top:17px}
+.rvr .ic36{align-self:flex-start;margin-top:2px}
+.rvt{flex:1;min-width:0;display:flex;flex-direction:column}
+.rvt small{font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--mu)}
+.rvt b{font:700 14px/20px var(--in);color:var(--navy);margin-top:2px}
+.rvt b,.rvt span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rvt span{font:400 12px/16px var(--in);color:var(--mu)}
+.edit{flex:none;font:700 12px/16px var(--in);letter-spacing:.12px;color:var(--or);padding:4px 8px;border-radius:9999px}
+.fbd{border-radius:32px;padding:16px;margin-top:21px;display:flex;flex-direction:column;gap:12px}
+.fbd h3{font:700 16px/24px var(--pj);color:var(--ink)}
+.fbl{display:flex;flex-direction:column;gap:8px;padding:4px 0}
+.fbl>div{display:flex;justify-content:space-between;align-items:center;font:400 14px/20px var(--in);color:var(--br)}
+.fbl>.fbt{padding-top:8px}
+.fbt span b{display:block;font:700 18px/24px var(--pj);color:var(--ink)}
+.fbt small{display:block;font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--br);margin-top:1.5px}
+.fbt>b{font:700 22px/28px var(--pj);letter-spacing:-.22px;color:var(--or)}
+.fare{display:flex;align-items:center;justify-content:space-between;padding:0 4px}
+.fare small{font:500 14px/20px var(--in);color:var(--mu)}
+.fare b{font:700 22px/28px var(--pj);letter-spacing:-.55px;color:var(--navy);margin-left:6px}
+.flip{transform:rotate(180deg)}
+.amt{padding:20px;text-align:center;margin-top:16px}
+.amt b{display:block;font:700 32px/38px var(--pj);letter-spacing:-.8px;color:var(--navy);margin:4px 0}
+.amt span{font:400 12px/16px var(--in);color:var(--mu)}
+
+/* confirmation, assigned, tracking */
+.cen{text-align:center}
+.okc{width:88px;height:88px;border-radius:50%;background:var(--grad);display:grid;place-items:center;margin:24px auto 20px;box-shadow:0 0 0 10px var(--pe3)}
+.bigt{font:600 22px/28px var(--pj);letter-spacing:-.55px;color:var(--ink)}
+.sub{font:400 14px/20px var(--in);color:var(--br);margin:4px auto 0;max-width:320px}
+.find{padding:16px;text-align:left;margin-top:24px}
+.find b{font:600 14px/20px var(--in);color:var(--ink)}
+.find small{display:block;font:400 12px/16px var(--in);color:var(--br)}
+.bar{height:6px;border-radius:6px;background:var(--pe);overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:40%;background:var(--grad);border-radius:6px;animation:mv 1.6s ease-in-out infinite}
 @keyframes mv{0%{margin-left:-40%}100%{margin-left:100%}}
-@media(prefers-reduced-motion:reduce){.bar i{animation:none;width:70%}}
-.steps{display:flex;gap:4px;margin-top:10px}.steps i{flex:1;height:4px;border-radius:4px;background:var(--line)}.steps i.d{background:var(--gr)}
-.k{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
-.k div{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:10px}
-.k b{display:block;font:800 20px 'Outfit'}.k span{font-size:11px;color:var(--mu)}
-table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:7px 6px;border-bottom:1px solid var(--line)}th{color:var(--mu);font-weight:500}
-.tw{overflow-x:auto}
-.log{max-height:170px;overflow:auto;font-size:12px;color:var(--mu)}.log div{padding:3px 0;border-bottom:1px dashed var(--line)}
-.two{display:grid;gap:12px;grid-template-columns:1fr}
-@media(min-width:700px) and (max-width:1099px){.two{grid-template-columns:1fr 1fr}}
-.map{height:120px;border-radius:12px;background:var(--card2);border:1px solid var(--line);position:relative;overflow:hidden}
-.map span{position:absolute;font-size:11px;padding:2px 7px;border-radius:8px;background:var(--card);border:1px solid var(--line)}
-.small{font-size:12px;color:var(--mu)}.sl{position:relative;height:48px;border-radius:24px;background:var(--card2);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--mu);font-size:13px;margin-top:10px;user-select:none}.sh{position:absolute;left:4px;top:4px;width:40px;height:38px;border-radius:20px;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;cursor:grab;touch-action:none;font-weight:700}@keyframes mvA{from{left:6%;top:68%}to{left:50%;top:38%}}.mv{animation:mvA 8s ease-in-out forwards}@media(prefers-reduced-motion:reduce){.mv{animation:none;left:50%;top:38%}}h2 b{color:var(--or)}.dots{display:flex;gap:6px;justify-content:center}.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}.dots i.d{background:var(--or)}.ring{width:96px;height:96px;margin:0 auto;border-radius:50%;border:8px solid var(--or);border-right-color:transparent;animation:sp 2.2s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}@media(prefers-reduced-motion:reduce){.ring{animation:none}}
-</style></head><body>
-<header><h1 class="d">Loop<b>It</b> <span class="small">prototype · Final Release flow</span></h1>
-<div class="demo">Demo controls:
-<button id="skip">Skip 20-min window</button><button id="rej">All agents reject</button><button id="rst">Reset</button></div></header>
-<div class="tabs"><button data-t="c" class="on">Customer</button><button data-t="a">Agent</button><button data-t="s">Super Admin</button></div>
-<div class="wrap"><section class="pane show" id="c"></section><section class="pane" id="a"></section><section class="pane" id="s"></section></div>
+.cen .rv,.cen .etac{margin-top:16px}
+.asg{background:var(--bg)}
+.asg .pcard{position:relative;z-index:1;margin-top:-40px}
+.asg .etac,.asg .tl{margin-top:24px}
+.pcard,.etac,.tl{background:#fff;border-radius:32px;padding:16px;filter:drop-shadow(0 4px 8px rgba(1,29,53,.04))}
+.pcard{display:flex;flex-direction:column;gap:16px;margin-top:24px}
+.who{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.whol{display:flex;align-items:center;gap:8px;text-align:left}
+.av{position:relative;display:block;width:48px;height:48px;flex:none}
+.av .ph{position:relative;display:block;width:48px;height:48px;border-radius:50%;overflow:hidden;background:var(--pe3)}
+.av .ph img{position:absolute;left:0;top:-39.51%;width:100%;height:179.02%}
+.av .ph img.fit{top:0;height:100%}
+.av i{position:absolute;right:-2px;bottom:-2px;width:16px;height:16px;border-radius:50%;background:var(--gr);border:2px solid #fff;display:grid;place-items:center}
+.av i::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff}
+.nm{display:flex;align-items:center;gap:6px;font:600 18px/24px var(--pj);color:var(--ink)}
+.rtg{display:flex;align-items:center;gap:6px;font:600 12px/16px var(--in);letter-spacing:.12px;color:var(--ink);margin-top:2px}
+.rtg em{font-style:normal;font-weight:400}
+.cbs{display:flex;gap:4px}
+.cb{width:40px;height:40px;border-radius:50%;background:var(--pe3);display:grid;place-items:center}
+
+.meta{display:flex;gap:4px;padding-top:4px}
+.meta>div{flex:1;min-width:0;display:flex;align-items:center;gap:4px;background:var(--bl);border-radius:16px;padding:10px 12px;text-align:left}
+.meta .w28{width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center;flex:none}
+.meta small{display:block;font:500 11px/14px var(--in);letter-spacing:.55px;text-transform:uppercase}
+.meta b{display:block;font:600 14px/20px var(--in);color:var(--ink);white-space:nowrap}
+.etac{display:flex;gap:16px;align-items:center;margin-top:16px;text-align:left}
+.etac .c44{width:44px;height:44px;border-radius:50%;background:var(--pe3);display:grid;place-items:center;flex:none}
+.etac small{display:block;font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--br)}
+.etac b{display:block;font:600 18px/24px var(--pj);letter-spacing:-.45px;color:var(--ink);margin-top:2px}
+.otpv{margin-left:auto;font:800 26px/30px var(--pj);letter-spacing:4px;color:var(--or)}
+.tl{margin-top:16px}
+.tl h3{font:600 11px/14px var(--in);letter-spacing:.55px;text-transform:uppercase;color:var(--br);margin-bottom:16px}
+.tls{display:flex;gap:16px}
+.tli{display:flex;flex-direction:column;align-items:center}
+.tli b{width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
+.tli i{width:2px;height:40px;margin:4px 0;background:var(--bl2)}
+.tli i.d{background:var(--grad)}.tli i.n{background:var(--pe3)}
+.tls:last-child .tli i{display:none}
+.tls.d .tli b{background:var(--grad);box-shadow:0 1px 1px rgba(0,0,0,.05)}
+.tls.c .tli b{background:var(--pe3)}
+.tls.c .tli b::after{content:'';width:14px;height:14px;border-radius:50%;background:var(--grad)}
+.tls.p .tli b{background:var(--bl)}
+.tls.p .tli b::after{content:'';width:10px;height:10px;border-radius:50%;background:#c4dcfd}
+.tlt{padding:2px 0 12px}
+.tlt b{display:flex;align-items:center;gap:4px;font:600 14px/20px var(--in);color:var(--ink)}
+.tlt small{font:400 12px/16px var(--in);color:var(--br)}
+.tls.p .tlt{opacity:.7}
+.now{font:600 10px/20px var(--in);color:#380d00;background:var(--pe3);border-radius:9999px;padding:0 8px}
+.trk{background:#f8f9ff}
+.map{position:relative;height:360px;flex:none;background:var(--bl3);overflow:hidden}
+.mimg{position:absolute;left:0;top:-4.17%;width:100%;height:108.33%}
+.route{position:absolute;inset:19.44% 39.74% 20.83% 30.77%}
+.mpb,.mdrop{position:absolute;display:flex;gap:4px;align-items:center;background:#fff;border-radius:48px;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);text-align:left}
+.mpb{left:16px;top:16px;padding:8px 12px}
+.mdrop{right:24px;bottom:32px;padding:6px 12px}
+.dot24{width:24px;height:24px;border-radius:50%;background:rgba(253,89,0,.2);display:grid;place-items:center;flex:none}
+.dot24::after{content:'';width:10px;height:10px;border-radius:50%;background:var(--grad)}
+.pin24{width:24px;height:24px;border-radius:50%;background:var(--grad);display:grid;place-items:center;flex:none}
+.mpb small,.mdrop small{display:block;font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--br)}
+.mpb small{letter-spacing:.55px;text-transform:uppercase;padding-right:4px}
+.mpb b,.mdrop b{display:block;font:600 12px/16px var(--in);color:var(--ink)}
+.rail{position:absolute;right:16px;top:16px;display:flex;flex-direction:column;gap:4px}
+.rail button{width:40px;height:40px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
+.rider{position:absolute;width:44px;height:44px}
+.rider::before{content:'';position:absolute;left:-6px;top:-6px;width:56px;height:56px;border-radius:50%;background:rgba(172,45,0,.25);animation:pulse 1.8s ease-out infinite}
+.rider b{position:relative;width:44px;height:44px;border-radius:50%;background:var(--grad);display:grid;place-items:center;box-shadow:0 0 0 4px rgba(255,219,209,.6),0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
+@keyframes pulse{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.25);opacity:0}}
+.tsh{position:relative;flex:1;margin-top:-24px;background:#fff;border-radius:48px 48px 0 0;padding:12px 16px 24px;display:flex;flex-direction:column;gap:16px;box-shadow:0 -8px 24px -4px rgba(1,29,53,.08)}
+.hdl{width:40px;height:6px;border-radius:9999px;background:var(--bl3);margin:0 auto}
+.etah{display:flex;justify-content:space-between;align-items:flex-end;padding-top:4px}
+.etah small{font:600 12px/16px var(--in);letter-spacing:.12px;color:var(--br)}
+.big{display:flex;align-items:baseline;gap:4px;font:700 32px/38px var(--pj);letter-spacing:-.8px}
+.big span{font-size:22px;line-height:28px;letter-spacing:-.22px}
+.dist{display:flex;flex-direction:column;align-items:flex-end;padding-bottom:6px}
+.dist span{display:flex;gap:4px;align-items:center;background:var(--bl);border-radius:9999px;padding:4px 10px;font:600 12px/16px var(--in);color:var(--ink)}
+.dist small{font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--br);margin-top:2px}
+.bento{background:var(--bl);border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:16px}
+.bento .whol{gap:16px}
+.bento .ph{background:#ffdbd1}
+.bento .rtg em{color:rgba(92,64,56,.8)}
+.vb{display:flex;gap:8px;padding-top:4px}
+.vb>div{flex:1;min-width:0;background:#fff;border-radius:16px;padding:8px 12px;display:flex;gap:8px;align-items:center}
+.vb small{display:block;font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--br)}
+.vb b{display:block;font:600 12px/16px var(--in);color:var(--ink);white-space:nowrap}
+.tsh .etac{margin:0;background:var(--pe);filter:none}
+.hst{position:relative;display:flex;justify-content:space-between;padding-top:8px}
+.hst::before{content:'';position:absolute;left:24px;right:24px;top:24px;height:2px;background:var(--bl3)}
+.hs{position:relative;width:64px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font:500 11px/14px var(--in);letter-spacing:.22px;color:var(--br)}
+.hs b{width:32px;height:32px;border-radius:50%;background:#fff;box-shadow:0 1px 1px rgba(0,0,0,.05);display:grid;place-items:center}
+.hs.a{width:80px;font-weight:600}
+.hs.a b,.hs.d b{background:var(--grad)}
+.hs.a b{box-shadow:0 0 0 4px rgba(255,219,209,.5),0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1)}
+.hs.a2 b{background:#fff;box-shadow:0 0 0 2px var(--or),0 0 0 6px rgba(255,219,209,.5)}
+.vbd{width:100%;display:flex;gap:6px;align-items:center;justify-content:center;background:var(--bl);border-radius:9999px;padding:12px 16px;font:600 14px/20px var(--in);margin-top:8px}
+.dets .rvr{padding:12px 4px}
+.dets .rvr+.rvr{padding-top:13px}
+.stars{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.stars button{padding:4px;border-radius:8px}
+.stars button:not(.on) img{filter:grayscale(1);opacity:.35}
+.rate{padding:16px;margin-top:16px}
+.rate p{font:500 13px/20px var(--in);color:var(--br);margin-top:12px}
+
+/* profile */
+.pf{display:flex;align-items:center;gap:14px;padding:16px;text-align:left}
+.pfa{width:56px;height:56px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font:700 22px var(--pj);flex:none}
+.pf b{display:block;font:700 16px/24px var(--pj);color:var(--navy)}
+.pf small{font:400 13px/20px var(--in);color:var(--mu)}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;padding:16px;font:600 14px/20px var(--in);color:var(--ink)}
+.mrow+.mrow{border-top:1px solid var(--bl2)}
+.mrow small{margin-left:auto;font:500 12px/16px var(--in);color:var(--mu)}
+.mrow.r{color:var(--rd)}
+.adr{display:flex;align-items:center;gap:12px;padding:14px 16px}
+.adr+.adr{border-top:1px solid var(--bl2)}
+.adr .edit{color:var(--rd)}
+select.inp{appearance:auto}
+
+/* sheet + toast */
+.ov{position:absolute;inset:0;z-index:20;background:rgba(1,29,53,.45);display:flex;align-items:flex-end;animation:fd .2s}
+.sh{width:100%;background:#fff;border-radius:32px 32px 0 0;padding:12px 24px 28px;text-align:center;display:flex;flex-direction:column;gap:12px;animation:up .25s ease-out}
+.sh .hdl{margin-bottom:8px}
+.shic{width:64px;height:64px;border-radius:50%;background:var(--pe3);display:grid;place-items:center;margin:0 auto;font:800 28px var(--pj);color:var(--or)}
+.shic.g{background:var(--grad)}.shic.r{background:#fee4e2;color:var(--rd)}
+.sh h3{font:600 20px/26px var(--pj);color:var(--ink)}
+.sh p{font:400 14px/20px var(--in);color:var(--br);margin-bottom:8px}
+.spin{width:56px;height:56px;margin:8px auto;border-radius:50%;border:6px solid var(--pe3);border-top-color:var(--or);animation:rot 1s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+@keyframes fd{from{opacity:0}}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+#toast{position:absolute;left:50%;bottom:104px;z-index:30;transform:translateX(-50%) translateY(8px);max-width:320px;padding:10px 16px;border-radius:12px;background:var(--ink);color:#fff;font:500 13px/18px var(--in);text-align:center;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+#toast.show{opacity:1;transform:translateX(-50%)}
+@media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
+
+/* demo panel */
+.demo{width:280px;background:#fff;border:1px solid var(--ln);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.demo h2{font:700 16px/24px var(--pj);color:var(--navy)}
+.demo p{font:400 12px/18px var(--in);color:var(--mu)}
+.demo button{height:44px;border-radius:12px;border:1px solid var(--ln);background:#fff;font:600 13px/20px var(--in);color:var(--ink);text-align:center}
+.demo button[aria-pressed="true"]{background:#fef3f2;border-color:#fda29b;color:var(--rd)}
+.demo #dstate{font-weight:600;color:var(--navy)}
+@media(max-width:460px){.stage{padding:0 0 24px;gap:16px}.phone{width:100vw;height:100dvh;border-radius:0;box-shadow:none}.demo{width:calc(100% - 32px)}}
+</style></head>
+<body>
+<div class="stage">
+ <div class="phone"><div id="app"></div><div id="sheet"></div><div id="toast" role="status" aria-live="polite"></div></div>
+ <aside class="demo" aria-label="Demo controls">
+  <h2>Demo controls</h2>
+  <p>Stand in for the delivery partner and backend. Login OTP is 123456.</p>
+  <p id="dstate">No booking yet</p>
+  <button data-act="advance">Next delivery step</button>
+  <button data-act="noAgent">No partner found</button>
+  <button data-act="failPay" id="fp" aria-pressed="false">Fail next payment</button>
+  <button data-act="reset">Reset prototype</button>
+ </aside>
+</div>
 <script>
-const CFG={offer:30,tiers:{sched:{n:'Scheduled',b:20,k:1.2,m:30,eta:'Fixed slot'},shared:{n:'Shared Standard',b:28,k:2,m:40,eta:'30–45 min'},express:{n:'Express',b:60,k:3,m:75,eta:'15–25 min'}},
-hubs:{sp:'SP Road',kl:'Kalasipalya',out:'Whitefield (outside service area)'},drops:{6:'Indiranagar · 6 km',9:'Jayanagar · 9 km',14:'Koramangala · 14 km'}};
-const OUT='Sorry, Loopit currently delivers from SP Road and Kalasipalya areas only. We are expanding soon.';
-const G='Hi, I am the LoopIt assistant. Pick a topic or type your question.';
-const fresh=()=>({f:{pick:'sp',drop:6,qty:1,desc:'',decl:false,veh:'2W',tier:'shared'},msg:'',o:null,log:[],earn:0,n:0,bonus:0,rev:0,t:CFG.offer,otp:'',photo:false,otpErr:'',agent:true,refund:null,cu:null,cs:'phone',cph:'',ce:'',ct:'home',ad:[{l:'Home',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}],ag:{st:'login',ph:'',vn:'',dk:{}},ae:'',at:'dash',opening:350,paid:0,tx:[{t:'Yesterday',m:'Delivery earnings',a:350}],py:null,pe:'',sus:null,wa:'',sc:0,sa:0,bt:null,dyn:null,shift:'Morning',sos:0,rp:0,sel:null,ai:0,req:null,det:0,ae2:'',chat:{c:[{r:'b',t:G}],a:[{r:'b',t:G}]},cat:{},tkc:{},tk:[],hist:[{id:'LP2041',t:'Shared Standard',r:'SP Road → Indiranagar',p:46,s:'Delivered'},{id:'LP2037',t:'Express',r:'Kalasipalya → Jayanagar',p:99,s:'Delivered'}]});
-let S=fresh(),tm=null,wt=null;
-const $=id=>document.getElementById(id);
-const L=m=>S.log.unshift({t:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'}),m});
-const fare=(t,d,q,v)=>{const c=CFG.tiers[t],km=Math.max(3,d);return Math.round(Math.max(c.m,c.b+c.k*km)*q*(v==='3W'?1.4:1))};
-const agentPay=(d)=>Math.max(28+6*d,d*10);
-const DIR={6:'East',9:'South',14:'South-East'};
-const bq=()=>S.bt?S.bt.orders.reduce((a,x)=>a+x.q,0):(S.o?S.o.qty:0);
-const fm=t=>{t=Math.max(0,t);return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')};
-const rnd=()=>String(Math.floor(1000+Math.random()*9000));
-const mk=(who,q)=>({id:'LP'+rnd(),who,q,drop:[6,9,14][Math.floor(Math.random()*3)],pOtp:rnd(),dOtp:rnd(),st:'A'});
-function sync(){const y=S.bt.orders[0];S.o.st={A:'AGENT_ASSIGNED',C:'COLLECTED',P:'PROOF_UPLOADED',D:'DELIVERED'}[y.st]}
-function doneBatch(){const bt=S.bt,e=bt.orders.reduce((a,x)=>a+Math.round(agentPay(x.drop)),0),b=bq()>=3?30:0;S.earn+=e+b;S.bonus+=b;S.n+=bt.orders.length;bt.done=1;bt.st='completed';S.tx.unshift({t:'Today',m:'Batch '+bt.id+' · '+bt.orders.length+' drops'+(b?' + batch bonus':''),a:e+b});L(`Batch ${bt.id} completed · all ${bt.orders.length} deliveries closed · agent +₹${e}${b?' +₹30 batch bonus':''}`);draw()}
-function batchUI(){const bt=S.bt,all=bt.orders,nm=x=>CFG.drops[x.drop].split(' · ')[0],pl=x=>x.q+' parcel'+(x.q>1?'s':''),er=S.ae2?`<div class="err">${S.ae2}</div>`:'';
- const stl={A:'To pick up',C:'Picked up',P:'Proof uploaded',D:'Delivered'};
- if(bt.st==='in_progress'&&!S.rp&&all.some(x=>x.st==='A'))return trackUI(CFG.hubs[bt.hub]);
- if(bt.st==='in_progress'&&S.sel!=null&&all[S.sel]){const i=S.sel,x=all[i];
-  return `<div class="box"><div class="ttl" style="margin:0"><b>${x.st==='A'?'Parcel pickup':'Parcel delivery'}</b><span class="tag">${stl[x.st]}</span></div>
-<p class="small">Booking ${x.id} · ${x.who} · ${pl(x)}<br>Pickup: ${CFG.hubs[bt.hub]}<br>Drop: ${nm(x)}</p>
-${x.st==='A'?`<label>Sender pickup OTP</label><div class="row"><input id="po${i}" inputmode="numeric" maxlength="4" placeholder="4 digits"><button class="p" data-pv="${i}" style="flex:none">Verify and collect</button></div>`:`${x.st==='C'?`<button class="p" data-ph="${i}" style="width:100%;margin-top:8px">Take proof photo</button>`:`<span class="tag g">Photo uploaded</span>`}<label>Receiver OTP</label><div class="row"><input id="do${i}" inputmode="numeric" maxlength="4" placeholder="4 digits" ${x.st==='P'?'':'disabled'}><button class="p" data-dv="${i}" style="flex:none" ${x.st==='P'?'':'disabled'}>Deliver</button></div>`}
-${er}<button id="bk" style="width:100%;margin-top:10px">Back to batch</button></div>`}
- let h=`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>Batch ${bt.id}</b><span class="tag ${bt.st==='ready'?'g':''}">${bt.st.replace('_',' ')}</span></div>
-<p class="small">First booking ${all[0].id} · ${CFG.hubs[bt.hub]} → ${nm(all[0])}</p>
-<div class="ttl" style="margin:8px 0 0"><b>${bq()}/5 parcels</b>${bt.st==='collecting'?`<span class="tag r bwt">${fm(S.bw)}</span>`:''}</div>
-<div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div>
-<p class="small">Drops: ${all.map(nm).join(', ')}</p>
-${bt.st==='collecting'?'<p class="small">More bookings can join until the timer ends or the batch reaches 5. You do not have to wait for 5 (demo speed: 1 s = 1 min).</p>':''}
-${bt.st!=='in_progress'?`<button id="vd" style="width:100%;margin-top:8px">${S.det?'Hide':'View'} batch details</button>`:''}
-${S.det&&bt.st!=='in_progress'?all.map(x=>`<div class="row small" style="margin-top:6px"><span>${x.id} · ${x.who} · ${pl(x)}<br>${CFG.hubs[bt.hub]} → ${nm(x)}</span><span class="tag" style="flex:none">${stl[x.st]}</span></div>`).join(''):''}
-${bt.st==='ready'?'<button class="p" id="st" style="width:100%;margin-top:8px">Start trip</button>':''}</div>`;
- if(bt.st==='collecting'||bt.st==='ready'){if(S.req&&bt.st==='collecting')h+=`<div class="box" style="border-color:var(--or)"><b>Additional shared request</b><p class="small">${S.req.who} · ${CFG.hubs[bt.hub]} → ${nm(S.req)} · 1 parcel</p><div class="row" style="margin-top:8px"><button class="g" id="ra">Accept</button><button class="r" id="rr">Reject</button></div></div>`;return h}
- return h+`<div class="box"><b>Parcels · ${all.filter(x=>x.st!=='D').length} left</b>${all.map((x,i)=>`<div class="row" style="align-items:center;margin-top:8px;border-top:1px dashed var(--line);padding-top:8px"><span class="small"><b>${x.id}</b> · ${x.who}<br>${pl(x)} · drop ${nm(x)}</span><span style="flex:none;text-align:right"><span class="tag ${x.st==='D'?'g':''}">${stl[x.st]}</span>${x.st==='D'?'':`<br><button class="p" data-sel="${i}" style="margin-top:4px;padding:5px 10px;font-size:12px">${x.st==='A'?'Pickup':'Deliver'}</button>`}</span></div>`).join('')}</div>`}
-const TH=[1080,840,600,360,120];
-function tickW(){S.bw-=15;document.querySelectorAll('.bwt').forEach(e=>e.textContent=fm(S.bw));
- if(S.bt&&S.bt.st==='collecting'){if(S.ai<5&&S.bw<=TH[S.ai]){S.ai++;newReq()}if(S.bw<=0)finalizeBatch()}}
-function newReq(){if(bq()>=5)return;if(S.req)L('Previous additional request expired');S.req=mk('Sender '+String.fromCharCode(65+S.ai),1);L(`Additional shared request sent to agent · drop ${CFG.drops[S.req.drop].split(' · ')[0]}`);draw()}
-function finalizeBatch(){clearInterval(wt);S.bw=0;S.req=null;S.bt.st='ready';L(bq()>=5?`Batch ${S.bt.id} reached 5 parcels · waiting window ended · ready`:`20-min window expired with ${bq()} parcel${bq()>1?'s':''} · batch ${S.bt.id} is ready`);draw()}
-function openBatch(){const f=S.f;S.bt={id:'B-'+Math.floor(100+Math.random()*900),hub:f.pick,dir:DIR[f.drop],st:'collecting',orders:[{id:S.o.id,who:'You',q:f.qty,drop:+f.drop,pOtp:S.o.pOtp,dOtp:S.o.dOtp,st:'A'}]};S.req=null;S.ai=0;S.det=0;S.bw=1200;clearInterval(wt);wt=setInterval(tickW,250);L(`Agent accepted the first booking · batch ${S.bt.id} created · 20-min window started`);if(bq()>=5)finalizeBatch()}
-const SPL={c:[['Loop<b>It</b>','Share the route. Split the cost.'],['Book in a minute','Enter pickup, drop and parcel details. See the price and your savings before you pay.'],['Ride along, pay less','Parcels heading the same way share one agent, so delivery costs less.'],['Track every step','Live tracking, pickup and delivery OTPs, and a proof photo at the door.']],a:[['Loop<b>It</b> Agent','Deliver more parcels on every trip.'],['Take shared batches','Accept batches of up to 5 parcels on your route, with no daily limit.'],['Earn more per trip','₹30 bonus on every batch of 3+ parcels.'],['Cash out from ₹100','Request a payout to your UPI. Admin approves it.']]};
-function splash(w){const i=w==='c'?S.sc:S.sa,x=SPL[w][i],last=i===3;
- return `<div class="phone" style="display:flex;flex-direction:column;justify-content:center;gap:16px;text-align:center">${i?'':'<div class="ring"></div>'}<h2 style="font-size:${i?24:34}px">${x[0]}</h2><p style="color:var(--mu)">${x[1]}</p><div class="dots">${[0,1,2,3].map(n=>`<i class="${n===i?'d':''}"></i>`).join('')}</div><button class="p" data-sp="${w}">${i===0?'Get started':last?(w==='c'?'Log in or register':'Start as agent'):'Next'}</button>${i&&!last?`<button data-ss="${w}">Skip</button>`:''}</div>`}
-const KB={c:[
- ['Order status',/track|where|status|late|delay/,()=>S.o?`Order ${S.o.id} is ${S.o.st.replace(/_/g,' ').toLowerCase()}. Open Home to follow it live.`:'You have no active order. Start one from the Book tab.'],
- ['Refund',/refund|cancel/,()=>'Refunds: 100% before an agent is assigned, 50% after assignment and before pickup, 0% after pickup. Failed delivery or return to sender: 100%.'],
- ['Payment',/pay|razorpay|upi|card|charged|money/,()=>'A failed payment stays unpaid and can be retried with UPI, credit or debit card. If money was debited without a booking, convert this chat to a ticket and we will reconcile it.'],
- ['OTP',/otp|code|verify/,()=>S.o?'Give your pickup OTP to the agent at pickup. Your receiver gives the delivery OTP after the agent uploads the proof photo. Both show on your order screen.':'OTPs appear on your order once an agent is assigned.'],
- ['Address',/address|location|zone|area/,()=>'We deliver from SP Road and Kalasipalya pickups for now. Save places in the Saved tab.']],
- a:[
- ['Payout',/payout|cash|upi|withdraw/,()=>`Payouts start at ₹100, go to your registered UPI and need admin approval.${S.py?' Your last request is '+S.py.st.toLowerCase()+'.':''}`],
- ['KYC',/kyc|document|aadhaar|licence|approval/,()=>'KYC needs Aadhaar, driving licence and vehicle RC. Cashfree checks them, then Super Admin approves.'],
- ['OTP',/otp|code/,()=>'Every parcel has its own pickup OTP from the sender and delivery OTP from the receiver. Upload the proof photo first, then enter the receiver OTP.'],
- ['Bonus',/bonus|incentive|earning/,()=>'You earn ₹30 for every batch of 3+ parcels, with no daily cap. A suspicious parcel report pays ₹500 after admin approval, or automatically after 48 hours.'],
- ['Batch',/batch|window|parcel|timer/,()=>'A batch takes up to 5 parcels. The 20-minute window starts when you accept the first booking and ends at 5 parcels or on expiry.'],
- ['Safety',/sos|unsafe|emergency|accident/,()=>'In an emergency use the SOS button on Home right away. I can also raise a ticket.']]};
-function ask(w,t){const c=S.chat[w],l=t.toLowerCase();c.push({r:'u',t});const k=KB[w].find(x=>x[1].test(l));
- if(k){S.cat[w]=k[0];c.push({r:'b',t:k[2]()})}
- else c.push({r:'b',t:/human|support|ticket|complain/.test(l)?'I can pass this to the support team. Tap "Convert this chat to a ticket" and I will include our conversation.':'I could not find an answer to that. Tap "Convert this chat to a ticket" and the support team will reply here.'});
- draw()}
-function mkTicket(w){const c=S.chat[w],cat=S.cat[w]||'General',t={id:'T-'+(1001+S.tk.length),w:w==='c'?'Customer':'Agent',cat,pr:['Payment','Refund','OTP','Safety','Payout'].includes(cat)?'High':'Normal',ref:w==='c'?(S.o?S.o.id:'none'):(S.bt?S.bt.id:S.o?S.o.id:'none'),st:'Open',msgs:c.filter(x=>x.r==='u').map(x=>x.t)};
- S.tk.push(t);S.tkc[w]=t.id;c.push({r:'s',t:`Ticket ${t.id} created (${cat}, ${t.pr} priority). The support team will reply here.`});L(`Support ticket ${t.id} created from ${t.w} bot chat · ${cat} · ${t.pr}`);draw()}
-function chatUI(w){const c=S.chat[w],tk=S.tk.find(x=>x.id===S.tkc[w]),chips=w==='c'?['Track my order','Refund policy','Payment failed','Delivery OTP']:['Payout','Batch and bonus','Wrong OTP','KYC status'];
- return `<div data-sc style="display:flex;flex-direction:column;gap:6px;max-height:320px;overflow:auto">${c.map(m=>`<div style="align-self:${m.r==='u'?'flex-end':'flex-start'};max-width:85%;padding:8px 11px;border-radius:14px;background:${m.r==='u'?'var(--or)':m.r==='s'?'color-mix(in srgb,var(--gr) 18%,var(--card2))':'var(--card2)'};color:${m.r==='u'?'#fff':'var(--tx)'};font-size:13px">${m.r==='s'?'<b>Support</b><br>':''}${m.t}</div>`).join('')}</div>
- <div class="row" style="flex-wrap:wrap;margin-top:8px">${chips.map(x=>`<button data-cq="${w}|${x}" style="flex:none;font-size:12px;padding:5px 9px">${x}</button>`).join('')}</div>
- <div class="row" style="margin-top:8px"><input id="ci${w}" placeholder="Ask a question"><button class="p" data-cs="${w}" style="flex:none">Send</button></div>
- ${tk?`<div class="box small"><b>Ticket ${tk.id}</b> · <span class="tag ${tk.st==='Resolved'?'g':''}">${tk.st}</span><br>${tk.cat} · ${tk.pr} priority<button data-cn="${w}" style="width:100%;margin-top:8px">Start a new chat</button></div>`:c.some(m=>m.r==='u')?`<button class="p" data-ct2="${w}" style="width:100%;margin-top:10px">Convert this chat to a ticket</button>`:''}`}
-function trackUI(hub){return `<div class="box"><div class="ttl" style="margin:0"><b>Head to pickup</b><span class="tag">ETA 6 min · 1.8 km</span></div><p class="small">${hub}</p><div class="map" style="height:150px"><svg viewBox="0 0 100 50" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%" aria-hidden="true"><path d="M10 38 Q38 44 52 24 T88 12" fill="none" stroke="var(--or)" stroke-width="1.2" stroke-dasharray="3 2"/></svg><span style="left:74%;top:6%">Pickup</span><span class="mv" style="background:var(--or);color:#fff;border-color:var(--or)">You</span></div><div class="sl"><span>Slide when you reach pickup</span><div class="sh" role="button" tabindex="0" aria-label="Slide to confirm you reached the pickup location">➜</div></div></div>`}
-function bindSlide(){document.querySelectorAll('.sl').forEach(el=>{const h=el.querySelector('.sh');let x0=null,mx=0,dx=0;
- const ok=()=>{S.rp=1;L('Agent confirmed reached at pickup location');draw()};
- h.onpointerdown=e=>{x0=e.clientX;mx=el.clientWidth-h.offsetWidth-8;dx=0;h.setPointerCapture(e.pointerId)};
- h.onpointermove=e=>{if(x0===null)return;dx=Math.max(0,Math.min(mx,e.clientX-x0));h.style.transform=`translateX(${dx}px)`};
- h.onpointerup=()=>{if(x0===null)return;x0=null;if(dx>=mx*.85)ok();else h.style.transform=''};
- h.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();ok()}}})}
-function bindSup(){const d=document;
- d.querySelectorAll('[data-sel]').forEach(e=>e.onclick=()=>{S.sel=+e.dataset.sel;S.ae2='';draw()});
- const bk=$('bk');if(bk)bk.onclick=()=>{S.sel=null;S.ae2='';draw()};
- d.querySelectorAll('[data-cq]').forEach(e=>e.onclick=()=>{const [w,t]=e.dataset.cq.split('|');ask(w,t)});
- d.querySelectorAll('[data-cs]').forEach(e=>e.onclick=()=>{const w=e.dataset.cs,t=$('ci'+w).value.trim();if(t)ask(w,t)});
- d.querySelectorAll('input[id^=ci]').forEach(i=>i.onkeydown=ev=>{if(ev.key==='Enter')i.parentNode.querySelector('[data-cs]').click()});
- d.querySelectorAll('[data-ct2]').forEach(e=>e.onclick=()=>mkTicket(e.dataset.ct2));
- d.querySelectorAll('[data-cn]').forEach(e=>e.onclick=()=>{const w=e.dataset.cn;S.chat[w]=[{r:'b',t:G}];S.tkc[w]=null;S.cat[w]=null;draw()});
- d.querySelectorAll('[data-ta]').forEach(e=>e.onclick=()=>{const [i,a]=e.dataset.ta.split('|'),t=S.tk[+i],k=t.w==='Customer'?'c':'a';
-  if(a==='start'){t.st='In progress';S.chat[k].push({r:'s',t:`Ticket ${t.id} is in progress. We are looking into it.`});L(`Admin started ticket ${t.id}`)}
-  if(a==='reply'){S.chat[k].push({r:'s',t:'We checked your case and are fixing it. You will get an update within 2 hours.'});L(`Admin replied on ticket ${t.id}`)}
-  if(a==='res'){t.st='Resolved';S.chat[k].push({r:'s',t:`Ticket ${t.id} is resolved. Reply here if the problem continues.`});L(`Admin resolved ticket ${t.id}`)}
-  draw()});
- d.querySelectorAll('[data-sc]').forEach(e=>e.scrollTop=e.scrollHeight)}
-const stepIdx={MATCHING:0,OFFERED:0,UNASSIGNED:0,AGENT_ASSIGNED:1,COLLECTED:2,AT_DELIVERY:2,PROOF_UPLOADED:3,DELIVERED:4};
-function pay(){const f=S.f;S.msg='';
- if(f.pick==='out'){S.msg=OUT;return draw()}
- if(!f.desc.trim())S.msg='Add a parcel description.';
- else if(f.qty<1||f.qty>5)S.msg='Quantity must be between 1 and 5 parcels.';
- else if(!f.decl)S.msg='Accept the prohibited-items declaration to continue.';
- if(S.msg)return draw();
- const amt=fare(f.tier,f.drop,f.qty,f.veh);S.rev+=amt;
- S.o={id:'LP'+Math.floor(1000+Math.random()*9000),...f,d:+f.drop,amt,st:'MATCHING',pOtp:String(Math.floor(1000+Math.random()*9000)),dOtp:String(Math.floor(1000+Math.random()*9000))};
- S.bt=null;S.dyn=null;L(`Razorpay payment SUCCESS ₹${amt} · declaration stored · order ${S.o.id} created`);
- if(f.tier==='express'){L('Express: shared batching bypassed');offer()}
- else if(f.tier==='sched'){L('Scheduled: advance-paid, assigned at slot');offer()}
- else{L('Shared request sent to agents');offer()}
- draw()}
-function offer(){S.rp=0;S.sel=null;S.o.st='OFFERED';S.t=CFG.offer;S.otp='';S.photo=false;S.otpErr='';L('Offer sent to agent · timer '+CFG.offer+'s');clearInterval(tm);
- tm=setInterval(()=>{S.t--;const e=$('tm');if(e)e.textContent=S.t+'s';if(S.t<=0){clearInterval(tm);reject('timeout')}},1000)}
-function reject(w){clearInterval(tm);if(!S.o||!['OFFERED','MATCHING'].includes(S.o.st))return;S.o.st='UNASSIGNED';L(w==='timeout'?'Offer timed out · no agents left in zone':'All zone agents rejected · order UNASSIGNED · admin alert fired');draw()}
-function setSt(st,m){S.o.st=st;if(m)L(m);draw()}
-function done(){const o=S.o;const e=Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1);const b=(o.tier==='shared'&&bq()>=3)?30:0;S.earn+=e+b;S.bonus+=b;S.n++;S.tx.unshift({t:'Today',m:'Delivery '+o.id+(b?' + batch bonus':''),a:e+b});S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'});L(`Delivered · receiver OTP verified · agent +₹${e}${b?' +₹30 batch bonus':''}`);setSt('DELIVERED')}
-function cancel(by){const o=S.o,p=['MATCHING','OFFERED','UNASSIGNED'].includes(o.st)||by==='admin'?100:o.st==='AGENT_ASSIGNED'?50:0;
- clearInterval(tm);clearInterval(wt);S.refund={p,amt:Math.round(o.amt*p/100)};S.rev-=S.refund.amt;setSt('CANCELLED',`${by==='admin'?'Admin':'Customer'} cancelled · refund ${p}% (₹${S.refund.amt})`)}
-function cust(){
- const W=(t,b)=>`<div class="phone"><div class="ttl"><h2>${t}</h2><span class="tag g">Customer app</span></div>${b}</div>`;
- const E=S.ce?`<div class="err">${S.ce}</div>`:'';
- if(S.sc<4)return splash('c');
- if(!S.cu)return W('Log in or register',S.cs==='phone'?`<p class="small">New numbers are registered automatically.</p><label>Mobile number</label><input id="cph" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${S.cph}">${E}<button class="p" id="cgo" style="width:100%;margin-top:14px">Send OTP</button>`:`<p class="small">OTP sent to +91 ${S.cph}. Demo OTP: 1234</p><label>Enter OTP</label><input id="cotp" inputmode="numeric" maxlength="4" placeholder="4 digits">${E}<button class="p" id="cver" style="width:100%;margin-top:14px">Verify and continue</button><button id="cchg" style="width:100%;margin-top:8px">Change number</button>`);
- const nav=`<div class="row" style="margin-top:14px">${[['home','Home'],['book','Book'],['addr','Saved'],['prof','Profile'],['help','Help']].map(([k,n])=>`<button data-ct="${k}" class="${S.ct===k?'on':''}">${n}</button>`).join('')}</div>`;
- if(S.ct==='help')return W('Support',chatUI('c')+nav);
- if(S.ct==='home'){const act=S.o&&!['DELIVERED','CANCELLED'].includes(S.o.st);
-  const st={MATCHING:'Order confirmed · pickup in 30–45 min',OFFERED:'Order confirmed · pickup in 30–45 min',UNASSIGNED:'Order confirmed · pickup in 30–45 min',AGENT_ASSIGNED:'Agent is heading to pickup',COLLECTED:'On the way to the drop',AT_DELIVERY:'Agent is at the delivery address',PROOF_UPLOADED:'Completing delivery'};
-  return W('Home',`<p style="font-size:18px;font-weight:600">Hi, Priya</p><div class="box row" style="align-items:center"><span><span class="small">Current location</span><br><b>SP Road, Bengaluru</b></span><span class="tag g" style="flex:none">In service area</span></div>
-<button class="p" data-ct="book" style="width:100%;margin-top:12px;padding:14px">New booking</button>
-${act?`<div class="box"><div class="ttl" style="margin:0"><b>Active · ${S.o.id}</b><span class="tag">${CFG.tiers[S.o.tier].n}</span></div><p class="small">${st[S.o.st]}</p><button data-ct="book" style="width:100%;margin-top:8px">Track order</button></div>`:''}
-<div class="box" style="background:var(--or);border-color:var(--or);color:#fff"><b class="d" style="font-size:16px">Save up to 45% with Shared Standard</b><br><span style="font-size:13px">Parcels going your way share one agent.</span></div>
-<label>Delivery types</label><div class="row">${Object.entries(CFG.tiers).map(([k,t])=>`<button data-th="${k}" style="padding:8px 6px;font-size:12px"><b>${t.n}</b><br><span class="small">from ₹${t.m}</span></button>`).join('')}</div>
-<label>Book from a saved address</label><div class="row" style="flex-wrap:wrap">${S.ad.map((x,i)=>`<button data-qh="${i}" style="flex:none;font-size:12px;padding:5px 9px">${x.l}</button>`).join('')||'<span class="small">No saved addresses yet.</span>'}</div>
-<label>Recent bookings</label>${S.hist.slice(0,3).map(x=>`<div class="box row small" style="align-items:center;margin-top:6px"><span><b>${x.t}</b> · ${x.id}<br>${x.r}</span><span style="flex:none;text-align:right">₹${x.p}<br>${x.s}</span></div>`).join('')}`+nav)}
- if(S.ct==='book')return book().replace(/<\/div>$/,nav+'</div>');
- if(S.ct==='addr')return W('Saved addresses',S.ad.map((x,i)=>`<div class="box row" style="align-items:center"><span><b>${x.l}</b><br><span class="small">${x.a} · ${CFG.hubs[x.z]}</span></span><button class="r" data-del="${i}" style="flex:none">Remove</button></div>`).join('')+`<label>Label</label><input id="al" placeholder="Home, Office, Shop"><label>Address</label><input id="aa" placeholder="Street, area"><label>Area</label><select id="az">${Object.entries(CFG.hubs).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>${E}<button class="p" id="aadd" style="width:100%;margin-top:10px">Save address</button><p class="small" style="margin-top:8px">Saved addresses show up as quick-select buttons when you book.</p>`+nav);
- return W('Profile',`<div class="box"><b>Priya Traders</b><br><span class="small">+91 ${S.cph}</span></div><div class="box small">${S.ad.length} saved addresses. Order history and invoices appear here after delivery.</div><button class="r" id="lo" style="width:100%;margin-top:12px">Log out</button>`+nav)}
-function book(){const o=S.o,f=S.f;let h=`<div class="phone"><div class="ttl"><h2>${o?'Booking '+o.id:'New booking'}</h2><span class="tag g">Customer app</span></div>`;
- if(!o){const tiers=Object.entries(CFG.tiers).map(([k,t])=>{const p=fare(k,f.drop,f.qty,f.veh);return `<button class="tier ${f.tier===k?'sel':''}" data-tier="${k}"><span><b>${t.n}</b><br><span class="small">ETA ${t.eta}</span></span><span style="text-align:right"><s>₹${Math.round(p*1.8)}</s><br><b>₹${p}</b></span></button>`}).join('');
- h+=`<label>Pickup</label><div class="row" style="flex-wrap:wrap;margin-bottom:6px">${S.ad.map((x,i)=>`<button data-qa="${i}" style="flex:none;font-size:12px;padding:5px 9px">${x.l}</button>`).join('')}</div><select data-k="pick">${Object.entries(CFG.hubs).map(([k,v])=>`<option value="${k}" ${f.pick===k?'selected':''}>${v}</option>`).join('')}</select>
- <label>Drop</label><select data-k="drop">${Object.entries(CFG.drops).map(([k,v])=>`<option value="${k}" ${f.drop==k?'selected':''}>${v}</option>`).join('')}</select>
- <div class="row"><div><label>Parcels</label><input type="number" min="1" max="5" value="${f.qty}" data-k="qty"></div><div><label>Vehicle</label><select data-k="veh"><option value="2W" ${f.veh==='2W'?'selected':''}>2-wheeler</option><option value="3W" ${f.veh==='3W'?'selected':''}>3-wheeler</option></select></div></div>
- <label>Parcel description</label><input value="${f.desc.replace(/"/g,'&quot;')}" placeholder="e.g. 2 boxes of handmade candles" data-k="desc">
- <label style="display:flex;gap:8px;align-items:flex-start;color:var(--tx)"><input type="checkbox" style="width:auto;margin-top:3px" ${f.decl?'checked':''} data-k="decl">I confirm this parcel has no prohibited items.</label>
- <label>Delivery type</label>${tiers}
- ${S.msg?`<div class="err">${S.msg}</div>`:''}
- <button class="p" id="pay" style="width:100%;margin-top:14px">Pay ₹${fare(f.tier,f.drop,f.qty,f.veh)} with Razorpay</button><p class="small" style="margin-top:8px">UPI, credit and debit cards. Prices come from admin configuration.</p>`}
- else{const i=stepIdx[o.st]??0;const lab=['Confirmed','Agent assigned','On the way','Proof uploaded','Delivered'];
- h+=`<div class="steps">${lab.map((_,j)=>`<i class="${o.st==='CANCELLED'?'':j<=i?'d':''}"></i>`).join('')}</div>`;
- if(['MATCHING','OFFERED','UNASSIGNED'].includes(o.st))h+=`<div class="box"><div class="big">Order confirmed</div><p>Estimated pickup in 30–45 min</p><div class="bar"><i></i></div></div>`;
- if(o.st==='AGENT_ASSIGNED')h+=`<div class="box"><b>Ravi K. · ${o.veh==='2W'?'Honda Activa':'Piaggio Ape'} · ★4.8</b><p class="small">Agent accepted. Live tracking on.</p><div class="map"><span style="left:14%;top:60%">Pickup</span><span style="left:70%;top:18%">Drop</span><span style="left:38%;top:38%;background:var(--or);color:#fff;border-color:var(--or)">Ravi</span></div><p style="margin-top:8px">Share pickup OTP with agent: <b class="big">${o.pOtp}</b></p></div>`;
- if(['COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=`<div class="box"><b>Parcel is in transit</b><div class="map"><span style="left:55%;top:35%;background:var(--or);color:#fff;border-color:var(--or)">Ravi</span><span style="left:74%;top:16%">Drop</span></div>${o.st==='PROOF_UPLOADED'?`<p style="margin-top:8px">Receiver OTP: <b class="big">${o.dOtp}</b></p>`:''}</div>`;
- if(o.st==='DELIVERED')h+=`<div class="box"><div class="big" style="color:var(--gr)">Delivered</div><p>You saved ₹${Math.round(o.amt*.8)} vs standard courier. Shared routes also cut carbon emissions.</p><p class="small">Proof photo and OTP time saved to history.</p></div>`;
- if(o.st==='CANCELLED')h+=`<div class="box"><div class="big" style="color:var(--rd)">Cancelled</div><p>Refund ${S.refund.p}% · ₹${S.refund.amt} to original payment method.</p></div>`;
- h+=`<div class="box small">${o.amt?`Paid ₹${o.amt} · ${CFG.tiers[o.tier].n} · ${o.qty} parcel${o.qty>1?'s':''} · ${CFG.hubs[o.pick]}`:''}</div>`;
- if(!['DELIVERED','CANCELLED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=`<button class="r" id="cx" style="width:100%;margin-top:10px">Cancel · ${o.st==='AGENT_ASSIGNED'?'50%':'100%'} refund</button>`;
- else if(!['DELIVERED','CANCELLED'].includes(o.st))h+=`<p class="small" style="margin-top:10px">Cancellation after pickup is non-refundable.</p>`;
- if(['DELIVERED','CANCELLED'].includes(o.st))h+=`<button class="p" id="nw" style="width:100%;margin-top:10px">Book another</button>`}
- return h+'</div>'}
-function credit(w){S.sus={st:'APPROVED',b:'CREDITED'};S.earn+=500;S.bonus+=500;S.tx.unshift({t:'Today',m:'Suspicious report bonus',a:500});L(w?'48h passed with no admin action · ₹500 auto-credited once':'Admin approved report · ₹500 credited');draw()}
-function agent(){const g=S.ag,E=S.ae?`<div class="err">${S.ae}</div>`:'';
- const W=(t,b)=>`<div class="phone"><div class="ttl"><h2>${t}</h2><span class="tag g">Agent app</span></div>${b}</div>`;
- if(S.sa<4)return splash('a');
- if(g.st==='login')return W('Agent login',`<label>Mobile number</label><input id="aph" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${g.ph}">${E}<button class="p" id="ago" style="width:100%;margin-top:14px">Send OTP</button>`);
- if(g.st==='otp')return W('Verify OTP',`<p class="small">OTP sent to +91 ${g.ph}. Demo OTP: 1234</p><label>OTP</label><input id="aotp" inputmode="numeric" maxlength="4" placeholder="4 digits">${E}<button class="p" id="aver" style="width:100%;margin-top:14px">Verify and continue</button>`);
- if(g.st==='kyc')return W('Register and KYC',`<p class="small">All three documents are required. Cashfree checks them automatically.</p>${[['a','Aadhaar card'],['d','Driving licence'],['r','Vehicle RC']].map(([k,n])=>`<button data-dk="${k}" class="${g.dk[k]?'g':''}" style="width:100%;margin-top:8px;text-align:left">${g.dk[k]?'✓ '+n+' uploaded':n+' · tap to upload'}</button>`).join('')}<label>Vehicle number (2-wheeler)</label><input id="avn" value="${g.vn}" placeholder="KA 01 AB 1234">${E}<button class="p" id="aks" style="width:100%;margin-top:14px">Submit for verification</button>`);
- if(g.st==='pending')return W('Under review',`<div class="box"><b>Documents submitted</b><p class="small">Cashfree result: PASS. Super Admin reviews next, and you can't receive offers until approved. Open the Super Admin panel to approve.</p></div>`);
- if(g.st==='rejected')return W('KYC rejected',`<div class="err">Super Admin rejected your documents. Upload clear copies and resubmit.</div><button class="p" id="ars" style="width:100%;margin-top:12px">Resubmit documents</button>`);
- const nav=`<div class="row" style="margin-top:14px">${[['dash','Home'],['home','Tasks'],['earn','Earnings'],['help','Help']].map(([k,n])=>`<button data-at="${k}" class="${S.at===k?'on':''}">${n}</button>`).join('')}</div>`;
- return (S.at==='dash'?dash():S.at==='home'?agentHome():S.at==='help'?`<div class="phone"><div class="ttl"><h2>Support</h2><span class="tag g">Agent app</span></div>${chatUI('a')}</div>`:earn()).replace(/<\/div>$/,nav+'</div>')}
-function dash(){const o=S.o,act=o&&(['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)||(S.bt&&!S.bt.done&&o.st==='DELIVERED'));
- return `<div class="phone"><div class="ttl"><h2>Hi, Ravi</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div>
- <div class="row" style="flex-wrap:wrap;gap:6px"><span class="tag">SP Road zone</span><span class="tag g">KYC approved</span><span class="tag">2-wheeler</span></div>
- <label>Shift</label><div class="row">${[['Morning','6–12'],['Day','10–4'],['Evening','4–8']].map(([n,t])=>`<button data-sh="${n}" class="${S.shift===n?'on':''}" style="padding:8px 4px"><b>${n}</b><br><span style="font-size:11px">${t}</span></button>`).join('')}</div>
- <div class="k" style="grid-template-columns:repeat(3,1fr);margin-top:12px"><div><b>${S.n}</b><span>Deliveries</span></div><div><b>₹${S.earn}</b><span>Today</span></div><div><b>₹${S.bonus}</b><span>Bonus</span></div></div>
- ${o&&o.st==='OFFERED'?`<div class="box" style="border-color:var(--or)"><div class="ttl" style="margin:0"><b>New offer</b><span class="tag r" id="tm">${S.t}s</span></div><p class="small">${CFG.hubs[o.pick]} · ${bq()} parcel${bq()>1?'s':''}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">View offer</button></div>`:act?`<div class="box"><b>Active task · ${o.id}</b><p class="small">${S.bt&&!S.bt.done?'Batch '+S.bt.id+' · '+S.bt.st.replace('_',' ')+' · '+bq()+'/5 parcels'+(S.bt.st==='collecting'?' · <span class="bwt">'+fm(S.bw)+'</span> left':''):o.st.replace(/_/g,' ').toLowerCase()}</p><button class="p" data-ag="home" style="width:100%;margin-top:8px">Open task</button></div>`:`<div class="box"><b>${S.agent?'You are online':'You are offline'}</b><p class="small">${S.agent?'Offers show up here when a batch is ready in your zone.':'Go online to receive offers during your shift.'}</p></div>`}
- <div class="box"><b>Batch bonus</b><p class="small">₹30 for every batch of 3+ parcels. No daily cap.</p></div>
- <button class="r" id="sos" style="width:100%;margin-top:10px">${S.sos?'SOS sent · support is notified':'SOS'}</button></div>`}
-function earn(){const b=S.opening+S.earn-S.paid,wk=[420,380,510,460,390,S.earn],dy=['Mon','Tue','Wed','Thu','Fri','Today'];
- return `<div class="phone"><div class="ttl"><h2>Earnings</h2><span class="tag g">Agent app</span></div>
- <div class="box"><span class="small">Available to cash out</span><div class="big">₹${b}</div><span class="small">Today ₹${S.earn} from ${S.n} deliveries · batch bonuses ₹${S.bonus}</span></div>
- <div class="box"><div class="small">This week</div><div style="display:flex;gap:6px;align-items:flex-end;height:84px;margin-top:6px">${wk.map((x,i)=>`<div style="flex:1;text-align:center"><div style="height:${Math.max(3,Math.round(Math.min(x,550)/550*60))}px;background:${i===5?'var(--or)':'var(--line)'};border-radius:4px"></div><span class="small">${dy[i]}</span></div>`).join('')}</div></div>
- <div class="box"><b>Incentives</b><p class="small">₹30 batch bonus for every shared batch with 3+ parcels, no daily cap. It also applies when a third parcel is added mid-trip. Solo Express trips don't qualify.<br>Suspicious report bonus ₹500: ${S.sus?S.sus.st+' · '+S.sus.b:'no report sent'}</p></div>
- <div class="box"><b>Cash out to UPI</b><p class="small">ravi@upi · minimum ₹100</p><input id="pamt" type="number" value="100">${S.pe?`<div class="err">${S.pe}</div>`:''}<button class="p" id="pgo" style="width:100%;margin-top:8px">Request payout</button>${S.py?`<p class="small" style="margin-top:8px">Payout ₹${S.py.a} · <span class="tag ${S.py.st==='SUCCESS'?'g':''}">${S.py.st}</span>${S.py.st==='REQUESTED'?' · waiting for admin approval':''}</p>`:''}${S.wa?`<p class="small">${S.wa}</p>`:''}</div>
- <div class="box"><b>Transactions</b>${S.tx.map(x=>`<div class="row small" style="margin-top:4px"><span>${x.t} · ${x.m}</span><span style="flex:none;text-align:right">${x.a>0?'+':'−'}₹${Math.abs(x.a)}</span></div>`).join('')}</div></div>`}
-function agentHome(){const o=S.o,B=S.bt&&o&&['AGENT_ASSIGNED','COLLECTED','PROOF_UPLOADED','DELIVERED'].includes(o.st)&&!S.bt.done;let h=`<div class="phone"><div class="ttl"><h2>Ravi K.</h2><button id="on" class="${S.agent?'g':''}">${S.agent?'Online':'Offline'}</button></div><div class="small">Morning shift · SP Road zone · KYC approved</div>
-<div class="k" style="grid-template-columns:repeat(3,1fr);margin-top:10px"><div><b>${S.n}</b><span>Deliveries</span></div><div><b>₹${S.earn}</b><span>Earned</span></div><div><b>₹${S.bonus}</b><span>Batch bonus</span></div></div>`;
-  if(!o||(o.st==='MATCHING'&&!S.bt)||(['DELIVERED','CANCELLED','UNASSIGNED'].includes(o.st)&&!B))h+=`<div class="box"><b>${o&&o.st==='MATCHING'?'Waiting for a batch':'No active task'}</b><p class="small">Offers appear here when a batch is finalized.</p></div>`;
- if(o&&o.st==='OFFERED')h+=`<div class="box"><div class="ttl" style="margin:0"><b>New ${o.tier==='shared'?'shared booking request':'order offer'}</b><span class="tag r" id="tm">${S.t}s</span></div><p>${CFG.hubs[o.pick]} → ${CFG.drops[o.drop].split(' · ')[0]}<br>${bq()} parcel${bq()>1?'s':''}${S.bt?' from '+S.bt.orders.length+' senders':''} · est. ₹${Math.round(agentPay(o.d))*(S.bt?S.bt.orders.length:1)}${o.tier==='shared'&&bq()>=3?' + ₹30 bonus':''}</p><div class="row" style="margin-top:8px"><button class="g" id="acc" ${S.agent?'':'disabled'}>Accept</button><button class="r" id="rj">Reject</button></div></div>`;
- if(B)h+=batchUI();
- if(!B&&o&&o.st==='AGENT_ASSIGNED'&&!S.rp)h+=trackUI(CFG.hubs[o.pick]);
- if(!B&&o&&['AGENT_ASSIGNED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)&&(o.st!=='AGENT_ASSIGNED'||S.rp)){const pick=o.st==='AGENT_ASSIGNED',gate=o.st==='PROOF_UPLOADED';
- h+=`<div class="box"><b>${pick?'Pickup · enter sender OTP':'Delivery at '+CFG.drops[o.drop].split(' · ')[0]}</b>
- ${o.st==='AT_DELIVERY'?`<button class="p" id="ph" style="width:100%;margin-top:8px">Take proof photo</button><p class="small" style="margin-top:6px">OTP entry stays locked until the photo uploads.</p>`:''}
- <label>${pick?'Pickup OTP':'Receiver OTP'}</label><input id="otp" inputmode="numeric" maxlength="4" ${pick||gate?'':'disabled'} placeholder="4 digits" value="${S.otp}">
- ${S.otpErr?`<div class="err">${S.otpErr}</div>`:''}<button class="p" id="vo" style="width:100%;margin-top:8px" ${pick||gate?'':'disabled'}>${pick?'Verify and collect':'Verify and complete'}</button></div>`}
- if(o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st))h+=S.sus?`<p class="small" style="margin-top:8px">Suspicious report ${S.sus.st} · ₹500 bonus ${S.sus.b}</p>`:`<button class="r" id="sr" style="width:100%;margin-top:8px">Report suspicious parcel</button>`;
-if(o&&!B&&o.st==='COLLECTED')h+=`<div class="box"><b>Parcel collected · route started</b><p class="small">${S.bt?S.bt.orders.length+' stops · '+bq()+' parcels':''}</p><button class="p" id="ar" style="width:100%;margin-top:8px">Arrived at drop</button></div>`;
- return h+'</div>'}
-function admin(){const o=S.o,un=o&&o.st==='UNASSIGNED';
- let h=`<div class="admin"><div class="ttl"><h2>Super Admin</h2><span class="tag">Live operations</span></div>
- <div class="k"><div><b>${S.bt?S.bt.orders.length:o?1:0}</b><span>Active orders</span></div><div><b>${S.n}</b><span>Delivered</span></div><div><b>₹${S.rev}</b><span>Revenue</span></div><div><b>${S.agent&&S.ag.st==='ok'?1:0}</b><span>Agents online</span></div></div>`;
- if(S.tk.length)h+=`<div class="box" style="margin:0 0 12px"><b>Support tickets · ${S.tk.filter(x=>x.st!=='Resolved').length} open</b>${S.tk.map((t,i)=>`<div style="margin-top:10px;border-top:1px dashed var(--line);padding-top:8px"><div class="row" style="align-items:center"><b>${t.id} · ${t.w}</b><span style="flex:none;text-align:right"><span class="tag ${t.pr==='High'?'r':''}">${t.pr}</span> <span class="tag ${t.st==='Resolved'?'g':''}">${t.st}</span></span></div><p class="small">${t.cat} · ref ${t.ref} · converted from bot chat<br>“${t.msgs.join(' / ').slice(0,110)}”</p>${t.st==='Resolved'?'':`<div class="row" style="margin-top:6px">${t.st==='Open'?`<button data-ta="${i}|start">Start</button>`:''}<button data-ta="${i}|reply">Reply</button><button class="g" data-ta="${i}|res">Resolve</button></div>`}</div>`).join('')}</div>`;
- if(S.bt)h+=`<div class="box" style="margin:0 0 12px"><b>Shared batch ${S.bt.id}</b> <span class="tag">${CFG.hubs[S.bt.hub]} · ${S.bt.dir}</span><div class="steps">${[1,2,3,4,5].map(n=>`<i class="${n<=bq()?'d':''}"></i>`).join('')}</div><p class="small">${bq()}/5 parcels · ${S.bt.orders.map(x=>x.who+' ('+x.q+')').join(', ')}<br>Status ${S.bt.st.replace('_',' ')}${S.bt.st==='collecting'?' · window closes in <span class="bwt">'+fm(S.bw)+'</span>':''}</p></div>`;
- if(S.ag.st==='pending')h+=`<div class="box" style="margin:0 0 12px"><b>Agent KYC review · Ravi K.</b><p class="small">Aadhaar, licence and RC uploaded · vehicle ${S.ag.vn}<br>Cashfree result <span class="tag g">PASS</span> · you can approve, reject or override, and it is logged.</p><div class="row" style="margin-top:8px"><button class="g" id="kap">Approve</button><button class="r" id="krj">Reject</button></div></div>`;
- if(S.sus&&S.sus.b==='PENDING')h+=`<div class="box" style="margin:0 0 12px"><b>Suspicious parcel report</b><p class="small">Order ${o?o.id:''} · Ravi K. · GPS 12.97, 77.57. ₹500 auto-credits if there is no action within 48h.</p><div class="row" style="margin-top:8px"><button class="g" id="sap">Approve ₹500</button><button class="r" id="srj">Reject</button><button id="s48">Skip 48h</button></div></div>`;
- if(S.py)h+=`<div class="box" style="margin:0 0 12px"><b>Agent payout</b> · ₹${S.py.a} to ravi@upi · RazorpayX <span class="tag ${S.py.st==='SUCCESS'?'g':''}">${S.py.st}</span>${S.py.st==='SUCCESS'?' · MSG91 WhatsApp sent':''}${S.py.st==='REQUESTED'?`<div class="row" style="margin-top:8px"><button class="g" id="pap">Approve payout</button><button class="r" id="prj">Reject</button></div>`:''}</div>`;
- if(un)h+=`<div class="err" style="margin:0 0 12px"><b>Unassigned alert</b> · order ${o.id} has no agent. Review the map, then force-assign (zone override) or cancel with full refund.<div class="row" style="margin-top:8px"><button class="p" id="fa" ${S.ag.st==='ok'?'':'disabled'}>Force-assign Ravi K.</button><button class="r" id="ac">Cancel + full refund</button></div></div>`;
- h+=`<div class="two"><div><h3 style="margin-bottom:6px">Bookings</h3><div class="tw"><table><tr><th>ID</th><th>Type</th><th>Parcels</th><th>Status</th></tr>${o?`<tr><td>${o.id}</td><td>${CFG.tiers[o.tier].n}</td><td>${o.qty}</td><td><span class="tag ${o.st==='DELIVERED'?'g':un?'r':''}">${o.st}</span></td></tr>${S.bt?S.bt.orders.slice(1).map(x=>`<tr><td>${x.id}</td><td>Shared Standard</td><td>${x.q}</td><td><span class="tag ${x.st==='D'?'g':''}">${['MATCHING','OFFERED','UNASSIGNED'].includes(o.st)?o.st:{A:'AGENT_ASSIGNED',C:'COLLECTED',P:'PROOF_UPLOADED',D:'DELIVERED'}[x.st]}</span></td></tr>`).join(''):''}`:`<tr><td colspan="4" class="small">No bookings yet. Create one in the customer app.</td></tr>`}</table></div>
- <h3 style="margin:14px 0 6px">Hubs</h3><div class="small">SP Road · Kalasipalya · both active · max 5 parcels per batch · 20-min window</div>
- <h3 style="margin:14px 0 6px">Configuration</h3><div class="small">Offer timeout ${CFG.offer}s · min distance 3 km · batch bonus ₹30 at 3+ parcels · suspicious report ₹500 (auto-credit after 48h)</div></div>
- <div><h3 style="margin-bottom:6px">Live agent board</h3><div class="map"><span style="left:20%;top:55%">SP Road hub</span><span style="left:62%;top:22%">Kalasipalya hub</span>${S.agent&&S.ag.st==='ok'?`<span style="left:40%;top:36%;background:var(--gr);color:#04140F;border-color:var(--gr)">Ravi K. · ${o&&['AGENT_ASSIGNED','COLLECTED','AT_DELIVERY','PROOF_UPLOADED'].includes(o.st)?'on trip':'available'}</span>`:''}</div>
- <h3 style="margin:14px 0 6px">Audit trail</h3><div class="log">${S.log.length?S.log.map(x=>`<div>${x.t} · ${x.m}</div>`).join(''):'<div>No events yet.</div>'}</div></div></div></div>`;return h}
-function draw(){$('c').innerHTML=cust();$('a').innerHTML=agent();$('s').innerHTML=admin();bind();bindSup();bindSlide()}
-function bind(){const q=s=>document.querySelector(s),on=(s,fn)=>{const e=q(s);if(e)e.onclick=fn};
- document.querySelectorAll('[data-k]').forEach(e=>e.onchange=()=>{const k=e.dataset.k;S.f[k]=e.type==='checkbox'?e.checked:e.type==='number'?+e.value:e.value;S.msg='';draw()});
- document.querySelectorAll('[data-tier]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.tier;draw()});
- on('#pay',pay);on('#cx',()=>cancel('customer'));on('#nw',()=>{const k=S.f;S.o=null;S.refund=null;S.f={...k,desc:'',decl:false};draw()});
- on('#on',()=>{S.agent=!S.agent;draw()});
- on('#acc',()=>{clearInterval(tm);L('Atomic lock: booking locked to Ravi K. · customer push sent');S.o.st='AGENT_ASSIGNED';if(S.o.tier==='shared')openBatch();draw()});
- on('#rj',()=>reject('reject'));
- on('#ph',()=>{S.photo=true;L('Proof photo uploaded');setSt('PROOF_UPLOADED')});
- on('#ar',()=>setSt('AT_DELIVERY','Agent at delivery address'));
- on('#vo',()=>{const v=(q('#otp')||{}).value||'';S.otp=v;const o=S.o;
-  if(o.st==='AGENT_ASSIGNED'){if(v!==o.pOtp){S.otpErr='Wrong OTP. Ask the sender for the 4-digit code.';return draw()}S.otpErr='';L('Pickup OTP verified · parcels collected');setSt('COLLECTED')}
-  else{if(v!==o.dOtp){S.otpErr='Wrong OTP. The order stays undelivered.';return draw()}S.otpErr='';done()}});
- on('#fa',()=>{L('Admin force-assigned Ravi K. (zone override)');setSt('AGENT_ASSIGNED')});
- on('#ac',()=>cancel('admin'));
- const v=s=>(q(s)||{}).value||'';
- on('#cgo',()=>{const p=v('#cph');if(!/^\d{10}$/.test(p)){S.ce='Enter a valid 10-digit mobile number.';return draw()}S.cph=p;S.cs='otp';S.ce='';draw()});
- on('#cver',()=>{if(v('#cotp')!=='1234'){S.ce='Wrong or expired OTP. Check the code or change the number.';return draw()}S.cu=1;S.ce='';L('Customer logged in with OTP · +91 '+S.cph);draw()});
- on('#cchg',()=>{S.cs='phone';S.ce='';draw()});on('#lo',()=>{S.cu=null;S.cs='phone';S.ct='home';draw()});
- document.querySelectorAll('[data-ct]').forEach(e=>e.onclick=()=>{S.ct=e.dataset.ct;S.ce='';draw()});
- document.querySelectorAll('[data-qa]').forEach(e=>e.onclick=()=>{S.f.pick=S.ad[+e.dataset.qa].z;S.msg='';draw()});
- document.querySelectorAll('[data-del]').forEach(e=>e.onclick=()=>{S.ad.splice(+e.dataset.del,1);draw()});
- on('#aadd',()=>{const l=v('#al').trim(),a=v('#aa').trim();if(!l||!a){S.ce='Add a label and an address.';return draw()}S.ce='';S.ad.push({l,a,z:v('#az')});draw()});
- on('#ago',()=>{const p=v('#aph');if(!/^\d{10}$/.test(p)){S.ae='Enter a valid 10-digit mobile number.';return draw()}S.ag.ph=p;S.ag.st='otp';S.ae='';draw()});
- on('#aver',()=>{if(v('#aotp')!=='1234'){S.ae='Wrong or expired OTP.';return draw()}S.ae='';S.ag.st='kyc';L('Agent registered with mobile OTP');draw()});
- document.querySelectorAll('[data-dk]').forEach(e=>e.onclick=()=>{S.ag.vn=v('#avn')||S.ag.vn;S.ag.dk[e.dataset.dk]=!S.ag.dk[e.dataset.dk];draw()});
- on('#aks',()=>{S.ag.vn=v('#avn').trim();const d=S.ag.dk;if(!(d.a&&d.d&&d.r&&S.ag.vn)){S.ae='Upload all three documents and enter the vehicle number.';return draw()}S.ae='';S.ag.st='pending';L('Agent KYC submitted · Cashfree result PASS · waiting for admin review');draw()});
- on('#ars',()=>{S.ag.st='kyc';draw()});
- document.querySelectorAll('[data-at]').forEach(e=>e.onclick=()=>{S.at=e.dataset.at;draw()});
- on('#kap',()=>{S.ag.st='ok';L('Admin approved agent KYC · agent can now receive offers');draw()});
- on('#krj',()=>{S.ag.st='rejected';L('Admin rejected KYC · manual decision recorded');draw()});
- on('#sr',()=>{S.sus={st:'SUBMITTED',b:'PENDING'};L('Suspicious report sent with order, GPS and time · admin alerted');draw()});
- on('#sap',()=>credit(false));on('#s48',()=>credit(true));on('#srj',()=>{S.sus={st:'REJECTED',b:'NONE'};L('Admin rejected suspicious report');draw()});
- on('#ra',()=>{S.bt.orders.push(S.req);L(`Agent accepted additional booking ${S.req.id} · ${bq()}/5 parcels`);S.req=null;if(bq()>=5)finalizeBatch();else draw()});
- on('#rr',()=>{L('Agent rejected additional request '+S.req.id+' · not added to the batch');S.req=null;draw()});
- on('#st',()=>{S.bt.st='in_progress';L('Agent started the trip · '+S.bt.orders.length+' pickups, '+S.bt.orders.length+' drops');draw()});
- on('#vd',()=>{S.det=!S.det;draw()});
- on('#pgo',()=>{const a=+v('#pamt'),bal=S.opening+S.earn-S.paid;S.pe='';
-  if(!(a>=100))S.pe='Minimum payout is ₹100.';else if(a>bal)S.pe='Amount is more than your available balance.';
-  if(S.pe)return draw();
-  S.paid+=a;S.py={a,st:'REQUESTED'};S.wa='';L('Payout ₹'+a+' requested · waiting for admin approval');draw()});
- on('#pap',()=>{const p=S.py;p.st='PROCESSING';L('Admin approved payout ₹'+p.a+' · RazorpayX PROCESSING');draw();setTimeout(()=>{if(S.py!==p)return;p.st='SUCCESS';S.tx.unshift({t:'Just now',m:'Payout to UPI',a:-p.a});S.wa='WhatsApp confirmation sent via MSG91 for ₹'+p.a+'.';L('RazorpayX payout SUCCESS · MSG91 WhatsApp sent');draw()},2000)});
- on('#prj',()=>{S.paid-=S.py.a;S.py.st='REJECTED';L('Admin rejected payout · amount returned to agent balance');draw()});
- 
- document.querySelectorAll('[data-sp]').forEach(e=>e.onclick=()=>{const k=e.dataset.sp==='c'?'sc':'sa';S[k]=S[k]>=3?4:S[k]+1;draw()});
- document.querySelectorAll('[data-ss]').forEach(e=>e.onclick=()=>{S[e.dataset.ss==='c'?'sc':'sa']=4;draw()});
- document.querySelectorAll('[data-th]').forEach(e=>e.onclick=()=>{S.f.tier=e.dataset.th;S.ct='book';draw()});
- document.querySelectorAll('[data-qh]').forEach(e=>e.onclick=()=>{S.f.pick=S.ad[+e.dataset.qh].z;S.msg='';S.ct='book';draw()});
- document.querySelectorAll('[data-sh]').forEach(e=>e.onclick=()=>{S.shift=e.dataset.sh;L('Agent shift set to '+S.shift);draw()});
- document.querySelectorAll('[data-ag]').forEach(e=>e.onclick=()=>{S.at=e.dataset.ag;draw()});
- on('#sos',()=>{S.sos=1;L('SOS raised by Ravi K. · support notified with GPS');draw()});
- document.querySelectorAll('[data-pv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.pv,x=S.bt.orders[i];if(v('#po'+i)!==x.pOtp){S.ae2='Wrong OTP for '+x.who+'. Ask that sender for their 4-digit code.';return draw()}S.ae2='';x.st='C';S.sel=null;L(`Pickup OTP verified for ${x.id} (${x.who}) · parcel collected`);sync();draw()});
- document.querySelectorAll('[data-ph]').forEach(e=>e.onclick=()=>{const x=S.bt.orders[+e.dataset.ph];x.st='P';L(`Proof photo uploaded for ${x.id}`);sync();draw()});
- document.querySelectorAll('[data-dv]').forEach(e=>e.onclick=()=>{const i=+e.dataset.dv,x=S.bt.orders[i];if(v('#do'+i)!==x.dOtp){S.ae2='Wrong receiver OTP. The parcel stays undelivered.';return draw()}S.ae2='';x.st='D';S.sel=null;L(`Receiver OTP verified · ${x.id} delivered`);if(i===0){const o=S.o;S.hist.unshift({id:o.id,t:CFG.tiers[o.tier].n,r:CFG.hubs[o.pick]+' → '+CFG.drops[o.drop].split(' · ')[0],p:o.amt,s:'Delivered'})}sync();if(S.bt.orders.every(y=>y.st==='D'))doneBatch();else draw()})}
-$('skip').onclick=()=>{if(S.bt&&S.bt.st==='collecting')finalizeBatch()};
-$('rej').onclick=()=>reject('reject');
-$('rst').onclick=()=>{clearInterval(tm);clearInterval(wt);S=fresh();draw()};
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('show',p.id===b.dataset.t))});
-draw();
-</script></body></html>
+const A='assets/';
+const PICK=[{id:'sp',n:'SP Road',s:'SP Road, Bangalore',a:'Near City Market Metro Gate 2',ok:1},{id:'kl',n:'Kalasipalya',s:'Kalasipalya, Bangalore',a:'Kalasipalya Main Road, near Bus Stand',ok:1},{id:'mj',n:'Majestic Bus Stand',s:'Majestic, Bangalore',a:'Kempegowda Bus Station',ok:0},{id:'kp',n:'Koramangala',s:'Koramangala, Bangalore',a:'Koramangala',ok:0},{id:'ip',n:'Indiranagar',s:'Indiranagar, Bangalore',a:'Indiranagar',ok:0}];
+const DROP=[{id:'kor',n:'Koramangala',a:'4th Block, 80 Feet Road',km:7.5},{id:'ind',n:'Indiranagar',a:'100 Feet Road, HAL 2nd Stage',km:6},{id:'jay',n:'Jayanagar',a:'4th Block, 11th Main',km:9},{id:'mg',n:'MG Road',a:'Near MG Road Metro',km:4},{id:'wf',n:'Whitefield',a:'ITPL Main Road',km:18}];
+const TIERS={sched:{n:'Scheduled',b:20,k:1.2,m:30,d:'For high-volume merchants with fixed daily slot',ic:['tier/6cee1.svg',18,20]},
+ shared:{n:'Shared Standard',b:28,k:2,m:40,d:'Eco-route batching (20 min window)',ic:['tier/885b5.svg',26,13],rv:['review/2621b.svg',20,10],pop:1},
+ express:{n:'Express',b:60,k:3,m:75,d:'Urgent delivery (immediate solo agent)',ic:['tier/f04a5.svg',16,20]}};
+const VEH={'2W':['2 Wheeler','Optimized for swift city delivery'],'3W':['3 Wheeler','For bulky parcels · +40% fare']};
+const WT=['< 1 kg','1 - 5 kg','5 - 10 kg','10+ kg'],SLOTS=['9–11 AM','11 AM–1 PM','2–4 PM','4–6 PM'];
+const PM=[['upi','UPI','Google Pay, PhonePe, Paytm'],['card','Credit / Debit card','Visa, Mastercard, RuPay'],['nb','Net banking','All major banks']];
+const ST={confirmed:['Finding partner','b'],scheduled:['Scheduled','b'],assigned:['Partner assigned','o'],picked:['In Transit',''],arriving:['Arriving',''],delivered:['Delivered',''],cancelled:['Cancelled','r']};
+const OUT='Sorry, Loopit currently picks up from SP Road and Kalasipalya only. We are expanding soon.';
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const im=(s,w,h,c='')=>`<img src="${A}${s}" width="${w}" height="${h}" alt=""${c?` class="${c}"`:''}>`;
+const cmp=(l,c='ico')=>`<span class="${c}">${l.map(([s,i,p='0'])=>`<i class="v" style="inset:${i}"><i class="v" style="inset:${p}"><img src="${A}${s}.svg" alt=""></i></i>`).join('')}</span>`;
+const pl=id=>PICK.find(p=>p.id===id),dr=id=>DROP.find(d=>d.id===id);
+const clock=d=>{let h=d.getHours();const ap=h<12?'AM':'PM';h=h%12||12;return `${h}:${String(d.getMinutes()).padStart(2,'0')} ${ap}`};
+const stamp=(d=new Date())=>`${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()}, ${clock(d)}`;
+const later=m=>clock(new Date(Date.now()+m*6e4));
+const otp4=()=>String(1000+Math.floor(Math.random()*9000));
+const act=()=>S.o&&!['delivered','cancelled'].includes(S.o.st)?S.o:null;
+const refundPct=o=>['confirmed','scheduled'].includes(o.st)?100:o.st==='assigned'?50:0;
+
+const freshForm=(tier='shared')=>({pick:'',drop:'',desc:'',qty:1,wt:'< 1 kg',photos:0,rn:'',rp:'',veh:'2W',decl:false,tier,day:'Tomorrow',slot:''});
+const fresh=()=>({scr:'splash',ph:'',otp:'',err:'',q:'',qd:'',recent:['sp','kl'],f:freshForm(),o:null,pm:'upi',bd:false,det:false,rate:0,sheet:null,failNext:false,al:'',aa:'',az:'sp',
+ orders:[{id:'LP248620',pick:'kl',drop:'ind',tier:'shared',qty:1,veh:'2W',amt:40,st:'delivered',when:'12 Sep 2026, 11:20 AM'}],
+ ad:[{l:'Shop',a:'4th Cross, SP Road',z:'sp'},{l:'Warehouse',a:'Market Lane, Kalasipalya',z:'kl'}]});
+let S=fresh(),T={};
+
+// ponytail: flat fare formula from the old prototype; swap for the admin-configured pricing API
+function fare(f=S.f){const t=TIERS[f.tier],km=dr(f.drop)?.km||0,per=Math.round(Math.max(t.m,t.b+t.k*km)),v=f.veh==='3W'?1.4:1,base=Math.round(per*f.qty*v),fee=f.tier==='sched'?10:0;return {per,qty:f.qty,v,base,fee,total:base+fee}}
+
+/* ---------- shared components ---------- */
+const WIFI=[['home/292fa','60.71% 40.63% 17.86% 40.63%'],['home/87e9f','21.43% 19.06% 56.35% 19.06%'],['home/a4e12','42.86% 32.32% 41.2% 32.32%']];
+const SB=`<div class="sb" aria-hidden="true"><span>9:41</span><span class="sbi">${im('home/04143.svg',16,14)}${cmp(WIFI,'wifi')}<span class="bat"></span></span></div>`;
+const HD=(t,back)=>`<header class="hd">${SB}<div class="hdr"><button class="back" data-go="${back}" aria-label="Go back">${im('tier/a7047.svg',13.333,13.333)}</button><h1 class="ht">${t}</h1><span class="sp"></span></div></header>`;
+const HT=(t,back)=>`<header class="hd t">${SB}<div class="hdr"><span class="hrow">${back?`<button class="hb44" data-go="${back}" aria-label="Go back">${im('assigned/b7c55.svg',16,16)}</button>`:''}<h1 class="ht">${t}</h1></span><button class="hb44" data-act="toast" data-m="Support chat opens here" aria-label="Help and support">${im('assigned/dc40c.svg',18.333,16.5)}</button></div></header>`;
+const STEP=['Pickup','Drop','Details','Review'];
+const steps=n=>`<div class="stp" aria-label="Step ${n} of 4"><div class="stpl"><i style="width:${(n-1)/3*100}%"></i></div>${STEP.map((l,i)=>{const k=i+1,c=k<n?'done':k===n?'cur':'';return `<div class="st ${c}"><b>${k<n?im('review/59a43.svg',11.933,9.1):k}</b><span>${l}</span></div>`}).join('')}</div>`;
+const cta=(l,a,c='')=>`<button class="cta ${c}" ${a}>${l}${im('tier/77060.svg',13.333,13.333)}</button>`;
+const flow=(t,back,n,body,foot,hdr)=>`<div class="scr">${hdr||HD(t,back)}<main class="bd${n?'':' pt'}">${n?steps(n):''}${body}${S.err?`<p class="ferr" role="alert">${S.err}</p>`:''}</main>${foot?`<footer class="ft">${foot}</footer>`:''}</div>`;
+const HP=(t,back,ic)=>`<header class="hp">${SB}<div class="hpr"><button class="hpb" data-go="${back}" aria-label="Go back">${im(ic,24,24)}</button><h1>${t}</h1></div></header>`;
+const hit=(x,q)=>x.n.toLowerCase().includes(q.trim().toLowerCase());
+const locRow=(x,ic,c)=>`<button class="lrw${S.f.pick===x.id?' sel':''}" data-act="pick" data-v="${x.id}"><span class="lc ${c}">${im(ic,16,16)}</span><span class="lrt"><b>${x.n}</b><small>${x.s}</small></span>${im('pickup/82cca.svg',16,16)}</button>`;
+const pickLists=()=>{const pop=PICK.filter(x=>hit(x,S.q)),rec=S.recent.map(pl).filter(x=>hit(x,S.q));
+ return (pop.length?`<h2 class="lh">Popular Locations</h2><div class="lcard">${pop.map(x=>locRow(x,'pickup/b7206.svg','')).join('')}</div>`:'')+(rec.length?`<h2 class="lh">Recent Locations</h2><div class="lcard">${rec.map(x=>locRow(x,'pickup/9ebc8.svg','g')).join('')}</div>`:'')||'<p class="note">No locations match your search.</p>'};
+const dropList=()=>DROP.filter(x=>hit(x,S.qd)).map(d=>`<button class="drw${S.f.drop===d.id?' sel':''}" data-act="drop" data-v="${d.id}">${im('drop/f9209.svg',20,20)}<span class="lrt"><b>${d.n}</b><small>${d.n}, Bangalore</small></span>${im('drop/df2ff.svg',16,16)}</button>`).join('')||'<p class="note">No locations match your search.</p>';
+const srch=(k,ph,sm)=>`<label class="srch${sm?' sm':''}"><span class="sic">${sm?im('drop/786af.svg',16,16):im('pickup/d96c7.svg',20,20)}</span><input data-f="${k}" placeholder="${ph}" aria-label="${ph}" value="${esc(S[k])}"><button class="clr" data-act="clr" data-v="${k}" aria-label="Clear search">${sm?im('drop/9b6f9.svg',12,12):'✕'}</button></label>`;
+const VOPT=[['2W','2 Wheeler','Best for small parcels',['Max weight: <b>Up to 10 kg</b>','Cost effective &amp; quick transit','Faster traffic navigation'],`<img class="vimg" src="${A}vehicle/64fcf.png" width="53" height="37" alt="">`],
+ ['3W','3 Wheeler','Best for larger parcels',['Max weight: <b>10+ kg</b>','Spacious cargo bay','Ideal for multiple carton items'],im('vehicle/31ba1.svg',54.43,41,'vimg')]];
+const badge=st=>`<span class="bdg ${ST[st][1]}">${ST[st][0]}</span>`;
+const ocard=o=>`<button class="oc" data-act="open" data-id="${o.id}"><span class="ib44">${im('home/8f963.svg',20,20)}</span><span class="oci"><span class="ocid">#${o.id} ${badge(o.st)}</span><span class="rt">${pl(o.pick).n}${im('home/e2fc8.svg',13.108,3.696)}<span>${dr(o.drop).n}</span></span><span class="ocs">${o.when?o.when:o.st==='scheduled'?`${o.day}, ${o.slot}`:`Arriving by ${o.eta}`}</span></span>${im('home/2b6be.svg',16,16)}</button>`;
+const rvRow=([s,w,h],cap,b,sub,edit)=>`<div class="rvr"><span class="ic36">${im(s,w,h)}</span><span class="rvt"><small>${cap}</small><b>${b}</b><span>${sub}</span></span>${edit?`<button class="edit" data-go="${edit}">Edit</button>`:''}</div>`;
+const tierIc=k=>TIERS[k].rv||TIERS[k].ic;
+const rowsFor=(o,edit)=>{const P=pl(o.pick),D=dr(o.drop),t=TIERS[o.tier];return rvRow(['review/2499a.svg',13.333,16.667],'Pickup Location',`${P.n}, Bangalore`,P.a,edit&&'pickup')+rvRow(['review/dd1ea.svg',11.667,16.667],'Drop Location',`${D.n}, Bangalore`,D.a,edit&&'drop')
+ +(o.desc!==undefined?rvRow(['review/48872.svg',16.667,16.667],'Parcel Details',`${esc(o.desc)}, ${o.qty} item${o.qty>1?'s':''} (${o.wt})`,`Receiver: ${esc(o.rn)} · +91 ${o.rp}`,edit&&'parcel'):'')
+ +rvRow(['review/a4317.svg',20,11.667],'Vehicle Type',VEH[o.veh][0],VEH[o.veh][1])
+ +rvRow(tierIc(o.tier),'Delivery Type',`${t.n} (₹${fare(o).per}/parcel)`,o.tier==='sched'?`${o.day}, ${o.slot}`:t.d,edit&&'tier')};
+const partnerHead=(bento,noBtns)=>`<div class="who"><span class="whol"><span class="av"><span class="ph">${bento?`<img class="fit" src="${A}track/7d9b8.png" alt="">`:`<img src="${A}assigned/7ee4a.png" alt="">`}</span>${bento?'':'<i></i>'}</span><span><span class="nm">Rohit Kumar${bento?im('track/29f5e.svg',16.5,15.75):''}</span><span class="rtg">${bento?im('track/60e79.svg',13.333,12.667):im('assigned/5e613.svg',12.5,11.875)}4.8 <em class="${bento?'':'gt'}">(320 deliveries)</em></span></span></span>
+ ${noBtns?'':`<span class="cbs"><button class="cb" data-act="toast" data-m="Calling Rohit… (demo)" aria-label="Call Rohit Kumar">${im('assigned/39624.svg',15,15)}</button></span>`}</div>`;
+const MAP={assigned:[128,148],picked:[165,200],arriving:[205,246]};
+const mapBlock=o=>{const [l,t]=MAP[o.st]||[233,275];return `<div class="map"><img class="mimg" src="${A}track/a3ff0.png" alt="Map of the delivery route">
+  <div class="route" aria-hidden="true"><i class="v" style="inset:-1.63% -3.04%"><img src="${A}track/69db0.svg" alt=""></i><i class="v" style="inset:-1.05% -1.96%"><img src="${A}track/50258.svg" alt=""></i></div>
+  <div class="mpb"><span class="dot24"></span><span><small>Pickup location</small><b>${pl(o.pick).n}, Bangalore</b></span></div>
+  <div class="rail"><button data-act="toast" data-m="Map recentred" aria-label="Recenter map">${im('track/ba50e.svg',18.25,18.25)}</button><button data-act="toast" data-m="Map layers open here" aria-label="Toggle layers">${im('track/142cf.svg',15,15.875)}</button></div>
+  <div class="rider" style="left:${l}px;top:${t}px"><b>${im('track/03b00.svg',22,12.833)}</b></div>
+  <div class="mdrop"><span class="pin24">${im('track/ee6a1.svg',10,12.5)}</span><span><small>Drop Location</small><b>${dr(o.drop).n}, Bangalore</b></span></div></div>`};
+const otpCard=o=>o.st==='assigned'?`<div class="etac"><span class="c44">${im('track/24de4.svg',14.167,14.167)}</span><span><small>Pickup OTP</small><b style="font-size:14px;line-height:20px">Share with Rohit at pickup</b></span><span class="otpv">${o.pOtp}</span></div>`
+ :o.st==='arriving'?`<div class="etac"><span class="c44">${im('track/3a021.svg',14.167,14.167)}</span><span><small>Delivery OTP</small><b style="font-size:14px;line-height:20px">Receiver shares after proof photo</b></span><span class="otpv">${o.dOtp}</span></div>`:'';
+const NV=[['home','Home',[['home/4aa7f','12.5% 8.33% 16.67% 8.33%']]],
+ ['orders','My Orders',[['home/4b680','8.33% 16.67%','-4.5% -5.63%'],['home/ea136','8.33% 16.67% 66.67% 58.33%','-15%'],['home/a4443','54.17% 33.33% 45.83% 33.33%','-0.75px -11.25%'],['home/a4443','70.83% 33.33% 29.17% 33.33%','-0.75px -11.25%'],['home/c1688','37.5% 58.33% 62.5% 33.33%','-0.75px -45%']]],
+ null,['schedule','Schedule',[['home/1d9ec','8.33%','-4.5%']]],
+ ['profile','Profile',[['home/89a4e','62.5% 16.67% 12.5% 16.67%','-15% -5.63%'],['home/30418','12.5% 33.33% 54.17% 33.33%','-11.25%']]]];
+const nav=a=>`<nav class="bn" aria-label="Main">${NV.map(x=>{if(!x)return `<button class="bk" data-act="book" aria-label="Book new parcel"><i>${im('home/33d71.svg',24,24)}</i>Book</button>`;const on=x[0]===a,sfx=x[0]==='home'?(on?'':'-off'):(on?'-on':'');return `<button class="${on?'on':''}" data-go="${x[0]}"${on?' aria-current="page"':''}>${cmp(x[2].map(([s,i,p])=>[s+sfx,i,p]))}${x[1]}</button>`}).join('')}<div class="homeind"></div></nav>`;
+const empty=(t,p,btn)=>`<div class="empty"><span class="ib48">${im('home/8f963.svg',20,20)}</span><b>${t}</b><p>${p}</p>${btn||''}</div>`;
+const pad=n=>String(Math.max(0,n)).padStart(2,'0'),fmtPh=p=>p.slice(0,5)+' '+p.slice(5);
+const rsText=()=>S.rs>0?`<span class="gt">Resend</span> OTP in <span class="tm">00:${pad(S.rs)}</span>`:`<button data-act="resend"><span class="gt">Resend</span> OTP</button>`;
+const WAVES=(a,b)=>`<div class="waves"><i class="v" style="inset:41.29% 0 0 0"><img src="${A}${a}" alt=""></i><i class="v" style="inset:49.4% 0 0 0"><img src="${A}${b}" alt=""></i><div class="homeind"></div></div>`;
+const LMARK=`<div class="lmark"><span class="lbox">📦</span><span class="lname">Loop<b>it</b></span></div>`;
+
+/* ---------- screens ---------- */
+const V={
+splash:()=>`<div class="scr splash" data-go="welcome">${SB}
+ <div class="brand"><div class="appic">📦</div><h1 class="logo">Loop<b>it</b></h1><p>Deliveries that share your route</p><button class="sr" data-go="welcome">Get started</button></div>
+ <div class="sill"><i class="v" style="inset:23.14% 0 0 0"><img src="${A}splash/3b921.svg" alt=""></i><i class="v" style="inset:38.46% 0 0 0"><img src="${A}splash/c9fdb.svg" alt=""></i>
+ <div class="scene">${im('splash/a868c.svg',340,220)}</div><div class="dots"><i></i><i class="on"></i><i></i></div><div class="homeind"></div></div></div>`,
+
+welcome:()=>`<div class="scr wel">${SB}<i class="v welbg" aria-hidden="true"><img src="${A}welcome/981ef.svg" alt=""></i>
+ <div class="welh"><h1>More Deliveries.<br>Lower Costs.</h1><p>Multiple senders. One agent.<br>One shared trip.</p></div>
+ <div class="welill" aria-hidden="true"><i class="v"><img src="${A}welcome/42850.svg" alt=""></i>${['l','r'].map(c=>`<span class="wpin ${c}"><b>${im('welcome/6b2da.svg',20,20)}</b><i></i></span>`).join('')}<span class="wrider">${im('welcome/78359.svg',128,112)}<i></i></span></div>
+ <div class="grow"></div>
+ <div class="props">${[['47ea3','Save<br>on Delivery'],['39683','More Earning<br>for Agents'],['d26ec','Greener<br>City']].map(([s,t])=>`<div><span>${im('welcome/'+s+'.svg',24,24)}</span><b>${t}</b></div>`).join('')}</div>
+ <div class="welf"><button class="cta tall" data-go="login">Get Started ${im('welcome/cdb92.svg',16,16)}</button><div class="homeind"></div></div></div>`,
+
+login:()=>`<div class="scr login">${SB}<button class="lback" data-go="welcome" aria-label="Go back">${im('login/fe9d2.svg',20,20)}</button>
+ <div class="lhead">${LMARK}<h1>Welcome Back</h1><p>Login or register to continue</p></div>
+ <div class="lform"><label class="phin"><span class="cc">🇮🇳 <b>+91</b></span><i></i><input data-f="ph" inputmode="numeric" maxlength="10" autocomplete="tel-national" placeholder="Enter mobile number" aria-label="Mobile number" value="${esc(S.ph)}"></label>
+ ${S.err?`<p class="ferr" role="alert">${S.err}</p>`:''}<button class="cta sq" data-act="sendOtp">Continue <span aria-hidden="true">→</span></button>
+ <p class="alt">Already have an account? <button data-act="sendOtp">Log In</button></p></div>
+ <div class="grow"></div><p class="terms">By continuing, you agree to our<br><a href="#" data-act="toast" data-m="Terms & Conditions open here">Terms &amp; Conditions</a> &amp; <a href="#" data-act="toast" data-m="Privacy Policy opens here">Privacy Policy</a></p>
+ ${WAVES('login/174b0.svg','login/1c73d.svg')}</div>`,
+
+otp:()=>`<div class="scr login otpv2">${SB}<button class="lback" data-go="login" aria-label="Go back">${im('otp/790af.svg',20,20)}</button>
+ <div class="lhead">${LMARK}<h1 class="vt">Verify Your Number</h1><p>We have sent a 6-digit OTP to<br><b>+91 ${fmtPh(esc(S.ph))}</b></p></div>
+ <div class="lform"><div class="otpb" role="group" aria-label="6-digit OTP">${[0,1,2,3,4,5].map(i=>`<input class="ob" data-o="${i}" inputmode="numeric" autocomplete="${i?'off':'one-time-code'}" aria-label="Digit ${i+1}" value="${S.otp[i]||''}">`).join('')}</div>
+ <p class="rsn" id="rs" aria-live="polite">${rsText()}</p>
+ <button class="cta tall" data-act="verify">Verify <span aria-hidden="true">→</span></button><button class="chg" data-go="login">Change Mobile Number</button></div>
+ <div class="owave" aria-hidden="true"><i class="v"><img src="${A}otp/2ee32.svg" alt=""></i><div class="homeind"></div></div></div>`,
+
+notify:()=>`<div class="scr ntf">${SB}<main class="ntm"><div class="nring" aria-hidden="true"><div><div><span class="ico gear"><i class="v" style="inset:9.84% 8.33% 10.06% 8.33%"><i class="v" style="inset:-2.6% -2.5%"><img src="${A}notif/45e4d.svg" alt=""></i></i></span></div></div></div>
+ <div class="ntt"><h1>Allow Location Access</h1><p>We need your location to find nearby agents and deliver your parcels accurately.</p><h1>Enable Notifications</h1><p>Get real-time updates on your orders, deliveries and exclusive offers.</p></div></main>
+ <div class="ntb"><button class="cta" data-act="permAllow">Allow</button><button class="nn2" data-go="home">Not Now</button><div class="homeind"></div></div></div>`,
+
+home:()=>{const o=act();return `<div class="scr">${SB}
+ <div class="nh"><img src="${A}home/b0b9c.png" width="62.28" height="32" alt="Loopit"><button class="bell" data-act="toast" data-m="No new notifications" aria-label="Notifications">${im('home/cb675.svg',24,24)}<i></i></button></div>
+ <section class="hero"><div><h1>More Deliveries.<br><b>Lower Costs.</b></h1><p>Shared-route delivery for<br>businesses and individuals.</p></div>${im('home/90178.svg',145.83,112)}</section>
+ <button class="pac" data-act="book"><span class="ib48">${im('home/2fb53.svg',24,24)}</span><span><b>Book a New Delivery</b><small>Send parcels across Bangalore with lower costs.</small></span>${im('home/58496.svg',20,20)}</button>
+ <div class="types">${[['sched','Scheduled','home/23832.svg'],['shared','Shared<br>Standard','home/659a7.svg'],['express','Express','home/1c02e.svg']].map(([k,n,s])=>`<button data-act="book" data-tier="${k}"><span class="ib40">${im(s,20,20)}</span>${n}</button>`).join('')}</div>
+ <div class="px20">${o?`<div class="shd"><h2>Active Order</h2><button data-go="orders">View All</button></div>${ocard(o)}`:''}
+ ${S.orders.length?`<div class="shd"><h2>Recent Bookings</h2><button data-go="orders">View All</button></div>${ocard(S.orders[0])}`:''}</div>
+ <div class="grow" style="min-height:24px"></div>${nav('home')}</div>`},
+
+pickup:()=>flow('Pickup Location','home',1,`${srch('q','Search pickup location')}
+ <button class="curl" data-act="pick" data-v="sp"><span class="ib40">${im('pickup/288c0.svg',24,24)}</span><span class="lrt"><b>Use Current Location</b><small>Detect your current location</small></span>${im('pickup/01a2f.svg',16,16)}</button>
+ <div id="plist">${pickLists()}</div>`,'',HP('Pickup Location','home','pickup/86b6f.svg')),
+
+drop:()=>flow('Drop Location','pickup',2,`${srch('qd','Search drop location',1)}
+ <div class="dmap"><span aria-hidden="true">${[['SHIVAJINAGAR','left:calc(38.54% - .23px);top:16px'],['Shivajinagar','right:28px;top:64px'],['Indiranagar','right:20px;top:0'],['Jaya Nagar','left:20px;bottom:40px'],['Koramangala','right:64px;bottom:44px'],['BTM Layout','right:80px;bottom:12px']].map(([t,st])=>`<span class="dml" style="${st}">${t}</span>`).join('')}<i class="v"><img src="${A}drop/56522.svg" alt=""></i></span>
+ <div class="dfrom"><i></i><span><small>From</small><b>${pl(S.f.pick).n}, Bangalore</b></span></div><div class="dsel">${im('drop/261e1.svg',14,14)}<b>Select Drop Location</b></div>
+ <button class="drc" data-act="toast" data-m="Map recentred" aria-label="Re-center location">${im('drop/25a6b.svg',16,16)}</button></div>
+ <h2 class="lh sm">Popular Locations</h2><div id="dlist">${dropList()}</div>`,'',HP('Drop Location','pickup','drop/4aebe.svg')),
+
+vehicle:()=>{const f=S.f;return flow('Vehicle Selection','drop',0,`<div class="card stpc">${steps(3)}</div>
+ <div class="vst"><span><h2>Select Vehicle Type</h2><p>Choose the most optimal ride for your package</p></span>${im('vehicle/88271.svg',24,14)}</div>
+ <div class="vopts" role="radiogroup" aria-label="Vehicle type">${VOPT.map(([k,n,t,li,img])=>{const on=f.veh===k;return `<button class="vo${on?' on':''}" role="radio" aria-checked="${on}" data-act="veh" data-v="${k}"><span class="vic">${img}</span><span class="vtx"><span class="vn">${n}<i class="vr"></i></span><span class="vt">${t}</span><span class="vli">${li.map(x=>`<span><i></i><span>${x}</span></span>`).join('')}</span></span></button>`}).join('')}</div>
+ <div class="vinfo"><span>${im('vehicle/4a280.svg',15,15)}</span><p>Vehicle will be assigned automatically based on real-time driver availability and your selected option.</p></div>`,
+ `${cta('Continue','data-go="parcel"','v56')}<p class="vsafe">${im('vehicle/f2a9f.svg',10.667,13.333)}Safe &amp; certified driver partner dispatch</p>`)},
+
+receiver:()=>{const f=S.f;return flow('Receiver Details','parcel',3,`<section class="card pc"><h2>Receiver Information</h2>
+ <label class="fl" for="rn">Receiver name <em>*</em></label><input class="inp" id="rn" data-f="f.rn" autocomplete="name" placeholder="Full name" value="${esc(f.rn)}">
+ <label class="fl" for="rp">Receiver mobile <em>*</em></label><input class="inp" id="rp" data-f="f.rp" inputmode="numeric" maxlength="10" placeholder="10-digit number" value="${esc(f.rp)}"></section>
+ <label class="decl"><input type="checkbox" data-f="f.decl" ${f.decl?'checked':''}>I confirm this parcel has no prohibited items.</label>`,cta('Continue','data-act="toTier"'))},
+
+parcel:()=>{const f=S.f;return flow('Parcel Details','vehicle',3,`<section class="card pc"><h2>Parcel Information</h2>
+ <label class="fl" for="pd">What are you sending? <em>*</em></label><div class="ta"><textarea id="pd" data-f="f.desc" maxlength="100" placeholder="e.g. Electronics, Documents, Clothes, etc.">${esc(f.desc)}</textarea><span id="cnt">${f.desc.length}/100</span></div>
+ <div class="qty"><span class="fl">Quantity <em>*</em></span><div class="stepper"><button data-act="qty" data-d="-1" aria-label="Decrease quantity">−</button><output aria-live="polite">${f.qty}</output><button data-act="qty" data-d="1" aria-label="Increase quantity">+</button></div></div>
+ <span class="fl">Approx. Weight (per parcel) <em>*</em></span><div class="pills">${WT.map(w=>`<button class="pill ${f.wt===w?'on':''}" aria-pressed="${f.wt===w}" data-act="wt" data-v="${w}">${esc(w)}</button>`).join('')}</div></section>
+ <h2 class="h2s">Parcel Images (Optional)</h2>
+ <button class="upl" data-act="photo"><span class="ub"><span>${im('parcel/c0819.svg',24,24)}</span><i>+</i></span><b>${f.photos?`${f.photos} photo${f.photos>1?'s':''} added`:'Add Photos'}</b><small>Upload parcel photos (Max 5)</small></button>
+ `,cta('Continue','data-act="toRecv"'))},
+
+tier:()=>{const f=S.f;return flow('Delivery Type Selection','receiver',3,`<h2 class="stt">Select Delivery Type</h2><p class="sts">Choose speed and cost that fits your schedule</p>
+ <div class="tiers" role="radiogroup" aria-label="Delivery type">${Object.entries(TIERS).map(([k,t])=>{const on=f.tier===k;return `<button class="tr ${on?'on':''}" role="radio" aria-checked="${on}" data-act="tier" data-v="${k}"><span class="ic48">${im(...t.ic)}</span><span class="trt"><span class="trn">${t.n}${t.pop?'<i class="pop">Popular</i>':''}</span><span class="trp"><b>₹${fare({...f,tier:k,qty:1,veh:'2W'}).per}</b>per parcel</span><small>${t.d}</small></span><span class="rad"></span></button>`}).join('')}</div>
+ ${f.tier==='sched'?`<div class="card slots"><span class="cap">Pickup slot</span><div class="pills">${['Today','Tomorrow'].map(d=>`<button class="pill ${f.day===d?'on':''}" aria-pressed="${f.day===d}" data-act="day" data-v="${d}">${d}</button>`).join('')}</div><div class="pills">${SLOTS.map(s=>`<button class="pill ${f.slot===s?'on':''}" aria-pressed="${f.slot===s}" data-act="slot" data-v="${s}">${s}</button>`).join('')}</div></div>`:''}
+ <div class="eco"><span class="ic40">${im('tier/78e95.svg',15.579,15.576)}</span><span><b>Shared Batching saves up to 35% CO₂</b><small>Combined route along Bengaluru Outer Ring Corridor</small></span></div>`,cta('Continue','data-act="toReview"'))},
+
+review:()=>{const f=S.f,P=pl(f.pick),D=dr(f.drop),fb=fare();return flow('Booking Review &amp; Confirmation','tier',4,`
+ <div class="card rs"><span class="ic36">${im('review/7e7c7.svg',15,15)}</span><span class="grow"><span class="cap">Route summary</span><b>${P.n} to ${D.n}</b></span><span class="kmp">${im('review/601ad.svg',8.167,11.667)}${D.km} km</span></div>
+ <div class="card rv">${rowsFor(f,1)}</div>
+ ${S.bd?`<div class="card fbd" id="bdn"><h3>Estimated Breakdown</h3><div class="fbl"><div><span>Delivery Base Fare</span><span>₹${fb.base.toFixed(2)}</span></div>${fb.fee?`<div><span>Slot Booking Fee</span><span>₹${fb.fee.toFixed(2)}</span></div>`:''}<div class="fbt"><span><b>Total Fare</b><small>All taxes included</small></span><b>₹${fb.total.toFixed(2)}</b></div></div></div>`:''}`,
+ `<div class="fare"><span><small>Estimated Fare</small><b>₹${fb.total}</b></span><button class="lnk" data-act="bd" aria-expanded="${S.bd}" aria-controls="bdn">View Breakdown ${im('review/108d2.svg',9,5.55,S.bd?'':'flip')}</button></div>${cta('Proceed to Payment','data-go="payment"')}`)},
+
+payment:()=>{const fb=fare(),f=S.f;return flow('Payment','review',0,`<div class="card amt"><span class="cap">Amount to pay</span><b>₹${fb.total}</b><span>${TIERS[f.tier].n} · ${f.qty} parcel${f.qty>1?'s':''} · ${pl(f.pick).n} → ${dr(f.drop).n}</span></div>
+ <h2 class="h2s">Payment method</h2><div class="card list" role="radiogroup" aria-label="Payment method">${PM.map(([k,n,d])=>`<button class="lr ${S.pm===k?'sel':''}" role="radio" aria-checked="${S.pm===k}" data-act="pm" data-v="${k}"><span class="lrt"><b>${n}</b><small>${d}</small></span><span class="rad"></span></button>`).join('')}</div>
+ <p class="note">Payments are processed by Razorpay. A failed payment is never charged and can be retried.</p>`,cta(`Pay ₹${fb.total}`,'data-act="pay"'))},
+
+confirmed:()=>{const o=S.o,P=pl(o.pick),sch=o.st==='scheduled';return `<div class="scr">${HT(sch?'Delivery Scheduled':'Booking Confirmed','home')}<main class="bd cen">
+ <div class="okc">${im('assigned/09465.svg',32.6,24.05)}</div><h2 class="bigt">${sch?'Delivery Scheduled!':'Booking Confirmed!'}</h2><p class="sub">Booking #${o.id} · Paid ₹${o.amt}</p>
+ ${o.st==='confirmed'?`<div class="card find" aria-live="polite"><b>Finding a delivery partner</b><small>Usually under a minute near ${P.n}</small><div class="bar"><i></i></div></div>`:''}
+ ${sch?`<div class="etac"><span class="c44">${im('assigned/6ad90.svg',18.333,18.333)}</span><span><small>Pickup slot</small><b>${o.day}, ${o.slot}</b></span></div>`:''}
+ <div class="card rv">${rowsFor(o)}</div></main>
+ <footer class="ft">${cta('Go to Home','data-go="home"')}${refundPct(o)?`<button class="sec r" data-act="cancelAsk">Cancel booking · 100% refund</button>`:''}</footer></div>`},
+
+assigned:()=>{const o=S.o,cur={assigned:2,picked:3,arriving:3}[o.st]??5;
+ const TL=[['Booking Confirmed',o.t.confirmed],['Agent Assigned',o.t.assigned],['Out for Pickup','Parcel will be picked up soon'],['In Transit','On the way to delivery location'],['Delivered','Parcel delivered successfully']];
+ return `<div class="scr asg">${HT('Agent Assigned','home')}${mapBlock(o)}<main class="bd">
+ <h2 class="sr">Your delivery partner is assigned</h2>
+ <div class="pcard">${partnerHead()}<div class="meta"><div><span class="w28">${im('assigned/457bc.svg',17,9.917)}</span><span><small class="gt">Vehicle Type</small><b>${VEH[o.veh][0]}</b></span></div><div><span class="w28">${im('assigned/ac90e.svg',14.167,14.167)}</span><span><small class="gt">Vehicle Number</small><b>KA 05 AB 1234</b></span></div></div></div>
+ <div class="etac"><span class="c44">${im('assigned/6ad90.svg',18.333,18.333)}</span><span><small>Estimated Pickup Time</small><b>${o.win}</b></span></div>
+ ${otpCard(o)}
+ <div class="tl"><h3>Delivery Progress</h3>${TL.map(([n,s],i)=>{const c=i<cur?'d':i===cur?'c':'p',ln=i<cur-1?'d':i===cur-1?'n':'';return `<div class="tls ${c}"><div class="tli"><b>${c==='d'?im('assigned/09465.svg',10.867,8.017):''}</b><i class="${ln}"></i></div><div class="tlt"><b><span class="${c==='c'?'gt':''}">${n}</span>${c==='c'?'<span class="now">NOW</span>':''}</b><small>${s}</small></div></div>`}).join('')}</div></main></div>`},
+
+track:()=>{const o=S.o,P=pl(o.pick),D=dr(o.drop);
+ const M={assigned:['Arriving for Pickup in',8,4.2],picked:['Arriving at Drop in',18,5.1],arriving:['Arriving at Drop in',2,.4]}[o.st]||['Delivered',0,0];
+ const ai={assigned:0,picked:2,arriving:2}[o.st]??4;
+ const HS=[['On the way to<br>pickup',['track/5a3df.svg',18,10.5]],['Pickup',['track/24de4.svg',14.167,14.167]],['In Transit',['track/51abc.svg',15.583,11.333]],['Delivered',['track/3a021.svg',14.167,14.167]]];
+ return `<div class="scr trk">${HT('Live Tracking','home')}
+ ${mapBlock(o)}
+ <div class="tsh"><div class="hdl"></div>
+  <div class="etah" aria-live="polite"><span><small>${M[0]}</small>${M[1]?`<span class="big gt">${M[1]}<span>min</span></span>`:''}</span>${M[2]?`<span class="dist"><span>${im('track/c5054.svg',10.667,12.667)}${M[2]} km</span><small>away from you</small></span>`:''}</div>
+  <div class="bento">${partnerHead(1)}<div class="vb"><div>${im('track/0fd01.svg',20,11.667)}<span><small>Vehicle</small><b>${VEH[o.veh][0]}</b></span></div><div>${im('track/15065.svg',16.667,13.333)}<span><small>Reg. Number</small><b>KA 05 AB 1234</b></span></div></div></div>
+  ${otpCard(o)}
+  <div class="hst">${HS.map(([l,ic],i)=>{const c=i<ai?'d':i===ai?(i?'a2':'a'):'';return `<div class="hs ${c==='a2'?'a a2':c}"><b>${c==='d'?im('assigned/09465.svg',10.867,8.017):im(...ic)}</b><span class="${c.startsWith('a')?'gt':''}">${l}</span></div>`}).join('')}</div>
+  <button class="vbd" data-act="det" aria-expanded="${S.det}" aria-controls="dets"><span class="gt">${S.det?'Hide':'View'} Booking Details</span>${im('track/1b43d.svg',10,6.167,S.det?'':'flip')}</button>
+  ${S.det?`<div class="dets" id="dets">${rowsFor(o)}${refundPct(o)?`<button class="sec r" data-act="cancelAsk">Cancel booking · ${refundPct(o)}% refund</button>`:'<p class="note">Cancellation after pickup is non-refundable.</p>'}</div>`:''}
+ </div></div>`},
+
+delivered:()=>{const o=S.o,save=o.tier==='express'?0:fare({...o,tier:'express'}).total-o.amt;return `<div class="scr">${HT('Delivery Completed','home')}<main class="bd cen">
+ <div class="okc">${im('assigned/09465.svg',32.6,24.05)}</div><h2 class="bigt">Parcel Delivered!</h2><p class="sub">#${o.id} · ${o.t.delivered}</p>
+ <div class="etac"><span class="c44">${im('track/3a021.svg',14.167,14.167)}</span><span><small>Delivery proof</small><b>Photo &amp; receiver OTP verified</b></span></div>
+ ${save>0?`<div class="eco"><span class="ic40">${im('tier/78e95.svg',15.579,15.576)}</span><span><b>You saved ₹${save} vs Express</b><small>Shared routes also cut carbon emissions.</small></span></div>`:''}
+ <div class="card rv">${rowsFor(o)}</div>
+ <div class="card rate">${partnerHead(1,1)}<p>How was your delivery with Rohit?</p><div class="stars" role="radiogroup" aria-label="Rate your delivery">${[1,2,3,4,5].map(n=>`<button class="${n<=S.rate?'on':''}" role="radio" aria-checked="${n===S.rate}" data-act="rate" data-v="${n}" aria-label="${n} star${n>1?'s':''}">${im('track/60e79.svg',26.667,25.333)}</button>`).join('')}</div></div></main>
+ <footer class="ft">${cta('Submit Rating','data-act="submitRate"')}<button class="sec" data-act="home">Back to Home</button></footer></div>`},
+
+orders:()=>{const o=act(),all=[...(o?[o]:[]),...S.orders];return `<div class="scr">${HT('My Orders')}<main class="bd pt">${all.length?all.map(ocard).join(''):empty('No orders yet','Your bookings show up here.',cta('Book a delivery','data-act="book"'))}</main>${nav('orders')}</div>`},
+
+schedule:()=>{const o=act(),s=o&&o.tier==='sched'?[o]:[];return `<div class="scr">${HT('Scheduled Deliveries')}<main class="bd pt">${s.length?s.map(ocard).join(''):empty('No scheduled deliveries','Book a fixed daily slot for regular pickups at a lower price.',cta('Schedule a delivery','data-act="book" data-tier="sched"'))}</main>${nav('schedule')}</div>`},
+
+profile:()=>`<div class="scr">${HT('Profile')}<main class="bd pt">
+ <div class="card pf"><span class="pfa">P</span><span><b>Priya Traders</b><small>+91 ${esc(S.ph||'98765 43210')}</small></span></div>
+ <div class="card list" style="margin-top:16px"><button class="mrow" data-go="addresses">Saved Addresses<small>${S.ad.length}</small>${im('home/58496.svg',20,20)}</button><button class="mrow" data-go="orders">My Orders<small>${S.orders.length+(act()?1:0)}</small>${im('home/58496.svg',20,20)}</button><button class="mrow" data-act="toast" data-m="Support chat opens here">Help &amp; Support${im('home/58496.svg',20,20)}</button><button class="mrow r" data-act="logoutAsk">Log Out</button></div></main>${nav('profile')}</div>`,
+
+addresses:()=>flow('Saved Addresses','profile',0,`${S.ad.length?`<div class="card list">${S.ad.map((a,i)=>`<div class="adr"><span class="ic36">${im('review/2499a.svg',13.333,16.667)}</span><span class="lrt"><b>${esc(a.l)}</b><small>${esc(a.a)} · ${pl(a.z).n}</small></span><button class="edit" data-act="delAddr" data-i="${i}" aria-label="Remove ${esc(a.l)}">Remove</button></div>`).join('')}</div>`:empty('No saved addresses','Save places you send from often.')}
+ <section class="card pc" style="margin-top:16px"><h2>Add an address</h2>
+ <label class="fl" for="al">Label <em>*</em></label><input class="inp" id="al" data-f="al" placeholder="Home, Office, Shop" value="${esc(S.al)}">
+ <label class="fl" for="aa">Address <em>*</em></label><input class="inp" id="aa" data-f="aa" placeholder="Street, area" value="${esc(S.aa)}">
+ <label class="fl" for="az">Pickup area</label><select class="inp" id="az" data-f="az">${PICK.map(p=>`<option value="${p.id}" ${S.az===p.id?'selected':''}>${p.n}${p.ok?'':' (not serviceable yet)'}</option>`).join('')}</select></section>`,cta('Save Address','data-act="addAddr"'))
+};
+
+/* ---------- popups ---------- */
+const CHK=im('assigned/09465.svg',21.7,16);
+const SH={
+ badOtp:()=>({x:1,cls:'p02',html:`<div class="gb"></div><button class="shx" data-act="close" aria-label="Close">${im('otp/78b3a.svg',16,16)}</button><div class="p2g">${im('otp/4920a.svg',80,80)}</div><h3 id="sht">Invalid OTP</h3><p>The OTP you entered is incorrect or has expired. Please request a new OTP and try again.</p><button class="p2b" data-act="resend">Resend OTP</button><button class="p2b s" data-act="retryOtp">Try Again</button><div class="homeind"></div>`}),
+ outArea:()=>({x:1,ic:im('review/2499a.svg',20,25),t:'Outside service area',p:OUT,b:[['Choose another location','close',1]]}),
+ proc:()=>({spin:1,t:'Processing payment',p:`Paying ₹${fare().total} via Razorpay. Please don't close the app.`}),
+ payFail:()=>({x:1,tone:'r',ic:'!',t:'Payment failed',p:`₹${fare().total} was not charged. Retry with UPI, card or net banking.`,b:[['Retry Payment','pay',1],['Change method','close']]}),
+ cancelAsk:()=>{const o=S.o,p=refundPct(o);return {x:1,ic:'?',t:'Cancel this booking?',p:`You'll get a ${p}% refund (₹${Math.round(o.amt*p/100)}) to your original payment method.${p<100?' A partner has already been assigned.':''}`,b:[['Yes, cancel booking','cancel','r'],['Keep booking','close']]}},
+ refund:()=>{const r=S.o.refund;return {tone:'g',ic:CHK,t:'Booking cancelled',p:`Refund of ₹${r.amt} (${r.p}%) has been initiated. It reaches your account in 5–7 working days.`,b:[['Back to Home','home',1]]}},
+ noAgent:()=>({ic:im('assigned/dc40c.svg',22,19.8),t:'No delivery partner available',p:`We couldn't find a partner for #${S.o.id}, so it was cancelled. A full refund of ₹${S.o.amt} has been initiated.`,b:[['Back to Home','home',1],['Book again','book']]}),
+ logout:()=>({x:1,ic:'?',t:'Log out?',p:'You will need your mobile number and an OTP to log back in.',b:[['Log out','logout','r'],['Stay logged in','close']]})
+};
+function sheet(k){S.sheet=k;const el=$('#sheet');if(!k){el.innerHTML='';return}const s=SH[k]();
+ const body=s.html||`<div class="hdl"></div>${s.spin?'<div class="spin"></div>':`<div class="shic ${s.tone||''}">${s.ic}</div>`}<h3 id="sht">${s.t}</h3><p>${s.p}</p>${(s.b||[]).map(([l,a,p])=>`<button class="${p?`cta${p==='r'?' red':''}`:'sec'}" data-act="${a}">${l}</button>`).join('')}`;
+ el.innerHTML=`<div class="ov"><div class="sh ${s.cls||''}" role="dialog" aria-modal="true" aria-labelledby="sht">${body}</div></div>`;
+ (el.querySelector('button')||el.querySelector('.sh')).focus?.()}
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(T.toast);T.toast=setTimeout(()=>t.classList.remove('show'),2200)}
+
+/* ---------- state changes ---------- */
+function render(){$('#app').innerHTML=V[S.scr]()}
+function go(s){S.scr=s;S.err='';S.det=false;if(s==='otp')startResend();render();$('#app').scrollTop=0}
+const LIVE=['home','orders','schedule','confirmed','assigned','track'];
+function refresh(){if(LIVE.includes(S.scr))render();syncDemo()}
+function syncDemo(){$('#dstate').textContent=S.o?`#${S.o.id}: ${ST[S.o.st][0]}`:'No booking yet';const b=$('#fp');b.setAttribute('aria-pressed',S.failNext);b.textContent=S.failNext?'Next payment will fail':'Fail next payment'}
+function startResend(){S.rs=45;clearInterval(T.rs);T.rs=setInterval(()=>{S.rs--;const e=$('#rs');if(!e||S.scr!=='otp'||S.rs<0)return clearInterval(T.rs);e.innerHTML=rsText()},1000)}
+function placeOrder(){const f=S.f;S.o={...f,id:'LP'+(248700+Math.floor(Math.random()*9000)),amt:fare().total,st:f.tier==='sched'?'scheduled':'confirmed',pOtp:otp4(),dOtp:otp4(),t:{confirmed:stamp()},eta:later(f.tier==='express'?25:45)};
+ clearTimeout(T.as);if(S.o.st==='confirmed')T.as=setTimeout(assign,5000);syncDemo()}
+function assign(){const o=act();if(!o||!['confirmed','scheduled'].includes(o.st))return;clearTimeout(T.as);o.st='assigned';o.t.assigned=stamp();o.win=`${later(10)} – ${later(25)}`;if(S.scr==='confirmed')go('assigned');refresh()}
+function closeOrder(o,st){o.st=st;S.orders.unshift({...o,when:stamp()})}
+
+const ACT={
+ sendOtp(){if(!/^\d{10}$/.test(S.ph)){S.err='Enter a valid 10-digit mobile number.';return render()}S.otp='';go('otp');$('.ob').focus()},
+ verify(){if(S.otp.length<6)return [...document.querySelectorAll('.ob')].find(b=>!b.value).focus();if(S.otp!=='123456')return sheet('badOtp');go('notify')},
+ resend(){sheet(null);S.otp='';startResend();render();$('.ob').focus()},
+ retryOtp(){sheet(null);S.otp='';render();$('.ob').focus()},
+ permAllow(){S.perm=true;go('home')},
+ book(el){sheet(null);if(act())return toast('Finish or cancel your active booking first.');S.f=freshForm(el.dataset.tier||'shared');S.bd=false;S.q=S.qd='';go('pickup')},
+ pick(el){const p=pl(el.dataset.v);if(!p.ok)return sheet('outArea');S.f.pick=p.id;S.recent=[p.id,...S.recent.filter(x=>x!==p.id)].slice(0,2);go('drop')},
+ drop(el){S.f.drop=el.dataset.v;go('vehicle')},
+ clr(el){const k=el.dataset.v;S[k]='';render();$(`[data-f="${k}"]`).focus()},
+ qty(el){S.f.qty=Math.min(5,Math.max(1,S.f.qty+ +el.dataset.d));if(S.f.qty===5&&+el.dataset.d>0)toast('Up to 5 parcels per booking');render()},
+ wt(el){S.f.wt=el.dataset.v;render()},
+ veh(el){S.f.veh=el.dataset.v;render()},
+ photo(){if(S.f.photos>=5)return toast('Maximum 5 photos');S.f.photos++;render()},
+ toRecv(){S.err=S.f.desc.trim()?'':'Tell us what you are sending.';S.err?render():go('receiver')},
+ toTier(){const f=S.f;S.err=!f.rn.trim()?'Add the receiver name.':!/^\d{10}$/.test(f.rp)?'Enter a valid 10-digit receiver mobile number.':!f.decl?'Confirm the parcel has no prohibited items.':'';S.err?render():go('tier')},
+ tier(el){S.f.tier=el.dataset.v;S.err='';render()},
+ day(el){S.f.day=el.dataset.v;render()},
+ slot(el){S.f.slot=el.dataset.v;S.err='';render()},
+ toReview(){if(S.f.tier==='sched'&&!S.f.slot){S.err='Pick a pickup slot for your scheduled delivery.';return render()}go('review')},
+ bd(){S.bd=!S.bd;render()},
+ pm(el){S.pm=el.dataset.v;render()},
+ pay(){sheet('proc');clearTimeout(T.pay);T.pay=setTimeout(()=>{if(S.failNext){S.failNext=false;syncDemo();return sheet('payFail')}placeOrder();sheet(null);go('confirmed')},1600)},
+ open(el){if(S.o&&S.o.id===el.dataset.id&&S.o.st==='delivered')return go('delivered');const o=act();if(o&&o.id===el.dataset.id)return go(o.st==='assigned'?'assigned':['picked','arriving'].includes(o.st)?'track':'confirmed');const h=S.orders.find(x=>x.id===el.dataset.id);toast(`#${h.id} · ${ST[h.st][0]} · ₹${h.amt}`)},
+ det(){S.det=!S.det;render()},
+ cancelAsk(){sheet('cancelAsk')},
+ cancel(){const o=S.o,p=refundPct(o);clearTimeout(T.as);o.refund={p,amt:Math.round(o.amt*p/100)};closeOrder(o,'cancelled');syncDemo();sheet('refund')},
+ close(){sheet(null)},
+ home(){sheet(null);go('home')},
+ rate(el){S.rate=+el.dataset.v;render()},
+ submitRate(){if(!S.rate)return toast('Tap a star to rate');toast(`Thanks! You rated Rohit ${S.rate}★`);go('home')},
+ toast(el){toast(el.dataset.m)},
+ logoutAsk(){sheet('logout')},
+ logout(){sheet(null);S.ph='';go('login')},
+ addAddr(){const l=S.al.trim(),a=S.aa.trim();if(!l||!a){S.err='Add a label and an address.';return render()}S.ad.push({l,a,z:S.az});S.al=S.aa='';S.err='';render();toast('Address saved')},
+ delAddr(el){S.ad.splice(+el.dataset.i,1);render()},
+ advance(){const o=act();if(!o)return toast('No active booking. Book one first.');if(['confirmed','scheduled'].includes(o.st))return assign();
+  const nx={assigned:'picked',picked:'arriving',arriving:'delivered'}[o.st];o.t[nx]=stamp();
+  if(nx==='delivered'){closeOrder(o,'delivered');S.rate=0;syncDemo();return ['track','assigned'].includes(S.scr)?go('delivered'):refresh()}
+  o.st=nx;if(S.scr==='assigned')return go('track');refresh()},
+ noAgent(){const o=act();if(!o||o.st!=='confirmed')return toast('Only while we are still finding a partner.');clearTimeout(T.as);closeOrder(o,'cancelled');refresh();sheet('noAgent')},
+ failPay(){S.failNext=!S.failNext;syncDemo()},
+ reset(){Object.values(T).forEach(t=>{clearTimeout(t);clearInterval(t)});T={};S=fresh();sheet(null);go('splash');syncDemo();T.sp=setTimeout(()=>S.scr==='splash'&&go('welcome'),2500)}
+};
+
+document.addEventListener('click',e=>{
+ if(e.target.classList.contains('ov')&&SH[S.sheet]().x)return sheet(null);
+ const g=e.target.closest('[data-go],[data-act]');if(!g)return;
+ if(g.tagName==='A')e.preventDefault();
+ if(g.dataset.go){sheet(null);return go(g.dataset.go)}
+ ACT[g.dataset.act]?.(g)});
+document.addEventListener('input',e=>{const o=e.target.dataset.o;if(o!==undefined){const bs=[...document.querySelectorAll('.ob')],v=e.target.value.replace(/\D/g,'');
+  e.target.value=v.slice(-1);if(v.length>1)v.slice(0,6-o).split('').forEach((c,j)=>bs[+o+j].value=c);
+  S.otp=bs.map(b=>b.value).join('');if(v)bs[Math.min(5,+o+v.length)].focus();return}
+ const k=e.target.dataset.f;if(!k)return;let v=e.target.type==='checkbox'?e.target.checked:e.target.value;
+ if(['ph','f.rp'].includes(k)&&/\D/.test(v))e.target.value=v=v.replace(/\D/g,'');
+ k.startsWith('f.')?S.f[k.slice(2)]=v:S[k]=v;
+ if(k==='f.desc')$('#cnt').textContent=v.length+'/100';
+ if(k==='q')$('#plist').innerHTML=pickLists();if(k==='qd')$('#dlist').innerHTML=dropList()});
+document.addEventListener('focusin',e=>{if(e.target.classList.contains('ob'))e.target.select()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&S.sheet&&SH[S.sheet]().x)sheet(null);
+ if(e.key==='Enter'&&e.target.dataset.f==='ph')ACT.sendOtp();const o=e.target.dataset.o;if(o!==undefined){if(e.key==='Enter')ACT.verify();if(e.key==='Backspace'&&!e.target.value&&o>0)document.querySelectorAll('.ob')[o-1].focus()}});
+
+go('splash');syncDemo();T.sp=setTimeout(()=>S.scr==='splash'&&go('welcome'),2500);
+</script>
+</body></html>
+
